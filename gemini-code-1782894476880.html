@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stickman GO: Hiển Thị Nhân Vật</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: #09020f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        #game-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(circle, #250938 0%, #07010f 100%);
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        /* --- KHU VỰC ĐỈNH ĐẦU TÀI SẢN --- */
+        .top-status {
+            text-align: center;
+            padding: 15px 10px 5px;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 2px solid #ffcc00;
+            z-index: 10;
+        }
+
+        .battle-power-title {
+            font-size: 13px;
+            color: #ffaa00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .battle-power {
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px #ff3300, 0 0 20px #ffaa00;
+        }
+
+        /* --- CHIẾN TRƯỜNG DỌC (MAP BATTLEFIELD) --- */
+        .map-battlefield {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 25px 10px;
+            /* Nền map ảo diệu từ file của bạn */
+            background: url('1000038003.webp') no-repeat center;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        /* ĐỊNH VỊ BOSS (PHÍA TRÊN) */
+        .boss-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .boss-hp-container {
+            width: 75%;
+            height: 14px;
+            background: #333;
+            border-radius: 10px;
+            border: 1px solid #ff3355;
+            overflow: hidden;
+            position: relative;
+            margin-top: 5px;
+        }
+
+        .boss-hp-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff0055, #ff5500);
+            transition: width 0.05s linear;
+        }
+
+        .boss-hp-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            line-height: 12px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .boss-sprite {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-top: 10px;
+            animation: bossFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes bossFloat {
+            0% { transform: translateY(0); filter: drop-shadow(0 0 5px #ff0055); }
+            100% { transform: translateY(-8px) filter: drop-shadow(0 0 20px #ff0055); }
+        }
+
+        /* ĐỊNH VỊ NHÂN VẬT CHÍNH (PHÍA DƯỚI) */
+        .hero-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            width: 100%;
+            height: 170px;
+            justify-content: flex-end;
+        }
+
+        /* Vòng sáng tâm linh dưới chân nhân vật */
+        .hero-aura {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            bottom: -15px;
+            z-index: 1;
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        /* Model hình ảnh nhân vật chính */
+        .hero-sprite {
+            width: 135px;
+            height: 135px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px #ffcc00);
+            z-index: 5;
+            transform-origin: bottom center;
+            transition: transform 0.05s ease-out;
+        }
+
+        /* Hoạt ảnh Nhún Nhảy khi chờ (Idle) */
+        .hero-idle {
+            animation: heroBreathing 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroBreathing {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.04) translateY(-3px); }
+        }
+
+        /* Hoạt ảnh lao lên TẤN CÔNG khi chạm màn hình */
+        .hero-attack-anim {
+            animation: heroSlash 0.15s ease-out;
+        }
+
+        @keyframes heroSlash {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-40px) skewX(-5deg); filter: brightness(1.5) drop-shadow(0 0 25px #ff5500); }
+            100% { transform: scale(1) translateY(0); }
+        }
+
+        /* Hiệu ứng chém kiếm */
+        .slash-effect {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            z-index: 8;
+            animation: slashAnim 0.25s forwards ease-out;
+        }
+
+        @keyframes slashAnim {
+            0% { transform: scale(0.4) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.4) rotate(120deg); opacity: 0; }
+        }
+
+        .damage-pop {
+            position: absolute;
+            color: #ffff00;
+            font-weight: 900;
+            font-size: 28px;
+            text-shadow: 2px 2px 0 #000, 0 0 10px #ff3300;
+            pointer-events: none;
+            animation: dmgUp 0.4s forwards ease-out;
+            z-index: 100;
+        }
+
+        @keyframes dmgUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-90px) scale(1.3); opacity: 0; }
+        }
+
+        /* --- KHU VỰC DIỀU KHIỂN NÂNG CẤP --- */
+        .control-panel {
+            height: 38%;
+            background: rgba(12, 4, 20, 0.98);
+            border-top: 3px solid #ffcc00;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .tab-bar {
+            display: flex;
+            background: #190829;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #ffcc00;
+            background: rgba(255, 204, 0, 0.08);
+            border-bottom: 3px solid #ffcc00;
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .upgrade-row {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #36174d;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .upgrade-img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            border: 1px solid #ffaa00;
+            margin-right: 8px;
+        }
+
+        .upgrade-title {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .upgrade-bonus {
+            font-size: 11px;
+            color: #00ffcc;
+        }
+
+        .btn-action {
+            background: linear-gradient(180deg, #ffaa00, #ff4400);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .btn-action:disabled {
+            background: #333 !important;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        
+        <!-- Tổng Lực Chiến -->
+        <div class="top-status">
+            <div class="battle-power-title">Sức Mạnh Chiến Đấu</div>
+            <div class="battle-power" id="bp-display">0</div>
+            <div style="font-size: 12px; color: #00ffcc; margin-top: 2px;">ẢI VÔ HẠN: DIỆT MA THẦN</div>
+        </div>
+
+        <!-- Bản Đồ Giao Diện Dọc -->
+        <div class="map-battlefield">
+            
+            <!-- KHU VỰC BOSS (PHÍA TRÊN) -->
+            <div class="boss-box">
+                <div style="font-weight: bold; color: #ff3355; font-size: 13px;">MA NGƯ KHỔNG LỒ [BOSS]</div>
+                <div class="boss-hp-container">
+                    <div class="boss-hp-text" id="boss-hp-text">150 / 150</div>
+                    <div class="boss-hp-bar" id="boss-hp-bar"></div>
+                </div>
+                <!-- Boss cá thần xương -->
+                <img src="1000038007.webp" class="boss-sprite" alt="👹">
+            </div>
+
+            <!-- KHU VỰC NHÂN VẬT CHÍNH (PHÍA DƯỚI) -->
+            <div class="hero-box" id="hero-click-zone">
+                <!-- Vòng sáng ma thuật dưới chân -->
+                <img src="1000038001.gif" class="hero-aura" alt="">
+                
+                <!-- Ảnh Thần Tướng Liên Hoa của bạn -->
+                <img src="1000038006.webp" class="hero-sprite hero-idle" id="hero-character" alt="⚔️">
+                
+                <div style="font-size: 10px; color: #ffcc00; z-index: 10; margin-top: 4px; background: rgba(0,0,0,0.5); padding: 1px 6px; border-radius: 8px;">
+                    TAP VÀO ĐỂ TUNG CHIÊU
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Khung Nâng Cấp Hệ Thống -->
+        <div class="control-panel">
+            <div class="tab-bar">
+                <button class="tab-btn active">KHO BÁU KIẾM THẦN SSR</button>
+            </div>
+            <div class="tab-content">
+                <div id="equip-list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let goldPower = 0;
+        let clickAtk = 1;
+        let autoDps = 0;
+
+        let bossMaxHp = 150;
+        let bossCurrentHp = 150;
+
+        // Kho vũ khí chém hiệu ứng
+        const weapons = [
+            { name: "Long Tuyền Thần Kiếm", img: "1000038002.gif", cost: 20, dmg: 2, dps: 1, lv: 0 },
+            { name: "Hỏa Long Ma Đao", img: "1000038005.gif", cost: 150, dmg: 12, dps: 8, lv: 0 },
+            { name: "Tinh Vân Thánh Kiếm", img: "1000038004.webp", cost: 1200, dmg: 85, dps: 60, lv: 0 }
+        ];
+
+        const bpDisplay = document.getElementById('bp-display');
+        const bossHpBar = document.getElementById('boss-hp-bar');
+        const bossHpText = document.getElementById('boss-hp-text');
+        const clickZone = document.getElementById('hero-click-zone');
+        const heroCharacter = document.getElementById('hero-character');
+        const equipList = document.getElementById('equip-list');
+
+        function format(n) { return Math.floor(n).toLocaleString(); }
+
+        // Thực hiện hành động tấn công và đổi hiệu ứng nhân vật
+        function attackMonster(e) {
+            bossCurrentHp -= clickAtk;
+
+            // KÍCH HOẠT HOẠT ẢNH LAO LÊN CHIẾN ĐẤU CỦA NHÂN VẬT
+            heroCharacter.classList.remove('hero-idle');
+            heroCharacter.classList.add('hero-attack-anim');
+            
+            // Trả nhân vật về trạng thái thở (Idle) sau khi chém xong
+            setTimeout(() => {
+                heroCharacter.classList.remove('hero-attack-anim');
+                heroCharacter.classList.add('hero-idle');
+            }, 150);
+
+            // Tạo chữ sát thương nổ trên đầu boss
+            const pop = document.createElement('div');
+            pop.className = 'damage-pop';
+            pop.innerText = `-${format(clickAtk)}`;
+            pop.style.left = `${Math.random() * 30 + 35}%`;
+            pop.style.top = `25%`;
+            document.getElementById('game-container').appendChild(pop);
+            setTimeout(() => pop.remove(), 400);
+
+            // Tạo kiếm chém ngay tay nhân vật
+            const slash = document.createElement('img');
+            slash.src = '1000038002.gif'; 
+            slash.className = 'slash-effect';
+            const rect = clickZone.getBoundingClientRect();
+            let x = (e.clientX || (e.touches ? e.touches[0].clientX : rect.left + 50)) - rect.left - 50;
+            let y = (e.clientY || (e.touches ? e.touches[0].clientY : rect.top + 50)) - rect.top - 50;
+            slash.style.left = `${x}px`;
+            slash.style.top = `${y}px`;
+            clickZone.appendChild(slash);
+            setTimeout(() => slash.remove(), 250);
+
+            if (bossCurrentHp <= 0) {
+                goldPower += 50;
+                bossCurrentHp = bossMaxHp;
+            }
+
+            updateUI();
+        }
+
+        function updateUI() {
+            bpDisplay.innerText = format(goldPower);
+            if(bossCurrentHp < 0) bossCurrentHp = 0;
+            bossHpBar.style.width = `${(bossCurrentHp / bossMaxHp) * 100}%`;
+            bossHpText.innerText = `${format(bossCurrentHp)} / ${format(bossMaxHp)}`;
+
+            weapons.forEach((w, i) => {
+                const btn = document.getElementById(`w-btn-${i}`);
+                if(btn) {
+                    btn.innerText = `${format(w.cost)} LC`;
+                    btn.disabled = goldPower < w.cost;
+                }
+            });
+        }
+
+        function drawShop() {
+            equipList.innerHTML = '';
+            weapons.forEach((w, i) => {
+                const div = document.createElement('div');
+                div.className = 'upgrade-row';
+                div.innerHTML = `
+                    <img src="${w.img}" class="upgrade-img" onerror="this.src='https://via.placeholder.com/42/ff9900/fff?text=SSR'">
+                    <div style="flex:1; margin-left:5px;">
+                        <div class="upgrade-title">${w.name} (Lv.${w.lv})</div>
+                        <div class="upgrade-bonus">+${w.dmg} Công | +${w.dps} Tự động/s</div>
+                    </div>
+                    <button class="btn-action" id="w-btn-${i}" onclick="buyItem(${i})">${format(w.cost)} LC</button>
+                `;
+                equipList.appendChild(div);
+            });
+            updateUI();
+        }
+
+        window.buyItem = function(i) {
+            const w = weapons[i];
+            if (goldPower >= w.cost) {
+                goldPower -= w.cost;
+                w.lv++;
+                clickAtk += w.dmg;
+                autoDps += w.dps;
+                w.cost = Math.floor(w.cost * 1.5);
+                drawShop();
+            }
+        }
+
+        clickZone.addEventListener('pointerdown', (e) => {
+            attackMonster(e);
+        });
+
+        setInterval(() => {
+            if (autoDps > 0) {
+                bossCurrentHp -= (autoDps / 10);
+                if(bossCurrentHp <= 0) {
+                    goldPower += 40;
+                    bossCurrentHp = bossMaxHp;
+                }
+                updateUI();
+            }
+        }, 100);
+
+        drawShop();
+    </script>
+</body>
+</html>
