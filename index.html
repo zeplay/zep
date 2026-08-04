@@ -1,31 +1,1134 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stickman GO: Hiển Thị Nhân Vật</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            user-select: none;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hệ Thống VIP & Chat Toàn Server</title>
+  
+  <!-- Font Awesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Swiper JS CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-        body {
-            background: #09020f;
-            color: white;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            touch-action: manipulation;
-        }
+  <style>
+    :root {
+      --gold-primary: #f59e0b;
+      --gold-glow: #fef08a;
+      --ur-purple: #c084fc;
+      --bg-dark: #050608;
+    }
 
-        #game-container {
-            width: 100%;
-            max-width: 480px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* App Frame Giả Lập Điện Thoại */
+    .app-container {
+      width: 100%;
+      max-width: 414px;
+      height: 100vh;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-shadow: 0 0 80px rgba(0,0,0,1);
+    }
+    .app-container::-webkit-scrollbar { display: none; }
+
+    /* Canvas Hạt Lửa */
+    #particle-canvas {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* CHỮ BAY PHÍA TRÊN ĐẦU (FLYING NOTICE MARQUEE) */
+    .flying-notice-wrapper {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      width: 100%;
+      height: 32px;
+      pointer-events: none;
+      z-index: 150;
+      overflow: hidden;
+    }
+
+    .flying-notice-item {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fef08a;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #f59e0b;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+      padding: 4px 14px;
+      border-radius: 20px;
+      animation: flyLeft 8s linear forwards;
+    }
+    @keyframes flyLeft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-120%); }
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 24px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #94a3b8;
+      z-index: 101;
+      background: rgba(5, 6, 8, 0.95);
+    }
+
+    /* Header Nav Bar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px 12px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 6, 8, 0.95);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .header-icon {
+      font-size: 17px;
+      color: #cbd5e1;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    .header-icon:active { background: rgba(255,255,255,0.15); transform: scale(0.9); }
+
+    .header-tabs {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .tab-btn {
+      font-size: 15px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 3.5px;
+      background: linear-gradient(90deg, #fcd34d, #f59e0b);
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+    }
+
+    .tab-btn.ur-tab.active::after {
+      background: linear-gradient(90deg, #e879f9, #c084fc);
+      box-shadow: 0 0 12px rgba(192, 132, 252, 0.9);
+    }
+
+    /* USER PROFILE BAR VỚI BẢNG KHUNG 3 VIP */
+    .user-profile-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 10;
+    }
+
+    /* AVATAR VỚI 3 VÒNG KHUNG LỒNG CHỒNG */
+    .avatar-wrapper {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      z-index: 2;
+    }
+
+    .avatar-frame {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    /* Vòng Khung VIP Standard (Vòng trong) */
+    .avatar-frame.frame-vip-layer {
+      inset: 4px;
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+      z-index: 3;
+      opacity: 0.3;
+    }
+    .avatar-frame.frame-vip-layer.active { opacity: 1; }
+
+    /* Vòng Khung SVIP Gold (Vòng giữa) */
+    .avatar-frame.frame-svip-layer {
+      inset: 1px;
+      border: 2.5px solid #f59e0b;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
+      z-index: 4;
+      opacity: 0.3;
+    }
+    .avatar-frame.frame-svip-layer.active { opacity: 1; animation: svipGlow 2s infinite alternate; }
+    @keyframes svipGlow {
+      from { box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); }
+      to { box-shadow: 0 0 16px rgba(245, 158, 11, 1); }
+    }
+
+    /* Vòng Khung URSVIP (Vòng ngoài) */
+    .avatar-frame.frame-ursvip-layer {
+      inset: -3px;
+      border: 2.5px dashed #c084fc;
+      box-shadow: 0 0 15px rgba(192, 132, 252, 0.8);
+      z-index: 5;
+      opacity: 0.3;
+    }
+    .avatar-frame.frame-ursvip-layer.active { opacity: 1; animation: urPulse 1.5s infinite alternate; }
+    @keyframes urPulse {
+      from { transform: scale(1); border-color: #c084fc; }
+      to { transform: scale(1.05); border-color: #e879f9; }
+    }
+
+    .user-info-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .user-name { font-size: 13px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+
+    /* BẢNG HIỂN THỊ 3 KHUNG VIP HUY HIỆU */
+    .vip-triple-badges {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .user-rank-badge {
+      font-size: 8px;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 6px;
+      background: #334155;
+      color: #64748b;
+      opacity: 0.5;
+    }
+    .user-rank-badge.badge-vip { background: #0284c7; color: #fff; opacity: 1; }
+    .user-rank-badge.badge-svip { background: linear-gradient(90deg, #d97706, #f59e0b); color: #000; opacity: 1; }
+    .user-rank-badge.badge-ursvip { background: linear-gradient(90deg, #7e22ce, #c084fc); color: #fff; opacity: 1; }
+
+    /* Level Selector Bar */
+    .level-selector-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px 4px 16px;
+      scrollbar-width: none;
+    }
+    .level-selector-bar::-webkit-scrollbar { display: none; }
+
+    .level-chip {
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .level-chip.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      border-color: #fef08a;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+    }
+    .level-chip.ur-chip.active {
+      background: linear-gradient(135deg, #c084fc, #9333ea);
+      color: #fff;
+      border-color: #f0abfc;
+      box-shadow: 0 2px 10px rgba(192, 132, 252, 0.5);
+    }
+
+    /* Swiper Slider */
+    .tab-content { display: none; padding-bottom: 40px; z-index: 2; position: relative; }
+    .tab-content.active { display: block; animation: tabFadeIn 0.3s ease-out; }
+    @keyframes tabFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .swiper { width: 100%; padding: 14px 0 20px 0 !important; overflow: visible !important; }
+    .swiper-slide {
+      width: 84% !important;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0.45;
+      transform: scale(0.88) perspective(1000px) rotateY(5deg);
+    }
+    .swiper-slide-active { opacity: 1; transform: scale(1) perspective(1000px) rotateY(0deg); }
+
+    /* Cards */
+    .card-box {
+      border-radius: 20px;
+      padding: 20px;
+      height: 195px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.3);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      overflow: hidden;
+    }
+
+    .card-box::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -150%;
+      width: 100%; height: 200%;
+      background: linear-gradient(60deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+      transform: rotate(25deg);
+      animation: shimmerPass 4s infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmerPass { 0% { left: -150%; } 30%, 100% { left: 150%; } }
+
+    .bg-vip-std { background: radial-gradient(circle at 90% 10%, #334155 0%, #0f172a 70%, #020617 100%); border-color: #64748b; }
+    .bg-svip-gold { background: radial-gradient(circle at 90% 10%, #784715 0%, #341f09 60%, #170d03 100%); border-color: #f59e0b; }
+    .bg-ursvip-god { background: radial-gradient(circle at 90% 10%, #581c87 0%, #2e1065 60%, #090314 100%); border-color: #c084fc; }
+
+    .card-title {
+      font-size: 38px;
+      font-weight: 900;
+      font-style: italic;
+      background: linear-gradient(180deg, #ffffff 20%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-title.ur-title {
+      background: linear-gradient(180deg, #ffffff 0%, #f0abfc 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .crest-wrapper { position: absolute; right: -10px; top: -10px; width: 175px; height: 175px; display: flex; justify-content: center; align-items: center; pointer-events: none; }
+    .crest-aura-ring { position: absolute; width: 135px; height: 135px; border-radius: 50%; border: 1.5px dashed rgba(255, 230, 160, 0.45); animation: auraSpin 12s linear infinite; }
+    @keyframes auraSpin { 100% { transform: rotate(360deg); } }
+    .svg-crest { width: 140px; height: 140px; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.8)); animation: floatBadge 3s ease-in-out infinite; }
+    @keyframes floatBadge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+    .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; z-index: 3; }
+    .progress-info { font-size: 11px; color: rgba(255, 255, 255, 0.85); }
+    .progress-info span.pts-val { font-weight: 800; color: #5eead4; }
+
+    .progress-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.15); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+    .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #fcd34d, #f59e0b); border-radius: 4px; transition: width 0.8s ease; }
+
+    .btn-nap {
+      background: linear-gradient(180deg, #fffbeb 0%, #fcd34d 45%, #d97706 100%);
+      color: #381a00; font-weight: 900; font-size: 14px; padding: 7px 22px; border-radius: 20px;
+      border: 1px solid #fef08a; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.6); cursor: pointer;
+    }
+    .btn-nap:active { transform: scale(0.92); }
+
+    .section-title { text-align: center; font-size: 15px; font-weight: 700; color: #f1f5f9; margin: 14px 0 16px 0; }
+    .privilege-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px; }
+    .privilege-card {
+      background: linear-gradient(180deg, #121520 0%, #0a0c12 100%); border-radius: 14px; padding: 16px 6px;
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
+      border: 1px solid rgba(255,255,255,0.06); cursor: pointer;
+    }
+    .privilege-icon-box { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; justify-content: center; align-items: center; font-size: 20px; color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.25); }
+    .privilege-card.ur-priv .privilege-icon-box { color: #c084fc; border-color: rgba(192, 132, 252, 0.3); }
+    .privilege-name { font-size: 11px; color: #cbd5e1; }
+
+    /* Task Box */
+    .task-box { background: #0f1118; border-radius: 14px; padding: 12px 14px; margin: 10px 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.06); }
+    .task-info { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #e2e8f0; }
+    .task-num { background: #f59e0b; color: #000; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 10px; }
+
+    /* NÚT CHAT BỐC NỔI CÓ THỂ DI CHUYỂN (DRAGGABLE) */
+    .floating-chat-btn {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c084fc, #7e22ce);
+      border: 2px solid #f0abfc;
+      box-shadow: 0 0 20px rgba(192, 132, 252, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      color: #fff;
+      cursor: grab;
+      z-index: 90;
+      touch-action: none;
+    }
+    .floating-chat-btn:active { cursor: grabbing; }
+
+    .chat-unread-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1.5px solid #000;
+      pointer-events: none;
+    }
+
+    /* GLOBAL CHAT MODAL OVERLAY */
+    .chat-drawer-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: none;
+      justify-content: flex-end;
+    }
+    .chat-drawer-overlay.active { display: flex; }
+
+    .chat-drawer-content {
+      width: 85%;
+      height: 100%;
+      background: #0f121d;
+      border-left: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      flex-direction: column;
+      animation: slideInRight 0.3s ease-out;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+    }
+    @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    .chat-header {
+      padding: 14px 16px;
+      background: #181c2b;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header-title { font-size: 15px; font-weight: 800; color: #f59e0b; display: flex; align-items: center; gap: 8px; }
+
+    .chat-messages-container {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-messages-container::-webkit-scrollbar { width: 4px; }
+    .chat-messages-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+    .chat-item-msg {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.03);
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .chat-avatar-box {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .chat-avatar-box img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+
+    .chat-msg-body { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .chat-user-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .chat-user-name { font-size: 12px; font-weight: 700; color: #e2e8f0; }
+    .chat-time { font-size: 9px; color: #64748b; margin-left: auto; }
+    .chat-text { font-size: 12px; color: #cbd5e1; line-height: 1.4; word-break: break-word; }
+
+    .chat-input-bar {
+      padding: 12px;
+      background: #181c2b;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      background: #090b11;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 8px 14px;
+      color: #fff;
+      font-size: 12px;
+      outline: none;
+    }
+    .chat-input:focus { border-color: #c084fc; }
+    .btn-send-chat {
+      background: linear-gradient(135deg, #c084fc, #9333ea);
+      border: none;
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer;
+    }
+
+    /* Modal Nạp Kim Cương */
+    .modal-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+      z-index: 999; display: none; justify-content: flex-end; flex-direction: column;
+    }
+    .modal-overlay.active { display: flex; }
+    .sheet-content {
+      background: #0f121a; border-top-left-radius: 24px; border-top-right-radius: 24px;
+      padding: 20px; border-top: 1px solid rgba(255,255,255,0.15); max-height: 85%; overflow-y: auto;
+    }
+    .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .sheet-title { font-size: 17px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+
+    .diamond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .diamond-card { background: #181d2a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 8px; text-align: center; cursor: pointer; }
+    .diamond-card.selected { border-color: #f59e0b; background: rgba(245, 158, 11, 0.12); }
+    .diamond-count { font-size: 14px; font-weight: 800; color: #38bdf8; }
+    .diamond-price { font-size: 11px; color: #94a3b8; }
+    .diamond-pts { font-size: 10px; color: #f59e0b; font-weight: 600; margin-top: 4px; }
+
+    .pay-methods { display: flex; gap: 10px; margin-bottom: 20px; }
+    .pay-item { flex: 1; padding: 10px; border-radius: 10px; background: #181d2a; border: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 12px; color: #cbd5e1; cursor: pointer; }
+    .pay-item.active { border-color: #f59e0b; color: #fff; background: rgba(245, 158, 11, 0.1); }
+
+    .btn-confirm-pay { width: 100%; background: linear-gradient(90deg, #fcd34d, #f59e0b); color: #000; font-size: 15px; font-weight: 900; padding: 14px; border-radius: 25px; border: none; cursor: pointer; }
+
+    .dialog-box { background: #121622; border-radius: 20px; padding: 20px; width: 88%; margin: auto; border: 1px solid rgba(255,255,255,0.12); }
+    .dialog-title { font-size: 16px; font-weight: 800; color: #f59e0b; margin-bottom: 12px; text-align: center; }
+    .dialog-body { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+    .dialog-btn-close { margin-top: 16px; width: 100%; padding: 10px; border-radius: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-weight: 700; cursor: pointer; }
+
+    .toast { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(15, 23, 42, 0.96); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 20px; border-radius: 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 1000; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="app-container" id="appContainer">
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- CHỮ BAY THÔNG BÁO PHÍA TRÊN CÙNG -->
+    <div class="flying-notice-wrapper" id="flyingNoticeContainer"></div>
+
+    <!-- iOS Status Bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <div>
+        <i class="fa-solid fa-signal" style="margin-right: 4px;"></i>
+        <i class="fa-solid fa-wifi" style="margin-right: 4px;"></i>
+        <i class="fa-solid fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <div class="header">
+      <div class="header-icon" onclick="openBackDialog()"><i class="fa-solid fa-chevron-left"></i></div>
+      <div class="header-tabs">
+        <div class="tab-btn active" id="tab-vip" onclick="switchMainTab('vip')">VIP</div>
+        <div class="tab-btn" id="tab-svip" onclick="switchMainTab('svip')">SVIP</div>
+        <div class="tab-btn ur-tab" id="tab-ursvip" onclick="switchMainTab('ursvip')">URSVIP</div>
+      </div>
+      <div style="display: flex; gap: 4px;">
+        <div class="header-icon" onclick="openLeaderboard()"><i class="fa-solid fa-trophy"></i></div>
+        <div class="header-icon" onclick="openRules()"><i class="fa-regular fa-circle-question"></i></div>
+      </div>
+    </div>
+
+    <!-- PROFILE NGƯỜI CHƠI VỚI BẢNG KHUNG 3 VIP -->
+    <div class="user-profile-bar">
+      <div class="avatar-wrapper">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="user-avatar" alt="Avatar">
+        <!-- 3 VÒNG KHUNG HIỂN THỊ -->
+        <div class="avatar-frame frame-vip-layer" id="frame-vip"></div>
+        <div class="avatar-frame frame-svip-layer" id="frame-svip"></div>
+        <div class="avatar-frame frame-ursvip-layer" id="frame-ursvip"></div>
+      </div>
+      <div class="user-info-text">
+        <div class="user-name">
+          <span>Đại Gia Gamer</span>
+        </div>
+        <!-- BẢNG KHUNG HIỂN THỊ 3 VIP HUY HIỆU -->
+        <div class="vip-triple-badges">
+          <span class="user-rank-badge" id="badge-vip-lvl">VIP 0</span>
+          <span class="user-rank-badge" id="badge-svip-lvl">SVIP 0</span>
+          <span class="user-rank-badge" id="badge-ursvip-lvl">UR 0</span>
+        </div>
+        <div style="font-size: 10px; color: #94a3b8; margin-top:1px;">Tích lũy: <b style="color:#5eead4" id="my-total-pts">0</b> ĐKN</div>
+      </div>
+    </div>
+
+    <!-- NÚT CHAT BỐC NỔI CÓ THỂ DI CHUYỂN TOÀN MÀN HÌNH -->
+    <div class="floating-chat-btn" id="draggableChatBtn">
+      <i class="fa-solid fa-comments"></i>
+      <div class="chat-unread-badge" id="unread-count">3</div>
+    </div>
+
+    <!-- TAB VIP 1 - 999 -->
+    <div class="tab-content active" id="content-vip">
+      <div class="level-selector-bar" id="vip-chip-bar"></div>
+      <div class="swiper vip-swiper"><div class="swiper-wrapper" id="vip-swiper-wrapper"></div></div>
+      <div class="task-box">
+        <div class="task-info"><div class="task-num">1</div><div>Nạp Kim Cương tích lũy tăng cấp VIP</div></div>
+        <button class="btn-nap" onclick="openRechargeModal()">Nạp</button>
+      </div>
+      <div class="section-title">Đặc quyền VIP <span id="vip-title-lvl">VIP 1</span></div>
+      <div class="privilege-grid" id="vip-privilege-grid"></div>
+    </div>
+
+    <!-- TAB SVIP 1 - 99 -->
+    <div class="tab-content" id="content-svip">
+      <div class="level-selector-bar" id="svip-chip-bar"></div>
+      <div class="swiper svip-swiper"><div class="swiper-wrapper" id="svip-swiper-wrapper"></div></div>
+      <div class="section-title">Đặc quyền <span id="svip-title-lvl">SVIP 1</span></div>
+      <div class="privilege-grid" id="svip-privilege-grid"></div>
+    </div>
+
+    <!-- TAB URSVIP 1 - 99 -->
+    <div class="tab-content" id="content-ursvip">
+      <div class="level-selector-bar" id="ur-chip-bar"></div>
+      <div class="swiper ursvip-swiper"><div class="swiper-wrapper" id="ursvip-swiper-wrapper"></div></div>
+      <div class="section-title" style="color:#e879f9;">Đặc quyền Tối Thượng <span id="ur-title-lvl">URSVIP 1</span></div>
+      <div class="privilege-grid" id="ursvip-privilege-grid"></div>
+    </div>
+
+    <!-- OVERLAY CỬA SỔ CHAT TOÀN SERVER -->
+    <div class="chat-drawer-overlay" id="chat-overlay">
+      <div class="chat-drawer-content">
+        <div class="chat-header">
+          <div class="chat-header-title"><i class="fa-solid fa-earth-americas"></i> Chat Toàn Server</div>
+          <div style="cursor:pointer; font-size:18px; color:#94a3b8;" onclick="toggleServerChat()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+        <div class="chat-messages-container" id="chat-history-list"></div>
+
+        <div class="chat-input-bar">
+          <input type="text" class="chat-input" id="chat-input-field" placeholder="Nhập tin nhắn thế giới..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+          <button class="btn-send-chat" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL NẠP KIM CƯƠNG -->
+    <div class="modal-overlay" id="modal-recharge">
+      <div class="sheet-content">
+        <div class="sheet-header">
+          <div class="sheet-title"><i class="fa-solid fa-gem" style="color:#38bdf8;"></i> Nạp Kim Cương VIP</div>
+          <div style="font-size: 20px; color: #64748b; cursor: pointer;" onclick="closeRechargeModal()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+
+        <div class="diamond-grid">
+          <div class="diamond-card selected" onclick="selectDiamond(this, 10000)">
+            <div class="diamond-count">💎 10.000</div><div class="diamond-price">22.000 VNĐ</div><div class="diamond-pts">+10K ĐKN</div>
+          </div>
+          <div class="diamond-card" onclick="selectDiamond(this, 100000)">
+            <div class="diamond-count">💎 100.000</div><div class="diamond-price">200.000 VNĐ</div><div class="diamond-pts">+100K ĐKN</div>
+          </div>
+          <div class="diamond-card" onclick="selectDiamond(this, 500000)">
+            <div class="diamond-count">💎 500.000</div><div class="diamond-price">1.000.000 VNĐ</div><div class="diamond-pts">+500K ĐKN</div>
+          </div>
+          <div class="diamond-card" onclick="selectDiamond(this, 2000000)">
+            <div class="diamond-count">💎 2 Tr</div><div class="diamond-price">Gói SVIP</div><div class="diamond-pts">+2M ĐKN</div>
+          </div>
+          <div class="diamond-card" onclick="selectDiamond(this, 5000000)">
+            <div class="diamond-count">💎 5 Tr</div><div class="diamond-price">Gói URSVIP</div><div class="diamond-pts">+5M ĐKN</div>
+          </div>
+          <div class="diamond-card" onclick="selectDiamond(this, 50000000)">
+            <div class="diamond-count">💎 50 Tr</div><div class="diamond-price">Gói Thần Thoại</div><div class="diamond-pts">+50M ĐKN</div>
+          </div>
+        </div>
+
+        <div class="pay-methods">
+          <div class="pay-item active" onclick="selectPayMethod(this)">MoMo</div>
+          <div class="pay-item" onclick="selectPayMethod(this)">ZaloPay</div>
+          <div class="pay-item" onclick="selectPayMethod(this)">Banking</div>
+        </div>
+
+        <button class="btn-confirm-pay" onclick="executeRecharge()">THANH TOÁN NGAY</button>
+      </div>
+    </div>
+
+    <!-- DIALOG CHUNG -->
+    <div class="modal-overlay" id="modal-dialog" style="justify-content: center; align-items: center;">
+      <div class="dialog-box">
+        <div class="dialog-title" id="dialog-title-txt">Thông Báo</div>
+        <div class="dialog-body" id="dialog-body-txt">Nội dung...</div>
+        <button class="dialog-btn-close" onclick="closeDialog()">Đóng</button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Thông báo</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    /* ----- 1. AUDIO SYNTH ----- */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function triggerSound(type) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+
+      if (type === 'click') {
+        osc.frequency.setValueAtTime(700, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.04);
+      } else if (type === 'success') {
+        osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(783, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+      }
+    }
+
+    /* ----- 2. CANVAS PARTICLE ----- */
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = canvas.parentElement.clientHeight; }
+    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5; this.speedY = Math.random() * -0.3 - 0.1; this.opacity = Math.random() * 0.6 + 0.2; }
+      update() { this.y += this.speedY; if (this.y < 0) this.reset(); }
+      draw() { ctx.fillStyle = `rgba(245, 158, 11, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+    }
+    let particles = []; for (let i = 0; i < 30; i++) particles.push(new Particle());
+    function renderParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(renderParticles); }
+    renderParticles();
+
+    /* ----- 3. CẤP ĐỘ VIP (1-999), SVIP (1-99), URSVIP (1-99) & KHUNG AVATAR ----- */
+    let userPoints = 0; // Mặc định 0 ĐKN
+    const VIP_STEP = 10000;      // 1 VIP = 10k điểm
+    const SVIP_STEP = 500000;    // 1 SVIP = 500k điểm
+    const URSVIP_STEP = 5000000; // 1 URSVIP = 5M điểm
+
+    function getPlayerVipLevels(pts) {
+      let vipLvl = Math.min(999, Math.floor(pts / VIP_STEP));
+      let svipLvl = Math.min(99, Math.floor(pts / SVIP_STEP));
+      let urLvl = Math.min(99, Math.floor(pts / URSVIP_STEP));
+      return { vipLvl, svipLvl, urLvl };
+    }
+
+    function updatePlayerProfileUI() {
+      const { vipLvl, svipLvl, urLvl } = getPlayerVipLevels(userPoints);
+      document.getElementById('my-total-pts').innerText = userPoints.toLocaleString('vi-VN');
+      
+      // Bảng cập nhật 3 huy hiệu VIP
+      const bVip = document.getElementById('badge-vip-lvl');
+      bVip.innerText = `VIP ${vipLvl}`;
+      bVip.className = `user-rank-badge ${vipLvl > 0 ? 'badge-vip' : ''}`;
+
+      const bSvip = document.getElementById('badge-svip-lvl');
+      bSvip.innerText = `SVIP ${svipLvl}`;
+      bSvip.className = `user-rank-badge ${svipLvl > 0 ? 'badge-svip' : ''}`;
+
+      const bUr = document.getElementById('badge-ursvip-lvl');
+      bUr.innerText = `UR ${urLvl}`;
+      bUr.className = `user-rank-badge ${urLvl > 0 ? 'badge-ursvip' : ''}`;
+
+      // Bảng cập nhật 3 lớp khung trên Avatar
+      document.getElementById('frame-vip').classList.toggle('active', vipLvl > 0);
+      document.getElementById('frame-svip').classList.toggle('active', svipLvl > 0);
+      document.getElementById('frame-ursvip').classList.toggle('active', urLvl > 0);
+    }
+
+    /* RENDER DỮ LIỆU THẺ VIP 1 - 999 */
+    const vipWrapper = document.getElementById('vip-swiper-wrapper');
+    const vipChipBar = document.getElementById('vip-chip-bar');
+    for (let i = 1; i <= 999; i++) {
+      let targetPts = i * VIP_STEP;
+      vipWrapper.innerHTML += `
+        <div class="swiper-slide">
+          <div class="card-box bg-vip-std">
+            <div class="card-title">VIP${i}</div>
+            <div class="crest-wrapper"><div class="crest-aura-ring"></div><svg class="svg-crest" viewBox="0 0 200 200"><path d="M100 20 L160 50 L140 130 L100 170 L60 130 L40 50 Z" fill="#475569" stroke="#94a3b8" stroke-width="3"/><circle cx="100" cy="95" r="30" fill="#1e293b"/></svg></div>
+            <div class="card-bottom">
+              <div class="progress-info" style="width: 60%;">ĐKN: <span class="pts-val" id="pts-vip-${i}">0</span> / ${targetPts.toLocaleString('vi-VN')}<div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-vip-${i}"></div></div></div>
+              <button class="btn-nap" onclick="openRechargeModal()">Nạp</button>
+            </div>
+          </div>
+        </div>`;
+      vipChipBar.innerHTML += `<div class="level-chip ${i===1?'active':''}" onclick="jumpToSlide(vipSwiper, ${i-1})">VIP ${i}</div>`;
+    }
+
+    /* RENDER DỮ LIỆU THẺ SVIP 1 - 99 */
+    const svipWrapper = document.getElementById('svip-swiper-wrapper');
+    const svipChipBar = document.getElementById('svip-chip-bar');
+    for (let i = 1; i <= 99; i++) {
+      let targetPts = i * SVIP_STEP;
+      svipWrapper.innerHTML += `
+        <div class="swiper-slide">
+          <div class="card-box bg-svip-gold">
+            <div class="card-title">SVIP${i}</div>
+            <div class="crest-wrapper"><div class="crest-aura-ring"></div><svg class="svg-crest" viewBox="0 0 200 200"><path d="M100 15 L165 45 L150 140 L100 180 L50 140 L35 45 Z" fill="#b45309" stroke="#fef08a" stroke-width="3"/><circle cx="100" cy="95" r="32" fill="#451a03"/></svg></div>
+            <div class="card-bottom">
+              <div class="progress-info" style="width: 60%;">ĐKN: <span class="pts-val" id="pts-svip-${i}">0</span> / ${targetPts.toLocaleString('vi-VN')}<div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-svip-${i}"></div></div></div>
+              <button class="btn-nap" onclick="openRechargeModal()">Nạp</button>
+            </div>
+          </div>
+        </div>`;
+      svipChipBar.innerHTML += `<div class="level-chip ${i===1?'active':''}" onclick="jumpToSlide(svipSwiper, ${i-1})">SVIP ${i}</div>`;
+    }
+
+    /* RENDER DỮ LIỆU THẺ URSVIP 1 - 99 */
+    const ursvipWrapper = document.getElementById('ursvip-swiper-wrapper');
+    const urChipBar = document.getElementById('ur-chip-bar');
+    for (let i = 1; i <= 99; i++) {
+      let targetPts = i * URSVIP_STEP;
+      ursvipWrapper.innerHTML += `
+        <div class="swiper-slide">
+          <div class="card-box bg-ursvip-god">
+            <div class="card-title ur-title">UR-VIP${i}</div>
+            <div class="crest-wrapper"><div class="crest-aura-ring" style="border-color:#f0abfc;"></div><svg class="svg-crest" viewBox="0 0 200 200"><path d="M100 10 L175 45 L150 155 L100 190 L50 155 L25 45 Z" fill="#7e22ce" stroke="#f0abfc" stroke-width="4"/><polygon points="100,45 125,95 75,95" fill="#fef08a"/></svg></div>
+            <div class="card-bottom">
+              <div class="progress-info" style="width: 60%;">ĐKN: <span class="pts-val" id="pts-ur-${i}">0</span> / ${targetPts.toLocaleString('vi-VN')}<div class="progress-bar-bg"><div class="progress-bar-fill" id="bar-ur-${i}"></div></div></div>
+              <button class="btn-nap" style="background:linear-gradient(180deg,#f5d0fe 0%,#c084fc 100%); color:#2e1065;" onclick="openRechargeModal()">Nạp</button>
+            </div>
+          </div>
+        </div>`;
+      urChipBar.innerHTML += `<div class="level-chip ur-chip ${i===1?'active':''}" onclick="jumpToSlide(ursvipSwiper, ${i-1})">UR ${i}</div>`;
+    }
+
+    /* PRIVILEGES GRID */
+    const generalPrivileges = [
+      { name: "Bảng Tên VIP 3D", icon: "fa-certificate" },
+      { name: "Khung Avatar 3 Lớp", icon: "fa-user-shield" },
+      { name: "Bong Bóng Chat VIP", icon: "fa-comment-dots" },
+      { name: "Hiệu Ứng Siêu Xe", icon: "fa-car-side" },
+      { name: "Thẻ Thông Tin Vàng", icon: "fa-address-card" },
+      { name: "Thông Báo Toàn Server", icon: "fa-bullhorn" }
+    ];
+
+    function renderPrivileges(id, isUr=false) {
+      const el = document.getElementById(id); el.innerHTML = '';
+      generalPrivileges.forEach(p => {
+        el.innerHTML += `
+          <div class="privilege-card ${isUr?'ur-priv':''}" onclick="openDialog('Đặc Quyền', 'Xem trước hiệu ứng <b>${p.name}</b>.')">
+            <div class="privilege-icon-box"><i class="fa-solid ${p.icon}"></i></div>
+            <div class="privilege-name">${p.name}</div>
+          </div>`;
+      });
+    }
+    renderPrivileges('vip-privilege-grid'); renderPrivileges('svip-privilege-grid'); renderPrivileges('ursvip-privilege-grid', true);
+
+    /* SWIPERS INIT */
+    const vipSwiper = new Swiper('.vip-swiper', { centeredSlides: true, slidesPerView: 'auto', spaceBetween: 12, on: { slideChange: function() { updateChips(vipChipBar, this.activeIndex); document.getElementById('vip-title-lvl').innerText = `VIP ${this.activeIndex + 1}`; } } });
+    const svipSwiper = new Swiper('.svip-swiper', { centeredSlides: true, slidesPerView: 'auto', spaceBetween: 12, on: { slideChange: function() { updateChips(svipChipBar, this.activeIndex); document.getElementById('svip-title-lvl').innerText = `SVIP ${this.activeIndex + 1}`; } } });
+    const ursvipSwiper = new Swiper('.ursvip-swiper', { centeredSlides: true, slidesPerView: 'auto', spaceBetween: 12, on: { slideChange: function() { updateChips(urChipBar, this.activeIndex); document.getElementById('ur-title-lvl').innerText = `URSVIP ${this.activeIndex + 1}`; } } });
+
+    function jumpToSlide(sw, idx) { triggerSound('click'); sw.slideTo(idx); }
+    function updateChips(bar, idx) {
+      const chips = bar.querySelectorAll('.level-chip');
+      chips.forEach((c, i) => c.classList.toggle('active', i === idx));
+      if (chips[idx]) chips[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    function switchMainTab(tab) {
+      triggerSound('click');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      if (tab === 'vip') { document.getElementById('tab-vip').classList.add('active'); document.getElementById('content-vip').classList.add('active'); vipSwiper.update(); }
+      else if (tab === 'svip') { document.getElementById('tab-svip').classList.add('active'); document.getElementById('content-svip').classList.add('active'); svipSwiper.update(); }
+      else { document.getElementById('tab-ursvip').classList.add('active'); document.getElementById('content-ursvip').classList.add('active'); ursvipSwiper.update(); }
+    }
+
+    /* ----- 4. CHỮ BAY THÔNG BÁO (FLYING MARQUEE TEXT) ----- */
+    function triggerFlyingNotice(text) {
+      const container = document.getElementById('flyingNoticeContainer');
+      const item = document.createElement('div');
+      item.className = 'flying-notice-item';
+      item.innerHTML = text;
+      container.appendChild(item);
+
+      item.addEventListener('animationend', () => {
+        item.remove();
+      });
+    }
+
+    /* ----- 5. NÚT CHAT BỐC NỔI DI CHUYỂN (DRAGGABLE) ----- */
+    const dragBtn = document.getElementById('draggableChatBtn');
+    let isDragging = false, startX, startY, initialLeft, initialTop, hasMoved = false;
+
+    dragBtn.addEventListener('mousedown', startDrag);
+    dragBtn.addEventListener('touchstart', startDrag, { passive: false });
+
+    function startDrag(e) {
+      isDragging = true;
+      hasMoved = false;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      startX = clientX;
+      startY = clientY;
+
+      const rect = dragBtn.getBoundingClientRect();
+      const parentRect = document.getElementById('appContainer').getBoundingClientRect();
+
+      initialLeft = rect.left - parentRect.left;
+      initialTop = rect.top - parentRect.top;
+
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('touchmove', onDrag, { passive: false });
+      document.addEventListener('mouseup', stopDrag);
+      document.addEventListener('touchend', stopDrag);
+    }
+
+    function onDrag(e) {
+      if (!isDragging) return;
+      if (e.cancelable) e.preventDefault();
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const dx = clientX - startX;
+      const dy = clientY - startY;
+
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+        hasMoved = true;
+      }
+
+      let newLeft = initialLeft + dx;
+      let newTop = initialTop + dy;
+
+      const parent = document.getElementById('appContainer');
+      const maxLeft = parent.clientWidth - dragBtn.offsetWidth;
+      const maxTop = parent.clientHeight - dragBtn.offsetHeight;
+
+      newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+      newTop = Math.max(0, Math.min(newTop, maxTop));
+
+      dragBtn.style.left = newLeft + 'px';
+      dragBtn.style.top = newTop + 'px';
+      dragBtn.style.right = 'auto';
+      dragBtn.style.transform = 'none';
+    }
+
+    function stopDrag() {
+      isDragging = false;
+      document.removeEventListener('mousemove', onDrag);
+      document.removeEventListener('touchmove', onDrag);
+      document.removeEventListener('mouseup', stopDrag);
+      document.removeEventListener('touchend', stopDrag);
+    }
+
+    dragBtn.addEventListener('click', () => {
+      if (!hasMoved) {
+        toggleServerChat();
+      }
+    });
+
+    /* ----- 6. HỆ THỐNG CHAT SERVER ----- */
+    let chatHistory = [
+      { sender: "King_Dragon", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&auto=format&fit=crop&q=80", pts: 50000000, text: "Chào toàn thể anh em server!", time: "09:30" },
+      { sender: "Princess_Rose", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80", pts: 2500000, text: "Hôm nay ai đua Top URSVIP không ạ?", time: "09:32" },
+      { sender: "Top1_Gamer", avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=80&auto=format&fit=crop&q=80", pts: 200000, text: "Mới nạp lên VIP 20 xịn quá!", time: "09:35" }
+    ];
+
+    function renderChatHistory() {
+      const container = document.getElementById('chat-history-list');
+      container.innerHTML = '';
+      chatHistory.forEach(msg => {
+        const { vipLvl, svipLvl, urLvl } = getPlayerVipLevels(msg.pts);
+        let tagStr = urLvl > 0 ? `UR ${urLvl}` : (svipLvl > 0 ? `SVIP ${svipLvl}` : `VIP ${vipLvl}`);
+        let badgeStyle = urLvl > 0 ? 'badge-ursvip' : (svipLvl > 0 ? 'badge-svip' : 'badge-vip');
+
+        container.innerHTML += `
+          <div class="chat-item-msg">
+            <div class="chat-avatar-box">
+              <img src="${msg.avatar}">
+              <div class="avatar-frame frame-vip-layer ${vipLvl>0?'active':''}"></div>
+              <div class="avatar-frame frame-svip-layer ${svipLvl>0?'active':''}"></div>
+              <div class="avatar-frame frame-ursvip-layer ${urLvl>0?'active':''}"></div>
+            </div>
+            <div class="chat-msg-body">
+              <div class="chat-user-meta">
+                <span class="chat-user-name">${msg.sender}</span>
+                <span class="user-rank-badge ${badgeStyle}">${tagStr}</span>
+                <span class="chat-time">${msg.time}</span>
+              </div>
+              <div class="chat-text">${msg.text}</div>
+            </div>
+          </div>`;
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleServerChat() {
+      triggerSound('click');
+      const chatOverlay = document.getElementById('chat-overlay');
+      chatOverlay.classList.toggle('active');
+      if (chatOverlay.classList.contains('active')) {
+        document.getElementById('unread-count').style.display = 'none';
+        renderChatHistory();
+      }
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input-field');
+      const val = input.value.trim();
+      if (!val) return;
+
+      triggerSound('click');
+      const now = new Date();
+      const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+
+      chatHistory.push({
+        sender: "Đại Gia Gamer",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+        pts: userPoints,
+        text: val,
+        time: timeStr
+      });
+
+      input.value = '';
+      renderChatHistory();
+      triggerFlyingNotice(`📢 <b>Đại Gia Gamer</b>: ${val}`);
+    }
+
+    /* ----- 7. NẠP KIM CƯƠNG & TỰ ĐỘNG NHẢY ĐẾN CẤP VIP TƯƠNG ỨNG ----- */
+    let selectedPts = 10000;
+    function openRechargeModal() { triggerSound('click'); document.getElementById('modal-recharge').classList.add('active'); }
+    function closeRechargeModal() { triggerSound('click'); document.getElementById('modal-recharge').classList.remove('active'); }
+    function selectDiamond(el, pts) { triggerSound('click'); document.querySelectorAll('.diamond-card').forEach(c => c.classList.remove('selected')); el.classList.add('selected'); selectedPts = pts; }
+    function selectPayMethod(el) { triggerSound('click'); document.querySelectorAll('.pay-item').forEach(p => p.classList.remove('active')); el.classList.add('active'); }
+
+    function executeRecharge() {
+      triggerSound('success');
+      userPoints += selectedPts;
+      closeRechargeModal();
+      showToast(`+${selectedPts.toLocaleString()} ĐKN VIP Thành Công!`);
+      
+      const { vipLvl, svipLvl, urLvl } = getPlayerVipLevels(userPoints);
+      updatePlayerProfileUI();
+
+      // Cập nhật thanh tiến trình các thẻ
+      for (let i = 1; i <= 999; i++) {
+        let vPts = document.getElementById(`pts-vip-${i}`); let vBar = document.getElementById(`bar-vip-${i}`);
+        if(vPts) vPts.innerText = userPoints.toLocaleString('vi-VN');
+        if(vBar) vBar.style.width = Math.min(100, (userPoints / (i * VIP_STEP)) * 100) + '%';
+      }
+      for (let i = 1; i <= 99; i++) {
+        let sPts = document.getElementById(`pts-svip-${i}`); let sBar = document.getElementById(`bar-svip-${i}`);
+        if(sPts) sPts.innerText = userPoints.toLocaleString('vi-VN');
+        if(sBar) sBar.style.width = Math.min(100, (userPoints / (i * SVIP_STEP)) * 100) + '%';
+      }
+      for (let i = 1; i <= 99; i++) {
+        let uPts = document.getElementById(`pts-ur-${i}`); let uBar = document.getElementById(`bar-ur-${i}`);
+        if(uPts) uPts.innerText = userPoints.toLocaleString('vi-VN');
+        if(uBar) uBar.style.width = Math.min(100, (userPoints / (i * URSVIP_STEP)) * 100) + '%';
+      }
+
+      // TỰ ĐỘNG NHẢY ĐẾN ĐÚNG VIP NHẬN ĐƯỢC
+      if (urLvl > 0) {
+        switchMainTab('ursvip');
+        ursvipSwiper.slideTo(urLvl - 1, 600);
+        triggerFlyingNotice(`🔥 CHÚC MỪNG [Đại Gia Gamer] ĐÃ THĂNG CẤP URSVIP ${urLvl}!`);
+      } else if (svipLvl > 0) {
+        switchMainTab('svip');
+        svipSwiper.slideTo(svipLvl - 1, 600);
+        triggerFlyingNotice(`👑 CHÚC MỪNG [Đại Gia Gamer] ĐÃ THĂNG CẤP SVIP ${svipLvl}!`);
+      } else if (vipLvl > 0) {
+        switchMainTab('vip');
+        vipSwiper.slideTo(vipLvl - 1, 600);
+        triggerFlyingNotice(`🎉 CHÚC MỪNG [Đại Gia Gamer] ĐÃ THĂNG CẤP VIP ${vipLvl}!`);
+      }
+    }
+
+    /* DIALOG & TOAST */
+    function openDialog(t, b) { triggerSound('click'); document.getElementById('dialog-title-txt').innerHTML = t; document.getElementById('dialog-body-txt').innerHTML = b; document.getElementById('modal-dialog').classList.add('active'); }
+    function closeDialog() { triggerSound('click'); document.getElementById('modal-dialog').classList.remove('active'); }
+    function openBackDialog() { openDialog("Xác nhận", "Bạn có muốn rời phòng VIP không?"); }
+    function openLeaderboard() { openDialog("🏆 Top Đại Gia VIP", "1. King_Dragon - URSVIP 10<br>2. Princess_Rose - SVIP 5<br>3. Top1_Gamer - VIP 20"); }
+    function openRules() { openDialog("📜 Quy Tắc VIP", "1 Kim Cương = 1 ĐKN VIP. VIP 1-999, SVIP 1-99, URSVIP 1-99. ĐKN bảo lưu vĩnh viễn."); }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    // Initialize initial state & welcome notice
+    updatePlayerProfileUI();
+    setTimeout(() => {
+      triggerFlyingNotice("🚀 Chào mừng bạn đến với Hệ Thống VIP & Chat Toàn Server!");
+    }, 1000);
+  </script>
+</body>
+</html>
             height: 100%;
             display: flex;
             flex-direction: column;
