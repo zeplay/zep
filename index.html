@@ -3,193 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H5 WebP Animated - Picture Tag</title>
+    <title>Bộ Sưu Tập Nhân Vật 3D Animation</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #05070a; color: #fff; font-family: sans-serif; padding: 20px; text-align: center; }
-        
-        .grid {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0b0e14;
+            color: #e0e6ed;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: #f39c12;
+            text-shadow: 0 0 15px rgba(243, 156, 18, 0.4);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .card {
-            position: relative;
-            background: #111622;
-            border: 2px solid #1e293b;
-            border-radius: 8px;
+            background: #151921;
+            border: 1px solid #2c3e50;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .corner-title {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            background: rgba(0, 0, 0, 0.85);
-            color: #00e5ff;
-            border: 1px solid #00e5ff;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 2px 5px;
-            border-radius: 4px;
-            z-index: 10;
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3);
+            border-color: #f39c12;
         }
 
         .img-container {
             width: 100%;
-            height: 180px;
+            height: 300px;
+            background-color: #000000;
             display: flex;
-            align-items: center;
             justify-content: center;
-            background: #000;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
         }
 
-        /* Tối ưu render ảnh động WebP hiển thị rõ nét */
-        picture, img {
+        .img-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            transition: transform 0.3s ease;
         }
 
-        .name-tag {
-            padding: 8px;
-            font-size: 12px;
-            background: #0a0e17;
-            border-top: 1px solid #1e293b;
-            word-break: break-all;
-            color: #e2e8f0;
+        .card:hover .img-container img {
+            transform: scale(1.08);
+        }
+
+        .card-info {
+            width: 100%;
+            padding: 14px;
+            background: #1a202c;
+            border-top: 1px solid #2d3748;
+            text-align: center;
+        }
+
+        .filename {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #63b3ed;
+            background: #0f172a;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <h2 style="color: #00e5ff; margin-bottom: 20px;">Giao Diện Ô WebP Động Sắc Nét (<picture>)</h2>
+    <div class="header">
+        <h1>Bộ Sưu Tập Nhân Vật 3D</h1>
+        <p>Danh sách các ô ảnh động WebP đã được chuẩn hóa tên gốc</p>
+    </div>
 
-    <div class="grid">
-        <!-- 42672.webp -->
+    <div class="gallery-grid">
+        <!-- Ô 1 -->
         <div class="card">
-            <span class="corner-title">42672.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="42672.webp" type="image/webp">
-                    <img src="42672.webp" alt="42672.webp">
-                </picture>
+                <img src="Thien_Su_Hoang_Kim.webp" alt="Thiên Sứ Hoàng Kim" loading="lazy">
             </div>
-            <div class="name-tag">42672.webp</div>
+            <div class="card-info">
+                <span class="filename">Thien_Su_Hoang_Kim.webp</span>
+            </div>
         </div>
 
-        <!-- fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif -->
+        <!-- Ô 2 -->
         <div class="card">
-            <span class="corner-title">fe9c916e...gif</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif" type="image/gif">
-                    <img src="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif" alt="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif">
-                </picture>
+                <img src="Hoa_Than_Boc_Pha.webp" alt="Hỏa Thần Bộc Phá" loading="lazy">
             </div>
-            <div class="name-tag">fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif</div>
+            <div class="card-info">
+                <span class="filename">Hoa_Than_Boc_Pha.webp</span>
+            </div>
         </div>
 
-        <!-- 37922.webp -->
+        <!-- Ô 3 -->
         <div class="card">
-            <span class="corner-title">37922.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37922.webp" type="image/webp">
-                    <img src="37922.webp" alt="37922.webp">
-                </picture>
+                <img src="Hoang_Kim_Dai_De.webp" alt="Hoàng Kim Đại Đế" loading="lazy">
             </div>
-            <div class="name-tag">37922.webp</div>
+            <div class="card-info">
+                <span class="filename">Hoang_Kim_Dai_De.webp</span>
+            </div>
         </div>
 
-        <!-- 37925.webp -->
+        <!-- Ô 4 -->
         <div class="card">
-            <span class="corner-title">37925.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37925.webp" type="image/webp">
-                    <img src="37925.webp" alt="37925.webp">
-                </picture>
+                <img src="Thien_Vuong_Hoang_Kim.webp" alt="Thiên Vương Hoàng Kim" loading="lazy">
             </div>
-            <div class="name-tag">37925.webp</div>
+            <div class="card-info">
+                <span class="filename">Thien_Vuong_Hoang_Kim.webp</span>
+            </div>
         </div>
 
-        <!-- 37926.webp -->
+        <!-- Ô 5 -->
         <div class="card">
-            <span class="corner-title">37926.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37926.webp" type="image/webp">
-                    <img src="37926.webp" alt="37926.webp">
-                </picture>
+                <img src="Tien_Hiep_Truong_Thuong.webp" alt="Tiên Hiệp Trường Thương" loading="lazy">
             </div>
-            <div class="name-tag">37926.webp</div>
+            <div class="card-info">
+                <span class="filename">Tien_Hiep_Truong_Thuong.webp</span>
+            </div>
         </div>
 
-        <!-- 37927.webp -->
+        <!-- Ô 6 -->
         <div class="card">
-            <span class="corner-title">37927.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37927.webp" type="image/webp">
-                    <img src="37927.webp" alt="37927.webp">
-                </picture>
+                <img src="Bang_Tuyet_Nu_Vuong.webp" alt="Băng Tuyết Nữ Vương" loading="lazy">
             </div>
-            <div class="name-tag">37927.webp</div>
+            <div class="card-info">
+                <span class="filename">Bang_Tuyet_Nu_Vuong.webp</span>
+            </div>
         </div>
 
-        <!-- 37929.webp -->
+        <!-- Ô 7 -->
         <div class="card">
-            <span class="corner-title">37929.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37929.webp" type="image/webp">
-                    <img src="37929.webp" alt="37929.webp">
-                </picture>
+                <img src="Hoa_Long_Tung_Hoanh.webp" alt="Hỏa Long Tung Hoành" loading="lazy">
             </div>
-            <div class="name-tag">37929.webp</div>
+            <div class="card-info">
+                <span class="filename">Hoa_Long_Tung_Hoanh.webp</span>
+            </div>
         </div>
 
-        <!-- 37930.webp -->
+        <!-- Ô 8 -->
         <div class="card">
-            <span class="corner-title">37930.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37930.webp" type="image/webp">
-                    <img src="37930.webp" alt="37930.webp">
-                </picture>
+                <img src="Hoa_Phuong_Nu_Hoang.webp" alt="Hỏa Phượng Nữ Hoàng" loading="lazy">
             </div>
-            <div class="name-tag">37930.webp</div>
+            <div class="card-info">
+                <span class="filename">Hoa_Phuong_Nu_Hoang.webp</span>
+            </div>
         </div>
 
-        <!-- 37933.webp -->
+        <!-- Ô 9 -->
         <div class="card">
-            <span class="corner-title">37933.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37933.webp" type="image/webp">
-                    <img src="37933.webp" alt="37933.webp">
-                </picture>
+                <img src="Tu_Loi_Song_Kiem.webp" alt="Tử Lôi Song Kiếm" loading="lazy">
             </div>
-            <div class="name-tag">37933.webp</div>
+            <div class="card-info">
+                <span class="filename">Tu_Loi_Song_Kiem.webp</span>
+            </div>
         </div>
 
-        <!-- 37939.webp -->
+        <!-- Ô 10 -->
         <div class="card">
-            <span class="corner-title">37939.webp</span>
             <div class="img-container">
-                <picture>
-                    <source srcset="37939.webp" type="image/webp">
-                    <img src="37939.webp" alt="37939.webp">
-                </picture>
+                <img src="Hoang_Long_De_Quan.webp" alt="Hoàng Long Đế Quân" loading="lazy">
             </div>
-            <div class="name-tag">37939.webp</div>
+            <div class="card-info">
+                <span class="filename">Hoang_Long_De_Quan.webp</span>
+            </div>
         </div>
     </div>
 
