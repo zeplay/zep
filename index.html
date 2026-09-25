@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao Diện H5 - Ô Nhân Vật & Vật Phẩm</title>
+    <title>Thiên Hạ Đệ Nhất Tông - Giao Diện Ô Item H5</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,9 +12,9 @@
         }
 
         body {
-            background-color: #0a0c10;
+            background-color: #080a0f;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px 10px;
             display: flex;
             flex-direction: column;
@@ -22,185 +22,185 @@
             min-height: 100vh;
         }
 
-        h1 {
-            color: #ffd700;
+        .header-logo {
             margin-bottom: 25px;
             text-align: center;
-            font-size: 22px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .grid-container {
+        .header-logo img {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+        }
+
+        .item-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
         }
 
-        .card-item {
+        .item-card {
             position: relative;
-            background: radial-gradient(circle, #222733 0%, #0d0f14 100%);
-            border: 2px solid #3a4454;
+            background: radial-gradient(circle, #1a1f29 0%, #0a0c10 100%);
+            border: 2px solid #2d3748;
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-            transition: transform 0.2s, border-color 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+            transition: all 0.25s ease;
         }
 
-        .card-item:hover {
-            transform: scale(1.03);
-            border-color: #ffd700;
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: #ffb703;
+            box-shadow: 0 6px 18px rgba(255, 183, 3, 0.4);
         }
 
-        /* Tên hiển thị ở góc trên bên trái của mỗi ô */
-        .corner-badge {
+        /* Tên hiển thị ở góc trên bên trái */
+        .corner-tag {
             position: absolute;
             top: 6px;
             left: 6px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #ffd700;
-            border: 1px solid #ffd700;
+            background: rgba(0, 0, 0, 0.85);
+            color: #ffb703;
+            border: 1px solid #ffb703;
             font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            z-index: 5;
             font-weight: bold;
-            max-width: 90%;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            padding: 3px 6px;
+            border-radius: 4px;
+            z-index: 10;
             white-space: nowrap;
         }
 
-        .img-container {
+        .img-box {
             width: 100%;
-            height: 180px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            background: #000000;
+            background-color: #000000;
+            padding: 8px;
         }
 
-        .img-container img {
+        .img-box img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
         }
 
-        /* Nhãn tên gốc đầy đủ phía dưới ô */
-        .original-name {
-            width: 100%;
-            background-color: #141820;
-            border-top: 1px solid #2a3240;
-            padding: 8px 6px;
+        /* Tên gốc đầy đủ hiển thị phía dưới không bị đổi */
+        .full-name {
+            background-color: #11141d;
+            border-top: 1px solid #2d3748;
+            padding: 10px 6px;
             font-size: 12px;
-            color: #e0e0e0;
+            font-weight: 600;
+            color: #e2e8f0;
             text-align: center;
-            word-break: break-all; /* Đảm bảo tên dài không bị tràn hay cắt xén */
-            line-height: 1.3;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .item-card:hover .full-name {
+            color: #ffb703;
+            background-color: #181d2a;
         }
     </style>
 </head>
 <body>
 
-    <h1>Danh Sách Ô Nhân Vật & Vật Phẩm</h1>
+    <!-- Logo chính Tông Môn -->
+    <div class="header-logo">
+        <img src="thien_ha_de_nhat_tong.webp" alt="thien_ha_de_nhat_tong.webp">
+    </div>
 
-    <div class="grid-container">
+    <!-- Danh sách 9 Item Nhân vật / Vật phẩm -->
+    <div class="item-grid">
+
         <!-- Item 1 -->
-        <div class="card-item">
-            <div class="corner-badge">42672.webp</div>
-            <div class="img-container">
-                <img src="42672.webp" alt="42672.webp">
+        <div class="item-card">
+            <span class="corner-tag">hoang_kim_chien_than.webp</span>
+            <div class="img-box">
+                <img src="hoang_kim_chien_than.webp" alt="hoang_kim_chien_than.webp">
             </div>
-            <div class="original-name">42672.webp</div>
+            <div class="full-name">hoang_kim_chien_than.webp</div>
         </div>
 
         <!-- Item 2 -->
-        <div class="card-item">
-            <div class="corner-badge">fe9c916e...gif</div>
-            <div class="img-container">
-                <img src="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif" alt="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif">
+        <div class="item-card">
+            <span class="corner-tag">nhat_nguyet_hoa_luan.webp</span>
+            <div class="img-box">
+                <img src="nhat_nguyet_hoa_luan.webp" alt="nhat_nguyet_hoa_luan.webp">
             </div>
-            <div class="original-name">fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif</div>
+            <div class="full-name">nhat_nguyet_hoa_luan.webp</div>
         </div>
 
         <!-- Item 3 -->
-        <div class="card-item">
-            <div class="corner-badge">37922.webp</div>
-            <div class="img-container">
-                <img src="37922.webp" alt="37922.webp">
+        <div class="item-card">
+            <span class="corner-tag">hoa_than_bien_the.webp</span>
+            <div class="img-box">
+                <img src="hoa_than_bien_the.webp" alt="hoa_than_bien_the.webp">
             </div>
-            <div class="original-name">37922.webp</div>
+            <div class="full-name">hoa_than_bien_the.webp</div>
         </div>
 
         <!-- Item 4 -->
-        <div class="card-item">
-            <div class="corner-badge">37925.webp</div>
-            <div class="img-container">
-                <img src="37925.webp" alt="37925.webp">
+        <div class="item-card">
+            <span class="corner-tag">chu_tuoc_nu_hoang.webp</span>
+            <div class="img-box">
+                <img src="chu_tuoc_nu_hoang.webp" alt="chu_tuoc_nu_hoang.webp">
             </div>
-            <div class="original-name">37925.webp</div>
+            <div class="full-name">chu_tuoc_nu_hoang.webp</div>
         </div>
 
         <!-- Item 5 -->
-        <div class="card-item">
-            <div class="corner-badge">37926.webp</div>
-            <div class="img-container">
-                <img src="37926.webp" alt="37926.webp">
+        <div class="item-card">
+            <span class="corner-tag">tu_ma_song_kiem.webp</span>
+            <div class="img-box">
+                <img src="tu_ma_song_kiem.webp" alt="tu_ma_song_kiem.webp">
             </div>
-            <div class="original-name">37926.webp</div>
+            <div class="full-name">tu_ma_song_kiem.webp</div>
         </div>
 
         <!-- Item 6 -->
-        <div class="card-item">
-            <div class="corner-badge">37927.webp</div>
-            <div class="img-container">
-                <img src="37927.webp" alt="37927.webp">
+        <div class="item-card">
+            <span class="corner-tag">tu_vi_de_quan.webp</span>
+            <div class="img-box">
+                <img src="tu_vi_de_quan.webp" alt="tu_vi_de_quan.webp">
             </div>
-            <div class="original-name">37927.webp</div>
+            <div class="full-name">tu_vi_de_quan.webp</div>
         </div>
 
         <!-- Item 7 -->
-        <div class="card-item">
-            <div class="corner-badge">37929.webp</div>
-            <div class="img-container">
-                <img src="37929.webp" alt="37929.webp">
+        <div class="item-card">
+            <span class="corner-tag">am_duong_long_de.webp</span>
+            <div class="img-box">
+                <img src="am_duong_long_de.webp" alt="am_duong_long_de.webp">
             </div>
-            <div class="original-name">37929.webp</div>
+            <div class="full-name">am_duong_long_de.webp</div>
         </div>
 
         <!-- Item 8 -->
-        <div class="card-item">
-            <div class="corner-badge">37930.webp</div>
-            <div class="img-container">
-                <img src="37930.webp" alt="37930.webp">
+        <div class="item-card">
+            <span class="corner-tag">tu_khi_chien_ky.webp</span>
+            <div class="img-box">
+                <img src="tu_khi_chien_ky.webp" alt="tu_khi_chien_ky.webp">
             </div>
-            <div class="original-name">37930.webp</div>
+            <div class="full-name">tu_khi_chien_ky.webp</div>
         </div>
 
         <!-- Item 9 -->
-        <div class="card-item">
-            <div class="corner-badge">37933.webp</div>
-            <div class="img-container">
-                <img src="37933.webp" alt="37933.webp">
+        <div class="item-card">
+            <span class="corner-tag">cuu_duong_thanh_kiem.webp</span>
+            <div class="img-box">
+                <img src="cuu_duong_thanh_kiem.webp" alt="cuu_duong_thanh_kiem.webp">
             </div>
-            <div class="original-name">37933.webp</div>
+            <div class="full-name">cuu_duong_thanh_kiem.webp</div>
         </div>
 
-        <!-- Item 10 -->
-        <div class="card-item">
-            <div class="corner-badge">37939.webp</div>
-            <div class="img-container">
-                <img src="37939.webp" alt="37939.webp">
-            </div>
-            <div class="original-name">37939.webp</div>
-        </div>
     </div>
 
 </body>
