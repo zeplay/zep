@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thiên Hạ Đệ Nhất Tông - Giao Diện Ô Item H5</title>
+    <title>Giao Diện Ô Item H5 - CSS Background</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,7 +14,7 @@
         body {
             background-color: #080a0f;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding: 20px 10px;
             display: flex;
             flex-direction: column;
@@ -22,14 +22,15 @@
             min-height: 100vh;
         }
 
+        /* Banner Logo không dùng thẻ img */
         .header-logo {
+            width: 280px;
+            height: 90px;
             margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .header-logo img {
-            max-width: 280px;
-            height: auto;
+            background-image: url('thien_ha_de_nhat_tong.webp');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
         }
 
@@ -75,23 +76,17 @@
             white-space: nowrap;
         }
 
+        /* Khung chứa ảnh sử dụng Background Image thay cho <img> */
         .img-box {
             width: 100%;
             height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background-color: #000000;
-            padding: 8px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .img-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        /* Tên gốc đầy đủ hiển thị phía dưới không bị đổi */
+        /* Tên gốc đầy đủ hiển thị phía dưới */
         .full-name {
             background-color: #11141d;
             border-top: 1px solid #2d3748;
@@ -112,10 +107,8 @@
 </head>
 <body>
 
-    <!-- Logo chính Tông Môn -->
-    <div class="header-logo">
-        <img src="thien_ha_de_nhat_tong.webp" alt="thien_ha_de_nhat_tong.webp">
-    </div>
+    <!-- Logo chính dùng Background CSS -->
+    <div class="header-logo"></div>
 
     <!-- Danh sách 9 Item Nhân vật / Vật phẩm -->
     <div class="item-grid">
@@ -123,81 +116,63 @@
         <!-- Item 1 -->
         <div class="item-card">
             <span class="corner-tag">hoang_kim_chien_than.webp</span>
-            <div class="img-box">
-                <img src="hoang_kim_chien_than.webp" alt="hoang_kim_chien_than.webp">
-            </div>
+            <div class="img-box" style="background-image: url('hoang_kim_chien_than.webp');"></div>
             <div class="full-name">hoang_kim_chien_than.webp</div>
         </div>
 
         <!-- Item 2 -->
         <div class="item-card">
             <span class="corner-tag">nhat_nguyet_hoa_luan.webp</span>
-            <div class="img-box">
-                <img src="nhat_nguyet_hoa_luan.webp" alt="nhat_nguyet_hoa_luan.webp">
-            </div>
+            <div class="img-box" style="background-image: url('nhat_nguyet_hoa_luan.webp');"></div>
             <div class="full-name">nhat_nguyet_hoa_luan.webp</div>
         </div>
 
         <!-- Item 3 -->
         <div class="item-card">
             <span class="corner-tag">hoa_than_bien_the.webp</span>
-            <div class="img-box">
-                <img src="hoa_than_bien_the.webp" alt="hoa_than_bien_the.webp">
-            </div>
+            <div class="img-box" style="background-image: url('hoa_than_bien_the.webp');"></div>
             <div class="full-name">hoa_than_bien_the.webp</div>
         </div>
 
         <!-- Item 4 -->
         <div class="item-card">
             <span class="corner-tag">chu_tuoc_nu_hoang.webp</span>
-            <div class="img-box">
-                <img src="chu_tuoc_nu_hoang.webp" alt="chu_tuoc_nu_hoang.webp">
-            </div>
+            <div class="img-box" style="background-image: url('chu_tuoc_nu_hoang.webp');"></div>
             <div class="full-name">chu_tuoc_nu_hoang.webp</div>
         </div>
 
         <!-- Item 5 -->
         <div class="item-card">
             <span class="corner-tag">tu_ma_song_kiem.webp</span>
-            <div class="img-box">
-                <img src="tu_ma_song_kiem.webp" alt="tu_ma_song_kiem.webp">
-            </div>
+            <div class="img-box" style="background-image: url('tu_ma_song_kiem.webp');"></div>
             <div class="full-name">tu_ma_song_kiem.webp</div>
         </div>
 
         <!-- Item 6 -->
         <div class="item-card">
             <span class="corner-tag">tu_vi_de_quan.webp</span>
-            <div class="img-box">
-                <img src="tu_vi_de_quan.webp" alt="tu_vi_de_quan.webp">
-            </div>
+            <div class="img-box" style="background-image: url('tu_vi_de_quan.webp');"></div>
             <div class="full-name">tu_vi_de_quan.webp</div>
         </div>
 
         <!-- Item 7 -->
         <div class="item-card">
             <span class="corner-tag">am_duong_long_de.webp</span>
-            <div class="img-box">
-                <img src="am_duong_long_de.webp" alt="am_duong_long_de.webp">
-            </div>
+            <div class="img-box" style="background-image: url('am_duong_long_de.webp');"></div>
             <div class="full-name">am_duong_long_de.webp</div>
         </div>
 
         <!-- Item 8 -->
         <div class="item-card">
             <span class="corner-tag">tu_khi_chien_ky.webp</span>
-            <div class="img-box">
-                <img src="tu_khi_chien_ky.webp" alt="tu_khi_chien_ky.webp">
-            </div>
+            <div class="img-box" style="background-image: url('tu_khi_chien_ky.webp');"></div>
             <div class="full-name">tu_khi_chien_ky.webp</div>
         </div>
 
         <!-- Item 9 -->
         <div class="item-card">
             <span class="corner-tag">cuu_duong_thanh_kiem.webp</span>
-            <div class="img-box">
-                <img src="cuu_duong_thanh_kiem.webp" alt="cuu_duong_thanh_kiem.webp">
-            </div>
+            <div class="img-box" style="background-image: url('cuu_duong_thanh_kiem.webp');"></div>
             <div class="full-name">cuu_duong_thanh_kiem.webp</div>
         </div>
 
