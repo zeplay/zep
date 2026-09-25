@@ -3,186 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao Diện H5 - Hiển Thị WebP Rõ Ràng</title>
+    <title>H5 WebP Animated - Picture Tag</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: #05070a;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: 20px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        h1 {
-            color: #00e5ff;
-            margin-bottom: 20px;
-            font-size: 20px;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
-        }
-
-        .item-grid {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #05070a; color: #fff; font-family: sans-serif; padding: 20px; text-align: center; }
+        
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
-            width: 100%;
             max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .item-card {
+        .card {
             position: relative;
-            background: radial-gradient(circle, #121824 0%, #05070a 100%);
+            background: #111622;
             border: 2px solid #1e293b;
             border-radius: 8px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
-            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
 
-        .item-card:hover {
-            transform: translateY(-3px);
-            border-color: #00e5ff;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-        }
-
-        /* Tên hiển thị ở góc trên bên trái rõ ràng */
-        .corner-tag {
+        .corner-title {
             position: absolute;
-            top: 6px;
-            left: 6px;
+            top: 5px;
+            left: 5px;
             background: rgba(0, 0, 0, 0.85);
             color: #00e5ff;
             border: 1px solid #00e5ff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: 4px;
             z-index: 10;
-            white-space: nowrap;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
-        /* Khung hiển thị WebP qua CSS Background (Không dùng thẻ img) */
-        .img-display {
+        .img-container {
             width: 100%;
-            height: 190px;
-            background-color: #000000;
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            /* Tối ưu giúp ảnh WebP hiển thị rõ nét, không bị mờ */
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        /* Tối ưu render ảnh động WebP hiển thị rõ nét */
+        picture, img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
 
-        /* Tên gốc WebP đầy đủ hiển thị phía dưới */
-        .full-name {
-            background-color: #0d131f;
-            border-top: 1px solid #1e293b;
-            padding: 8px 4px;
+        .name-tag {
+            padding: 8px;
             font-size: 12px;
-            font-weight: bold;
-            color: #e2e8f0;
-            text-align: center;
+            background: #0a0e17;
+            border-top: 1px solid #1e293b;
             word-break: break-all;
-            line-height: 1.3;
-        }
-
-        .item-card:hover .full-name {
-            color: #00e5ff;
-            background-color: #111a2e;
+            color: #e2e8f0;
         }
     </style>
 </head>
 <body>
 
-    <h1>Danh Sách WebP Rõ Ràng (Không Thẻ <img>)</h1>
+    <h2 style="color: #00e5ff; margin-bottom: 20px;">Giao Diện Ô WebP Động Sắc Nét (<picture>)</h2>
 
-    <div class="item-grid">
-
+    <div class="grid">
         <!-- 42672.webp -->
-        <div class="item-card">
-            <span class="corner-tag">42672.webp</span>
-            <div class="img-display" style="background-image: url('42672.webp');"></div>
-            <div class="full-name">42672.webp</div>
+        <div class="card">
+            <span class="corner-title">42672.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="42672.webp" type="image/webp">
+                    <img src="42672.webp" alt="42672.webp">
+                </picture>
+            </div>
+            <div class="name-tag">42672.webp</div>
         </div>
 
         <!-- fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif -->
-        <div class="item-card">
-            <span class="corner-tag">fe9c916e...gif</span>
-            <div class="img-display" style="background-image: url('fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif');"></div>
-            <div class="full-name">fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif</div>
+        <div class="card">
+            <span class="corner-title">fe9c916e...gif</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif" type="image/gif">
+                    <img src="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif" alt="fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif">
+                </picture>
+            </div>
+            <div class="name-tag">fe9c916e-f916-4571-8bea-132191b4489f-1_all_285.gif</div>
         </div>
 
         <!-- 37922.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37922.webp</span>
-            <div class="img-display" style="background-image: url('37922.webp');"></div>
-            <div class="full-name">37922.webp</div>
+        <div class="card">
+            <span class="corner-title">37922.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37922.webp" type="image/webp">
+                    <img src="37922.webp" alt="37922.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37922.webp</div>
         </div>
 
         <!-- 37925.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37925.webp</span>
-            <div class="img-display" style="background-image: url('37925.webp');"></div>
-            <div class="full-name">37925.webp</div>
+        <div class="card">
+            <span class="corner-title">37925.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37925.webp" type="image/webp">
+                    <img src="37925.webp" alt="37925.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37925.webp</div>
         </div>
 
         <!-- 37926.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37926.webp</span>
-            <div class="img-display" style="background-image: url('37926.webp');"></div>
-            <div class="full-name">37926.webp</div>
+        <div class="card">
+            <span class="corner-title">37926.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37926.webp" type="image/webp">
+                    <img src="37926.webp" alt="37926.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37926.webp</div>
         </div>
 
         <!-- 37927.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37927.webp</span>
-            <div class="img-display" style="background-image: url('37927.webp');"></div>
-            <div class="full-name">37927.webp</div>
+        <div class="card">
+            <span class="corner-title">37927.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37927.webp" type="image/webp">
+                    <img src="37927.webp" alt="37927.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37927.webp</div>
         </div>
 
         <!-- 37929.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37929.webp</span>
-            <div class="img-display" style="background-image: url('37929.webp');"></div>
-            <div class="full-name">37929.webp</div>
+        <div class="card">
+            <span class="corner-title">37929.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37929.webp" type="image/webp">
+                    <img src="37929.webp" alt="37929.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37929.webp</div>
         </div>
 
         <!-- 37930.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37930.webp</span>
-            <div class="img-display" style="background-image: url('37930.webp');"></div>
-            <div class="full-name">37930.webp</div>
+        <div class="card">
+            <span class="corner-title">37930.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37930.webp" type="image/webp">
+                    <img src="37930.webp" alt="37930.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37930.webp</div>
         </div>
 
         <!-- 37933.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37933.webp</span>
-            <div class="img-display" style="background-image: url('37933.webp');"></div>
-            <div class="full-name">37933.webp</div>
+        <div class="card">
+            <span class="corner-title">37933.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37933.webp" type="image/webp">
+                    <img src="37933.webp" alt="37933.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37933.webp</div>
         </div>
 
         <!-- 37939.webp -->
-        <div class="item-card">
-            <span class="corner-tag">37939.webp</span>
-            <div class="img-display" style="background-image: url('37939.webp');"></div>
-            <div class="full-name">37939.webp</div>
+        <div class="card">
+            <span class="corner-title">37939.webp</span>
+            <div class="img-container">
+                <picture>
+                    <source srcset="37939.webp" type="image/webp">
+                    <img src="37939.webp" alt="37939.webp">
+                </picture>
+            </div>
+            <div class="name-tag">37939.webp</div>
         </div>
-
     </div>
 
 </body>
