@@ -1,219 +1,1221 @@
+```html
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bộ Sưu Tập Nhân Vật 3D Animation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Linh Giới Bảo Lục - Bộ Sưu Tập WebP Động Tiên Hiệp</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+TC:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        xianxia: {
+                            bg: '#06070a',
+                            card: '#0d0f17',
+                            gold: '#dfac42',
+                            goldLight: '#fbe29d',
+                            crimson: '#e63946',
+                            cyan: '#3a86ff',
+                            purple: '#9d4edd',
+                            jade: '#2a9d8f'
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Cinzel', 'Noto Serif TC', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* Custom Xianxia Styling */
         body {
-            background-color: #0b0e14;
-            color: #e0e6ed;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            padding: 40px 20px;
-            min-height: 100vh;
+            background-color: #06070a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
+        /* Glowing text effect */
+        .text-glow-gold {
+            text-shadow: 0 0 12px rgba(223, 172, 66, 0.6), 0 0 25px rgba(223, 172, 66, 0.3);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 12px rgba(58, 134, 255, 0.6), 0 0 25px rgba(58, 134, 255, 0.3);
+        }
+        .text-glow-crimson {
+            text-shadow: 0 0 12px rgba(230, 57, 70, 0.6), 0 0 25px rgba(230, 57, 70, 0.3);
         }
 
-        .header h1 {
-            font-size: 2.2rem;
-            color: #f39c12;
-            text-shadow: 0 0 15px rgba(243, 156, 18, 0.4);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+        /* Magic Circle Animations */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        @keyframes floatMagic {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 15px rgba(223,172,66,0.4)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 30px rgba(223,172,66,0.8)); }
         }
 
-        .header p {
-            color: #7f8c8d;
-            font-size: 1rem;
+        .animate-spin-slow {
+            animation: spinSlow var(--spin-duration, 25s) linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spinReverse var(--spin-duration, 20s) linear infinite;
+        }
+        .animate-float {
+            animation: floatMagic 5s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* Glassmorphism Cards */
+        .xianxia-card {
+            background: linear-gradient(135deg, rgba(18, 22, 34, 0.85) 0%, rgba(9, 11, 18, 0.95) 100%);
+            border: 1px solid rgba(223, 172, 66, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card {
-            background: #151921;
-            border: 1px solid #2c3e50;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .xianxia-card:hover {
+            border-color: rgba(223, 172, 66, 0.7);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px -10px rgba(223, 172, 66, 0.35);
         }
 
-        .card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3);
-            border-color: #f39c12;
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06070a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(223, 172, 66, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(223, 172, 66, 0.7);
         }
 
-        .img-container {
-            width: 100%;
-            height: 300px;
-            background-color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            padding: 10px;
-        }
-
-        .img-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover .img-container img {
-            transform: scale(1.08);
-        }
-
-        .card-info {
-            width: 100%;
-            padding: 14px;
-            background: #1a202c;
-            border-top: 1px solid #2d3748;
-            text-align: center;
-        }
-
-        .filename {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #63b3ed;
-            background: #0f172a;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid #1e293b;
-            display: inline-block;
-            word-break: break-all;
+        /* Custom Range Slider */
+        input[type="range"] {
+            accent-color: #dfac42;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
-    <div class="header">
-        <h1>Bộ Sưu Tập Nhân Vật 3D</h1>
-        <p>Danh sách các ô hình ảnh WebP đã chuẩn hóa tên chữ</p>
+    <!-- Background Canvas for Floating Xianxia Particles -->
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-80"></canvas>
+
+    <!-- Global Background Magic Circle Graphic -->
+    <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-10 overflow-hidden">
+        <svg class="w-[800px] h-[800px] sm:w-[1200px] sm:h-[1200px] animate-spin-slow text-amber-500" viewBox="0 0 500 500" fill="none">
+            <circle cx="250" cy="250" r="230" stroke="currentColor" stroke-width="1.5" stroke-dasharray="12 6" />
+            <circle cx="250" cy="250" r="200" stroke="currentColor" stroke-width="2" />
+            <polygon points="250,50 423,350 76,350" stroke="currentColor" stroke-width="1" fill="none" />
+            <polygon points="250,450 76,150 423,150" stroke="currentColor" stroke-width="1" fill="none" />
+            <circle cx="250" cy="250" r="140" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="250" cy="250" r="80" stroke="currentColor" stroke-dasharray="4 4" stroke-width="2" />
+        </svg>
     </div>
 
-    <div class="gallery-grid">
-        <!-- Ô 1 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Thien_Su_Hoang_Kim.webp" alt="Thien_Su_Hoang_Kim.webp" loading="lazy">
+    <!-- MAIN APP WRAPPER -->
+    <div class="relative z-10 flex-1 flex flex-col">
+
+        <!-- HEADER / NAVIGATION -->
+        <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/80 backdrop-blur-md px-4 py-3 sm:px-8">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full border-2 border-amber-500/70 flex items-center justify-center bg-amber-500/10 shadow-[0_0_15px_rgba(223,172,66,0.3)] animate-pulse">
+                        <i class="fa-solid font-bold text-amber-400 text-lg">☯</i>
+                    </div>
+                    <div>
+                        <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
+                            LINH GIỚI BẢO LỤC
+                        </h1>
+                        <p class="text-xs text-amber-200/60 font-medium">Bộ Sưu Tập WebP Động Tiên Hiệp & Huyền Huyễn</p>
+                    </div>
+                </div>
+
+                <!-- Action Controls: Audio Ambient, Upload, Favorites Toggle -->
+                <div class="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
+                    <!-- Search Bar -->
+                    <div class="relative flex-1 sm:w-64 md:w-48 lg:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-amber-500/60"></i>
+                        <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+                    </div>
+
+                    <!-- Audio Ambient Sound Toggle -->
+                    <button id="btn-audio-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition" title="Bật/Tắt Nhạc Nền Tiên Cảnh">
+                        <i class="fa-solid fa-music text-amber-400" id="audio-icon"></i>
+                        <span class="hidden sm:inline">Linh Âm</span>
+                    </button>
+
+                    <!-- Favorites Filter Toggle -->
+                    <button id="btn-favorites-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition" title="Xem Nhân Vật Yêu Thích">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span class="hidden sm:inline" id="fav-btn-label">Yêu Thích</span>
+                    </button>
+
+                    <!-- Add Custom WebP Button -->
+                    <button id="btn-open-upload" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(223,172,66,0.4)] transition transform active:scale-95">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Thêm WebP</span>
+                    </button>
+                </div>
             </div>
-            <div class="card-info">
-                <span class="filename">Thien_Su_Hoang_Kim.webp</span>
+        </header>
+
+        <!-- ELEMENT FILTER TABS (Kim, Mộc, Thủy, Hỏa, Thổ, Thần, Ma) -->
+        <section class="max-w-7xl mx-auto w-full px-4 pt-6 pb-2">
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="filter-container">
+                <!-- Filter buttons rendered dynamically via JavaScript -->
+            </div>
+        </section>
+
+        <!-- GALLERY GRID DISPLAY SECTION -->
+        <main class="max-w-7xl mx-auto w-full px-4 py-4 flex-1">
+            <div class="flex justify-between items-center mb-4 px-1">
+                <div class="text-xs text-amber-300/70">
+                    Hiển thị <span id="character-count" class="text-amber-400 font-bold">0</span> linh tướng
+                </div>
+                <div class="text-xs text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-amber-500/70"></i>
+                    <span>Nhấn vào thẻ để mở Trấn Điện Soi Tướng</span>
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+                <!-- Dynamic Character Cards Inject Here -->
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+                <i class="fa-solid fa-ghost text-5xl text-amber-500/20 mb-4 animate-bounce"></i>
+                <h3 class="font-title text-lg text-amber-300/80 mb-1">Không Tìm Thấy Linh Tướng</h3>
+                <p class="text-xs text-slate-500 max-w-sm">Không có dữ liệu phù hợp với hệ hoặc từ khóa tìm kiếm của bạn. Hãy thử chọn hệ khác hoặc thêm WebP mới.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-amber-500/20 bg-black/90 py-4 px-4 text-center text-xs text-amber-200/50">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>☯ Linh Giới Bảo Lục &copy; 2026 - Huyền Huyễn Động Thái WebP Showcase</div>
+            <div class="flex gap-4">
+                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Hỗ trợ định dạng: .webp, .gif, .png')"><i class="fa-solid fa-file-image"></i> WebP V2</span>
+                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Được tối ưu cho di động & màn hình H5')"><i class="fa-solid fa-mobile-screen"></i> Mobile H5</span>
             </div>
         </div>
+    </footer>
 
-        <!-- Ô 2 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Hoa_Than_Boc_Pha.webp" alt="Hoa_Than_Boc_Pha.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Hoa_Than_Boc_Pha.webp</span>
-            </div>
-        </div>
+    <!-- CHARACTER INSPECT / SHOWCASE MODAL -->
+    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="relative w-full max-w-5xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(223,172,66,0.25)] flex flex-col lg:flex-row my-auto max-h-[92vh]">
+            
+            <!-- Close Button -->
+            <button id="btn-close-modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
 
-        <!-- Ô 3 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Hoang_Kim_Dai_De.webp" alt="Hoang_Kim_Dai_De.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Hoang_Kim_Dai_De.webp</span>
-            </div>
-        </div>
+            <!-- LEFT SIDE: Dynamic Interactive Preview Stage -->
+            <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[350px] lg:min-h-[500px]">
+                
+                <!-- Magic Circle Behind Character in Modal -->
+                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-40 transition-all duration-300">
+                    <svg class="w-full h-full animate-spin-slow" viewBox="0 0 400 400" fill="none">
+                        <circle cx="200" cy="200" r="190" stroke="url(#modal-grad)" stroke-width="2" stroke-dasharray="10 5" />
+                        <circle cx="200" cy="200" r="160" stroke="url(#modal-grad)" stroke-width="1.5" />
+                        <polygon points="200,40 338,280 62,280" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
+                        <polygon points="200,360 62,120 338,120" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
+                        <circle cx="200" cy="200" r="100" stroke="url(#modal-grad)" stroke-width="1.5" stroke-dasharray="8 4" />
+                        <defs>
+                            <linearGradient id="modal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#dfac42" />
+                                <stop offset="50%" stop-color="#3a86ff" />
+                                <stop offset="100%" stop-color="#e63946" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
 
-        <!-- Ô 4 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Thien_Vuong_Hoang_Kim.webp" alt="Thien_Vuong_Hoang_Kim.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Thien_Vuong_Hoang_Kim.webp</span>
-            </div>
-        </div>
+                <!-- WebP Avatar Image Render Box -->
+                <div class="relative z-10 w-full h-full flex items-center justify-center">
+                    <img id="modal-image" src="" alt="Linh Tướng WebP" class="max-h-[300px] sm:max-h-[400px] w-auto object-contain transition-transform duration-200 animate-float" style="filter: drop-shadow(0 0 20px rgba(223, 172, 66, 0.6));">
+                </div>
 
-        <!-- Ô 5 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Tien_Hiep_Truong_Thuong.webp" alt="Tien_Hiep_Truong_Thuong.webp" loading="lazy">
+                <!-- Bottom Stage Control Overlay -->
+                <div class="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-300 font-bold" id="modal-element-badge">Hệ Kim</span>
+                        <span class="text-slate-500">|</span>
+                        <span class="text-yellow-400" id="modal-grade-badge">Thần Cấp</span>
+                    </div>
+                    <!-- Fullscreen Launch Button -->
+                    <button id="btn-modal-fullscreen" class="text-amber-300 hover:text-white flex items-center gap-1 font-medium bg-amber-500/20 px-2.5 py-1 rounded-lg border border-amber-500/30 transition">
+                        <i class="fa-solid fa-expand"></i> Toàn Màn Hình
+                    </button>
+                </div>
             </div>
-            <div class="card-info">
-                <span class="filename">Tien_Hiep_Truong_Thuong.webp</span>
-            </div>
-        </div>
 
-        <!-- Ô 6 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Bang_Tuyet_Nu_Vuong.webp" alt="Bang_Tuyet_Nu_Vuong.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Bang_Tuyet_Nu_Vuong.webp</span>
-            </div>
-        </div>
+            <!-- RIGHT SIDE: Stats, Lore & Live Effects Tuning -->
+            <div class="lg:w-1/2 p-6 flex flex-col justify-between overflow-y-auto bg-slate-950 border-t lg:border-t-0 lg:border-l border-amber-500/20">
+                
+                <div>
+                    <!-- Title & Class Header -->
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                        <div>
+                            <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
+                            <h2 id="modal-title" class="font-title font-bold text-2xl text-amber-300 text-glow-gold">Hoàng Kim Vũ Thần</h2>
+                            <p id="modal-subtitle" class="text-xs text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Bát Nhã Thần Tướng</p>
+                        </div>
+                        <button id="modal-fav-btn" class="w-9 h-9 rounded-full border border-amber-500/30 bg-slate-900 hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition">
+                            <i class="fa-regular fa-star text-lg"></i>
+                        </button>
+                    </div>
 
-        <!-- Ô 7 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Hoa_Long_Tung_Hoanh.webp" alt="Hoa_Long_Tung_Hoanh.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Hoa_Long_Tung_Hoanh.webp</span>
-            </div>
-        </div>
+                    <!-- Power Level Bar -->
+                    <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-slate-400"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Linh Lực / Thần Lực:</span>
+                            <span id="modal-power-val" class="font-bold text-amber-400">98,500,000</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-amber-500/30">
+                            <div id="modal-power-bar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
+                        </div>
+                    </div>
 
-        <!-- Ô 8 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Hoa_Phuong_Nu_Hoang.webp" alt="Hoa_Phuong_Nu_Hoang.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Hoa_Phuong_Nu_Hoang.webp</span>
-            </div>
-        </div>
+                    <!-- Skill & Lore Accordion/Tabs -->
+                    <div class="space-y-3 mb-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Kỹ Năng Bá Chủ:
+                            </h4>
+                            <p id="modal-skill" class="text-xs text-slate-300 bg-slate-900/50 p-2.5 rounded-lg border border-slate-800 leading-relaxed">
+                                Vạn Kiếm Quy Tông, triệu hồi linh ảnh Thượng Cổ Thần Binh thiêu rụi vạn vật.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-scroll text-amber-400"></i> Truyền Thuyết Bá Lục:
+                            </h4>
+                            <p id="modal-lore" class="text-xs text-slate-400 bg-slate-900/30 p-2.5 rounded-lg border border-slate-900 leading-relaxed max-h-24 overflow-y-auto">
+                                Tương truyền sinh ra từ Luân Hồi Thái Cổ, ngưng tụ 9,999 năm hỏa tinh Thái Dương để thành tựu Thượng Cổ Thần Thể.
+                            </p>
+                        </div>
+                    </div>
 
-        <!-- Ô 9 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Tu_Loi_Song_Kiem.webp" alt="Tu_Loi_Song_Kiem.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Tu_Loi_Song_Kiem.webp</span>
-            </div>
-        </div>
+                    <!-- LIVE VISUAL FX TUNING CONTROLS -->
+                    <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
+                            <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-sliders"></i> Chỉnh Hiệu Ứng Hào Quang
+                            </span>
+                            <button id="btn-reset-fx" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">
+                                Khôi Phục
+                            </button>
+                        </div>
 
-        <!-- Ô 10 -->
-        <div class="card">
-            <div class="img-container">
-                <img src="./Hoang_Long_De_Quan.webp" alt="Hoang_Long_De_Quan.webp" loading="lazy">
-            </div>
-            <div class="card-info">
-                <span class="filename">Hoang_Long_De_Quan.webp</span>
+                        <!-- Grid Sliders -->
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <!-- Scale / Zoom Slider -->
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tỉ Lệ Zoom:</span>
+                                    <span id="val-scale" class="text-amber-400">1.0x</span>
+                                </div>
+                                <input id="slider-scale" type="range" min="0.5" max="1.8" step="0.05" value="1" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- Glow Aura Brightness -->
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Độ Sáng Hào Quang:</span>
+                                    <span id="val-glow" class="text-amber-400">20px</span>
+                                </div>
+                                <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- Magic Circle Rotation Speed -->
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tốc Độ Pháp Trận:</span>
+                                    <span id="val-spin" class="text-amber-400">25s</span>
+                                </div>
+                                <input id="slider-spin" type="range" min="2" max="50" step="2" value="25" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+
+                            <!-- Color Hue Shift -->
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Đổi Màu Aura (Hue):</span>
+                                    <span id="val-hue" class="text-amber-400">0°</span>
+                                </div>
+                                <input id="slider-hue" type="range" min="0" max="360" step="10" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Bottom Actions -->
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end gap-2">
+                    <button id="btn-copy-link" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-share-nodes"></i> Sao Chép Tên
+                    </button>
+                    <button id="btn-play-sound-fx" class="px-4 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-bell"></i> Phát Thần Âm
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- UPLOAD CUSTOM WEBP MODAL -->
+    <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="relative w-full max-w-lg bg-slate-950 border border-amber-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(223,172,66,0.3)]">
+            
+            <button id="btn-close-upload" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <h3 class="font-title font-bold text-xl text-amber-300 mb-1 text-glow-gold flex items-center gap-2">
+                <i class="fa-solid fa-file-arrow-up"></i> Nạp WebP / GIF Linh Tướng Mới
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">Tải lên hình ảnh WebP động hoặc GIF của bạn để thêm vào Linh Giới Bảo Lục.</p>
+
+            <form id="upload-form" class="space-y-4">
+                <!-- Drag and Drop Dropzone -->
+                <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-6 text-center bg-slate-900/50 hover:bg-amber-500/5 cursor-pointer transition">
+                    <input type="file" id="file-input" accept="image/webp, image/gif, image/png" class="hidden">
+                    <div id="upload-preview-container" class="hidden mb-3">
+                        <img id="upload-preview-img" src="" class="max-h-36 mx-auto object-contain rounded-lg border border-amber-500/30">
+                    </div>
+                    <i id="upload-icon" class="fa-solid fa-cloud-arrow-up text-3xl text-amber-400 mb-2"></i>
+                    <p class="text-xs text-amber-200 font-medium">Kéo thả file `.webp` hoặc `.gif` vào đây</p>
+                    <p class="text-[10px] text-slate-500 mt-1">Hoặc bấm để chọn tệp từ thiết bị của bạn</p>
+                </div>
+
+                <!-- Character Info Inputs -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Tên Linh Tướng *</label>
+                        <input type="text" id="input-name" required placeholder="Ví dụ: Ma Thần Vực Thẫm" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Thuộc Tính (Hệ) *</label>
+                        <select id="input-element" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                            <option value="Kim">Kim (Metal)</option>
+                            <option value="Mộc">Mộc (Wood)</option>
+                            <option value="Thủy">Thủy (Water)</option>
+                            <option value="Hỏa">Hỏa (Fire)</option>
+                            <option value="Thổ">Thổ (Earth)</option>
+                            <option value="Thần">Thần (Divine)</option>
+                            <option value="Ma">Ma (Demon)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Phẩm Cấp</label>
+                        <input type="text" id="input-grade" value="Thượng Cổ Thần Cấp" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Thần Lực / Linh Lực</label>
+                        <input type="number" id="input-power" value="99000000" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-amber-300 mb-1">Kỹ Năng Bá Chủ</label>
+                    <input type="text" id="input-skill" placeholder="Mô tả kỹ năng đặc trưng..." class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" id="btn-cancel-upload" class="px-4 py-2 rounded-lg border border-slate-700 bg-slate-900 text-xs text-slate-300 hover:bg-slate-800">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-xs shadow-lg">
+                        Lưu Linh Tướng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CINEMATIC / FULLSCREEN SHOWCASE OVERLAY -->
+    <div id="cinematic-modal" class="fixed inset-0 z-50 hidden bg-black flex flex-col items-center justify-center overflow-hidden">
+        
+        <!-- Background Magic Circle -->
+        <div class="absolute w-[600px] h-[600px] sm:w-[900px] sm:h-[900px] pointer-events-none opacity-30 animate-spin-slow">
+            <svg class="w-full h-full text-amber-500" viewBox="0 0 500 500" fill="none">
+                <circle cx="250" cy="250" r="240" stroke="currentColor" stroke-width="2" stroke-dasharray="8 6" />
+                <circle cx="250" cy="250" r="180" stroke="currentColor" stroke-width="1.5" />
+                <polygon points="250,30 440,360 60,360" stroke="currentColor" stroke-width="1" />
+                <polygon points="250,470 60,140 440,140" stroke="currentColor" stroke-width="1" />
+            </svg>
+        </div>
+
+        <!-- Exit Fullscreen Button -->
+        <button id="btn-exit-cinematic" class="absolute top-5 right-5 z-30 px-4 py-2 rounded-full border border-amber-500/40 bg-black/60 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-2 backdrop-blur-md transition">
+            <i class="fa-solid fa-compress"></i> Thoát Điện Điện
+        </button>
+
+        <!-- Dynamic Character Display -->
+        <div class="relative z-10 flex flex-col items-center justify-center p-4">
+            <img id="cinematic-image" src="" class="max-h-[70vh] sm:max-h-[80vh] w-auto object-contain animate-float" style="filter: drop-shadow(0 0 35px rgba(223, 172, 66, 0.8));">
+            <h2 id="cinematic-title" class="font-title font-black text-3xl sm:text-5xl text-amber-300 text-glow-gold mt-6 tracking-widest text-center">
+                HOÀNG KIM VŨ THẦN
+            </h2>
+            <p id="cinematic-subtitle" class="text-xs sm:text-sm text-amber-200/70 tracking-widest uppercase mt-2">
+                Thần Cấp Linh Tướng • Linh Giới Trấn Điện
+            </p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        /* ==========================================================================
+           1. INITIAL DATASET & STATE
+           ========================================================================== */
+
+        // Helper to generate dynamic Xianxia SVG webp placeholder assets if dynamic URL is not locally provided
+        function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
+            const svg = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480">
+                <defs>
+                    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/>
+                        <stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/>
+                    </radialGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <rect width="100%" height="100%" fill="#080a10"/>
+                <circle cx="200" cy="220" r="150" fill="url(#bgGlow)" />
+                <circle cx="200" cy="220" r="130" stroke="${colorHex}" stroke-width="2" stroke-dasharray="10 5" fill="none" opacity="0.6"/>
+                <g transform="translate(200, 220)" filter="url(#glow)">
+                    <text x="0" y="20" font-family="'Noto Serif TC', serif" font-size="70" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName}</text>
+                </g>
+                <text x="200" y="400" font-family="'Cinzel', serif" font-size="20" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text>
+            </svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        // Default mythical Xianxia characters matching the user prompt requests
+        const defaultCharacters = [
+            {
+                id: 1,
+                name: "Hoàng Kim Vũ Thần",
+                element: "Kim",
+                grade: "Thần Cấp",
+                power: 98500000,
+                image: "42671.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Hoàng Kim Vũ Thần", "⚔️"),
+                skill: "Kim Quang Vạn Trượng - Triệu hồi Thần Spear đâm xuyên vạn tầng không gian.",
+                lore: "Tối cao Vũ Thần trấn giữ Kim Quang Cung, mang đôi cánh thánh quang rực rỡ và thương ma lửa thiêng.",
+                isFavorite: false
+            },
+            {
+                id: 2,
+                name: "Ma Thần Giáng Thế",
+                element: "Ma",
+                grade: "Thần Cấp",
+                power: 99800000,
+                image: "38062.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Ma Thần Giáng Thế", "☸"),
+                skill: "Bát Nhã Ma Luân - Ngưng tụ Hư Ảnh Luân Hồi xé rách Thái Không.",
+                lore: "Ma Thần đọa lạc ngàn năm, triệu hồi Hư Ảnh Kim Cang hộ thể với hoa sen xanh huyền bí.",
+                isFavorite: true
+            },
+            {
+                id: 3,
+                name: "Thanh Phong Tiên Ông",
+                element: "Mộc",
+                grade: "Thái Cổ Thần Cấp",
+                power: 94200000,
+                image: "38055.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thanh Phong Tiên Ông", "🌿"),
+                skill: "Trường Sinh Trấn Phù - Triệu hồi Trúc Lâm Cổ Linh phù hộ vạn vật.",
+                lore: "Đứng đầu Mộc Linh Tộc, ngự trên Mộc Sơn Cổ Quái, sử dụng 4 cuộn thần thư trấn áp ma chướng.",
+                isFavorite: false
+            },
+            {
+                id: 4,
+                name: "Phượng Hoàng Thần Nữ",
+                element: "Hỏa",
+                grade: "Thần Cấp",
+                power: 97600000,
+                image: "38049.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#ff7b00", "Phượng Hoàng Thần Nữ", "🔥"),
+                skill: "Cửu Thiên Phượng Hỏa - Thiêu rụi Tam Giới bằng ngọn lửa Chu Tước.",
+                lore: "Nữ vương Hỏa Phượng Hoàng, mang sức mạnh tái sinh bất tử từ tro tàn cổ đại.",
+                isFavorite: true
+            },
+            {
+                id: 5,
+                name: "Đế Vương Ngai Vàng",
+                element: "Thần",
+                grade: "Thượng Cổ Đế Cấp",
+                power: 100000000,
+                image: "38042.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Đế Vương Ngai Vàng", "👑"),
+                skill: "Đế Vương Uy Áp - Giảm 90% linh lực của đối phương trong phạm vi Vạn Lý.",
+                lore: "Chúa tể Thiên Cung ngồi trên Ngai Vàng Hoàng Kim, nắm giữ sinh sát quyền hạn của vạn linh.",
+                isFavorite: false
+            },
+            {
+                id: 6,
+                name: "Hằng Nga Băng Tâm",
+                element: "Thủy",
+                grade: "Thánh Cấp",
+                power: 89000000,
+                image: "38034.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Hằng Nga Băng Tâm", "🌙"),
+                skill: "Thái Âm Băng Phách - Đóng băng không gian và linh hồn kẻ thù.",
+                lore: "Tiên nữ Quảng Hàn Cung, mang bóng hình tình duyên dưới ánh trăng rằm huyền ảo.",
+                isFavorite: false
+            },
+            {
+                id: 7,
+                name: "Thái Cổ Thần Khí",
+                element: "Thổ",
+                grade: "Thần Cấp",
+                power: 92500000,
+                image: "38033.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#d4a373", "Thái Cổ Thần Khí", "🛡️"),
+                skill: "Hoàng Long Phong Ấn - Dãy núi Thái Sơn nhập thể tạo thành khiên vô đâm.",
+                lore: "Thần Ấn Hoàng Kim được đúc từ tâm Trái Đất, chứa đựng bí mật trường sinh.",
+                isFavorite: false
+            },
+            {
+                id: 8,
+                name: "Cửu Thiên Huyền Nữ",
+                element: "Thủy",
+                grade: "Thần Cấp",
+                power: 96000000,
+                image: "38022.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#00b4d8", "Cửu Thiên Huyền Nữ", "🪷"),
+                skill: "Liên Hoa Diệu Âm - Thanh tẩy ma khí, tăng 200% phòng thủ cho đồng đội.",
+                lore: "Thần nữ ngự trên Tòa Sen Vàng, bảo hộ chín tầng trời bằng vũ điệu thủy linh.",
+                isFavorite: true
+            },
+            {
+                id: 9,
+                name: "Bát Nhã Chiến Thần",
+                element: "Ma",
+                grade: "Thánh Cấp",
+                power: 95400000,
+                image: "38027.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#7209b7", "Bát Nhã Chiến Thần", "🪓"),
+                skill: "Cuồng Cốt Trảm - Triệu hồi Ma Long Rìu Chiến bổ đôi mặt đất.",
+                lore: "Nữ chiến thần Vực Thẫm điều khiển Hư Ảnh Ma Long mang búa khổng lồ tàn phá mọi vật cản.",
+                isFavorite: false
+            },
+            {
+                id: 10,
+                name: "Kiếm Thánh Lăng Không",
+                element: "Kim",
+                grade: "Thần Cấp",
+                power: 96800000,
+                image: "38053.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#f39c12", "Kiếm Thánh Lăng Không", "🗡️"),
+                skill: "Xích Nguyện Thần Thương - Ngự kiếm phi hành, nhất thương định giang sơn.",
+                lore: "Sát thủ bóng đêm lướt trên thương lửa, di chuyển nhanh như chớp tắt.",
+                isFavorite: false
+            }
+        ];
+
+        // State Store
+        let characters = [...defaultCharacters];
+        let currentFilter = "Toàn Bộ";
+        let searchQuery = "";
+        let showFavoritesOnly = false;
+        let selectedCharacter = null;
+        let isAudioPlaying = false;
+        let audioCtx = null;
+        let synthOscillator = null;
+
+        /* ==========================================================================
+           2. WEB AUDIO API AMBIENT SYNTHESIZER
+           ========================================================================== */
+        function toggleAudioAmbiance() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const btn = document.getElementById('btn-audio-toggle');
+            const icon = document.getElementById('audio-icon');
+
+            if (isAudioPlaying) {
+                if (synthOscillator) {
+                    synthOscillator.stop();
+                    synthOscillator = null;
+                }
+                isAudioPlaying = false;
+                btn.classList.remove('bg-amber-500', 'text-black');
+                btn.classList.add('bg-amber-500/10', 'text-amber-300');
+                icon.className = "fa-solid fa-music text-amber-400";
+                showToast("Đã tắt Linh Âm Tiên Cảnh");
+            } else {
+                audioCtx.resume();
+                // Create serene multi-oscillator chime drone
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(216, audioCtx.currentTime); // Deep peaceful A tuning
+                
+                // Low pass filter
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+
+                osc.connect(filter);
+                filter.connect(audioCtx.destination);
+                osc.start();
+
+                synthOscillator = osc;
+                isAudioPlaying = true;
+
+                btn.classList.add('bg-amber-500', 'text-black');
+                btn.classList.remove('bg-amber-500/10', 'text-amber-300');
+                icon.className = "fa-solid fa-volume-high text-black animate-pulse";
+                showToast("Đã bật Linh Âm Tiên Cảnh");
+            }
+        }
+
+        // Play Bell Chime Sound Effect
+        function playChimeSound() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            audioCtx.resume();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 1.2); // C6
+
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.5);
+            showToast("Thượng Cổ Thần Âm Vang Vọng!");
+        }
+
+        /* ==========================================================================
+           3. BACKGROUND PARTICLE CANVAS SYSTEM
+           ========================================================================== */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedY = Math.random() * 1.2 + 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.7 + 0.2;
+                this.color = Math.random() > 0.3 ? '#dfac42' : '#3a86ff';
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* ==========================================================================
+           4. RENDER GALLERY CARDS & FILTERS
+           ========================================================================== */
+
+        const elementsList = [
+            { name: "Toàn Bộ", icon: "fa-border-all", color: "border-amber-500/50" },
+            { name: "Kim", icon: "fa-coins", color: "text-amber-400" },
+            { name: "Mộc", icon: "fa-leaf", color: "text-emerald-400" },
+            { name: "Thủy", icon: "fa-droplet", color: "text-blue-400" },
+            { name: "Hỏa", icon: "fa-fire", color: "text-red-500" },
+            { name: "Thổ", icon: "fa-mountain", color: "text-yellow-600" },
+            { name: "Thần", icon: "fa-sun", color: "text-yellow-300" },
+            { name: "Ma", icon: "fa-skull", color: "text-purple-500" }
+        ];
+
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            container.innerHTML = elementsList.map(item => {
+                const isActive = currentFilter === item.name;
+                return `
+                    <button onclick="setFilter('${item.name}')" 
+                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition-all ${
+                            isActive 
+                            ? 'bg-amber-500 text-slate-950 shadow-[0_0_15px_rgba(223,172,66,0.5)] font-bold' 
+                            : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50 hover:bg-slate-800'
+                        }">
+                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color}"></i>
+                        <span>${item.name}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function getElementBadgeStyle(elem) {
+            switch(elem) {
+                case 'Kim': return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+                case 'Mộc': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                case 'Thủy': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+                case 'Hỏa': return 'bg-red-500/20 text-red-300 border-red-500/40';
+                case 'Thổ': return 'bg-amber-700/20 text-amber-200 border-amber-700/40';
+                case 'Thần': return 'bg-yellow-400/20 text-yellow-200 border-yellow-400/40';
+                case 'Ma': return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+                default: return 'bg-slate-800 text-slate-300 border-slate-700';
+            }
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('character-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countLabel = document.getElementById('character-count');
+
+            // Filter logic
+            let filtered = characters.filter(c => {
+                const matchElement = currentFilter === "Toàn Bộ" || c.element === currentFilter;
+                const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    c.skill.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    c.grade.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchFav = !showFavoritesOnly || c.isFavorite;
+                return matchElement && matchSearch && matchFav;
+            });
+
+            countLabel.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+            }
+
+            grid.innerHTML = filtered.map(char => {
+                const badgeStyle = getElementBadgeStyle(char.element);
+                return `
+                    <div onclick="openInspectModal(${char.id})" class="xianxia-card rounded-2xl p-4 relative group cursor-pointer overflow-hidden flex flex-col justify-between">
+                        
+                        <!-- Top Header Bar inside Card -->
+                        <div class="flex justify-between items-center mb-2 z-10">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold">
+                                Hệ ${char.element}
+                            </span>
+                            <button onclick="event.stopPropagation(); toggleFavorite(${char.id})" class="text-slate-500 hover:text-amber-400 transition p-1">
+                                <i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- WebP Preview Stage -->
+                        <div class="relative my-2 h-52 w-full flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-slate-900/60 to-black/80 border border-slate-800 group-hover:border-amber-500/30 transition">
+                            <!-- Background Aura Glow -->
+                            <div class="absolute w-28 h-28 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition"></div>
+                            
+                            <!-- Rotating Magic Circle Background -->
+                            <div class="absolute w-40 h-40 opacity-20 group-hover:opacity-40 transition animate-spin-slow">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none">
+                                    <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2"/>
+                                    <polygon points="50,10 85,75 15,75" stroke="currentColor" stroke-width="0.8"/>
+                                </svg>
+                            </div>
+
+                            <!-- Animated WebP Image -->
+                            <img src="${char.image}" 
+                                 onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
+                                 alt="${char.name}" 
+                                 class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
+                        </div>
+
+                        <!-- Character Metadata -->
+                        <div class="z-10 mt-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
+                            </div>
+                            <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
+                            
+                            <!-- Power Level Progress Bar -->
+                            <div class="mt-2.5">
+                                <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                                    <span>Linh Lực:</span>
+                                    <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
+                                </div>
+                                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action Overlay -->
+                        <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
+                            <span>Chi tiết linh tướng</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* ==========================================================================
+           5. EVENT HANDLERS & MODAL CONTROLS
+           ========================================================================== */
+
+        function setFilter(elementName) {
+            currentFilter = elementName;
+            renderFilters();
+            renderGallery();
+        }
+
+        function toggleFavorite(id) {
+            const char = characters.find(c => c.id === id);
+            if (char) {
+                char.isFavorite = !char.isFavorite;
+                renderGallery();
+                showToast(char.isFavorite ? `Đã thêm ${char.name} vào Yêu Thích` : `Đã xóa ${char.name} khỏi Yêu Thích`);
+            }
+        }
+
+        // Open Detail Showcase Modal
+        function openInspectModal(id) {
+            const char = characters.find(c => c.id === id);
+            if (!char) return;
+
+            selectedCharacter = char;
+
+            document.getElementById('modal-id').textContent = `ID: #${String(char.id).padStart(4, '0')}`;
+            document.getElementById('modal-title').textContent = char.name;
+            document.getElementById('modal-subtitle').textContent = `${char.grade} • Linh Giới Trấn Điện`;
+            
+            const imgEl = document.getElementById('modal-image');
+            imgEl.src = char.image;
+            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
+
+            document.getElementById('modal-element-badge').textContent = `Hệ ${char.element}`;
+            document.getElementById('modal-grade-badge').textContent = char.grade;
+            document.getElementById('modal-power-val').textContent = char.power.toLocaleString();
+            document.getElementById('modal-skill').textContent = char.skill;
+            document.getElementById('modal-lore').textContent = char.lore;
+
+            // Fav button
+            const favBtn = document.getElementById('modal-fav-btn');
+            favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
+            favBtn.onclick = () => {
+                toggleFavorite(char.id);
+                favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
+            };
+
+            // Reset Sliders
+            resetFxControls();
+
+            document.getElementById('inspect-modal').classList.remove('hidden');
+        }
+
+        function resetFxControls() {
+            document.getElementById('slider-scale').value = 1;
+            document.getElementById('slider-glow').value = 20;
+            document.getElementById('slider-spin').value = 25;
+            document.getElementById('slider-hue').value = 0;
+            updateFxStyles();
+        }
+
+        function updateFxStyles() {
+            const scale = document.getElementById('slider-scale').value;
+            const glow = document.getElementById('slider-glow').value;
+            const spin = document.getElementById('slider-spin').value;
+            const hue = document.getElementById('slider-hue').value;
+
+            document.getElementById('val-scale').textContent = `${scale}x`;
+            document.getElementById('val-glow').textContent = `${glow}px`;
+            document.getElementById('val-spin').textContent = `${spin}s`;
+            document.getElementById('val-hue').textContent = `${hue}°`;
+
+            const imgEl = document.getElementById('modal-image');
+            imgEl.style.transform = `scale(${scale})`;
+            imgEl.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8)) hue-rotate(${hue}deg)`;
+
+            const circleEl = document.getElementById('modal-magic-circle');
+            circleEl.style.setProperty('--spin-duration', `${spin}s`);
+            circleEl.style.filter = `hue-rotate(${hue}deg)`;
+        }
+
+        // Search Input Listener
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderGallery();
+        });
+
+        // Favorites Button Toggle
+        document.getElementById('btn-favorites-toggle').addEventListener('click', () => {
+            showFavoritesOnly = !showFavoritesOnly;
+            const btn = document.getElementById('btn-favorites-toggle');
+            if (showFavoritesOnly) {
+                btn.classList.add('bg-amber-500', 'text-black');
+                btn.classList.remove('bg-slate-900', 'text-amber-300');
+            } else {
+                btn.classList.remove('bg-amber-500', 'text-black');
+                btn.classList.add('bg-slate-900', 'text-amber-300');
+            }
+            renderGallery();
+        });
+
+        // Audio Toggle Click
+        document.getElementById('btn-audio-toggle').addEventListener('click', toggleAudioAmbiance);
+        document.getElementById('btn-play-sound-fx').addEventListener('click', playChimeSound);
+
+        // Modal Close Listener
+        document.getElementById('btn-close-modal').addEventListener('click', () => {
+            document.getElementById('inspect-modal').classList.add('hidden');
+        });
+
+        // Sliders Input Event Listeners
+        ['slider-scale', 'slider-glow', 'slider-spin', 'slider-hue'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateFxStyles);
+        });
+        document.getElementById('btn-reset-fx').addEventListener('click', resetFxControls);
+
+        /* ==========================================================================
+           6. CUSTOM WEBP FILE UPLOAD HANDLER
+           ========================================================================== */
+
+        const uploadModal = document.getElementById('upload-modal');
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        let uploadedImageDataUrl = null;
+
+        document.getElementById('btn-open-upload').addEventListener('click', () => {
+            uploadModal.classList.remove('hidden');
+        });
+
+        document.getElementById('btn-close-upload').addEventListener('click', () => {
+            uploadModal.classList.add('hidden');
+        });
+        document.getElementById('btn-cancel-upload').addEventListener('click', () => {
+            uploadModal.classList.add('hidden');
+        });
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-amber-400', 'bg-amber-500/10');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-amber-400', 'bg-amber-500/10');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-amber-400', 'bg-amber-500/10');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.includes('webp') && !file.type.includes('gif') && !file.type.includes('image')) {
+                showToast('Chỉ hỗ trợ file WebP, GIF hoặc hình ảnh!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageDataUrl = e.target.result;
+                const previewImg = document.getElementById('upload-preview-img');
+                previewImg.src = uploadedImageDataUrl;
+                document.getElementById('upload-preview-container').classList.remove('hidden');
+                document.getElementById('upload-icon').classList.add('hidden');
+                showToast('Tải ảnh thành công!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Submit Upload Form
+        document.getElementById('upload-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('input-name').value;
+            const element = document.getElementById('input-element').value;
+            const grade = document.getElementById('input-grade').value;
+            const power = parseInt(document.getElementById('input-power').value) || 50000000;
+            const skill = document.getElementById('input-skill').value || "Bá Chủ Thần Thông";
+
+            const newChar = {
+                id: Date.now(),
+                name: name,
+                element: element,
+                grade: grade,
+                power: power,
+                image: uploadedImageDataUrl || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                skill: skill,
+                lore: "Linh tướng mới nạp vào Linh Giới Bảo Lục bởi Tiên Hữu.",
+                isFavorite: false
+            };
+
+            characters.unshift(newChar);
+            renderGallery();
+
+            uploadModal.classList.add('hidden');
+            showToast(`Đã thêm ${name} vào bảo lục!`);
+
+            // Reset form
+            document.getElementById('upload-form').reset();
+            document.getElementById('upload-preview-container').classList.add('hidden');
+            document.getElementById('upload-icon').classList.remove('hidden');
+            uploadedImageDataUrl = null;
+        });
+
+        /* ==========================================================================
+           7. CINEMATIC FULLSCREEN & UTILITIES
+           ========================================================================== */
+
+        const cinematicModal = document.getElementById('cinematic-modal');
+
+        document.getElementById('btn-modal-fullscreen').addEventListener('click', () => {
+            if (!selectedCharacter) return;
+            
+            document.getElementById('cinematic-title').textContent = selectedCharacter.name;
+            document.getElementById('cinematic-subtitle').textContent = `${selectedCharacter.grade} • Hệ ${selectedCharacter.element}`;
+            
+            const imgEl = document.getElementById('cinematic-image');
+            imgEl.src = selectedCharacter.image;
+            imgEl.onerror = () => { imgEl.src = selectedCharacter.fallbackImage; };
+
+            cinematicModal.classList.remove('hidden');
+        });
+
+        document.getElementById('btn-exit-cinematic').addEventListener('click', () => {
+            cinematicModal.classList.add('hidden');
+        });
+
+        document.getElementById('btn-copy-link').addEventListener('click', () => {
+            if (selectedCharacter) {
+                const text = `${selectedCharacter.name} - ${selectedCharacter.grade}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(`Đã sao chép: ${text}`);
+                }).catch(() => {
+                    showToast(`Tên linh tướng: ${text}`);
+                });
+            }
+        });
+
+        // Toast Helper
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "bg-slate-900/95 border border-amber-500/50 text-amber-300 text-xs px-4 py-2.5 rounded-xl shadow-[0_0_20px_rgba(223,172,66,0.3)] backdrop-blur-md flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto";
+            toast.innerHTML = `<i class="fa-solid fa-bell text-amber-400"></i> <span>${msg}</span>`;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFilters();
+            renderGallery();
+        });
+    </script>
 </body>
 </html>
+```
