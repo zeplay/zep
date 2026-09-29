@@ -177,38 +177,16 @@
                         </div>
                     </div>
 
-                    <!-- DANH HIỆU NÚT RIÊNG VÀ KHUNG AVATAR NÚT RIÊNG -->
-                    <div class="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-end gap-4 bg-slate-900/60 p-4 rounded-xl border border-amber-500/20">
-                        <!-- Cụm Khung Avatar -->
-                        <div class="flex flex-col gap-2 border-b sm:border-b-0 sm:border-r border-amber-500/20 pb-3 sm:pb-0 sm:pr-4">
-                            <label class="text-[11px] text-amber-300 font-semibold flex items-center gap-1">
-                                <i class="fa-solid fa-circle-user text-amber-400"></i> Khung Avatar
-                            </label>
-                            <select id="select-frame" class="bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
-                                <option value="khung-vip-1.webp">Khung VIP 1 (Động)</option>
-                                <option value="moc-vip-2.webp">Khung Mộc VIP 2 (Động)</option>
-                                <option value="image_8.png">Khung Thái Cổ Kim Lân</option>
-                                <option value="image_14.png">Khung Hàn Băng Bát Quái</option>
-                            </select>
-                            <button id="btn-equip-frame" onclick="equipFrameOnly()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
-                                <i class="fa-solid fa-shield"></i> Dùng Khung
-                            </button>
-                        </div>
-
-                        <!-- Cụm Danh Hiệu -->
-                        <div class="flex flex-col gap-2">
-                            <label class="text-[11px] text-amber-300 font-semibold flex items-center gap-1">
-                                <i class="fa-solid fa-award text-amber-400"></i> Danh Hiệu
-                            </label>
-                            <select id="select-title" class="bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
-                                <option value="thien-menh-ky-tai.webp">Thiên Mệnh Kỳ Tài (Động)</option>
-                                <option value="mi-nguyet-yeu-ho.webp">Mị Nguyệt Yêu Hồ (Động)</option>
-                                <option value="thien-ha-de-nhat-tong.webp">Thiên Hạ Đệ Nhất Tông</option>
-                            </select>
-                            <button id="btn-equip-title" onclick="equipTitleOnly()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
-                                <i class="fa-solid fa-crown"></i> Dùng Danh Hiệu
-                            </button>
-                        </div>
+                    <!-- 2 NÚT MỞ MODAL SOI & CHỌN KHUNG AVATAR / DANH HIỆU -->
+                    <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-amber-500/20">
+                        <button onclick="openSelectModal('frame')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
+                            <i class="fa-solid fa-shield text-sm"></i>
+                            <span>Xem & Chọn Khung Avatar</span>
+                        </button>
+                        <button onclick="openSelectModal('title')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(157,78,221,0.3)] hover:brightness-110 transition active:scale-95">
+                            <i class="fa-solid fa-crown text-sm"></i>
+                            <span>Xem & Chọn Danh Hiệu</span>
+                        </button>
                     </div>
 
                 </div>
@@ -251,6 +229,24 @@
             </div>
         </div>
     </footer>
+
+    <!-- MODAL SOI & TRANG BỊ KHUNG AVATAR / DANH HIỆU -->
+    <div id="select-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-3 sm:p-4">
+        <div class="relative w-full max-w-3xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(223,172,66,0.25)] flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-amber-500/30 flex justify-between items-center bg-slate-900/80">
+                <h3 id="select-modal-title" class="font-title font-bold text-amber-300 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-shield"></i> <span>Chọn Trang Bị</span>
+                </h3>
+                <button onclick="closeSelectModal()" class="w-8 h-8 rounded-full bg-slate-800 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="select-modal-list" class="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto flex-1">
+                <!-- NỘI DUNG DANH SÁCH ĐƯỢC GENERATE BẰNG JS -->
+            </div>
+        </div>
+    </div>
 
     <!-- CHARACTER INSPECT MODAL -->
     <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
@@ -389,6 +385,20 @@
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
+        /* DANH SÁCH KHUNG AVATAR VÀ DANH HIỆU DÙNG CHO MODAL SOI SELECT */
+        const framesList = [
+            { id: "khung-vip-1.webp", name: "Khung VIP 1 (Động)", img: "khung-vip-1.webp" },
+            { id: "moc-vip-2.webp", name: "Khung Mộc VIP 2 (Động)", img: "moc-vip-2.webp" },
+            { id: "image_8.png", name: "Khung Thái Cổ Kim Lân", img: "image_8.png" },
+            { id: "image_14.png", name: "Khung Hàn Băng Bát Quái", img: "image_14.png" }
+        ];
+
+        const titlesList = [
+            { id: "thien-menh-ky-tai.webp", name: "Thiên Mệnh Kỳ Tài (Động)", img: "thien-menh-ky-tai.webp" },
+            { id: "mi-nguyet-yeu-ho.webp", name: "Mị Nguyệt Yêu Hồ (Động)", img: "mi-nguyet-yeu-ho.webp" },
+            { id: "thien-ha-de-nhat-tong.webp", name: "Thiên Hạ Đệ Nhất Tông", img: "thien-ha-de-nhat-tong.webp" }
+        ];
+
         /* DANH SÁCH WEBP TỰ ĐỘNG CHUYỂN TÊN CHUẨN WEBP */
         const webpFilesList = [
             { file: "ba-ba-cau.webp", element: "Thủy", grade: "Thánh Cấp" },
@@ -483,21 +493,61 @@
             { name: "Ma", icon: "fa-skull", color: "text-purple-500" }
         ];
 
-        // TRANG BỊ RIÊNG CHO KHUNG AVATAR
-        function equipFrameOnly() {
-            const selectedFrame = document.getElementById('select-frame').value;
-            document.getElementById('equipped-frame-img').src = selectedFrame;
+        // MỞ MODAL XEM & CHỌN KHUNG HOẶC DANH HIỆU (GIAO DIỆN SOI TƯỚNG DẠNG TAB)
+        function openSelectModal(type) {
+            const modal = document.getElementById('select-modal');
+            const titleEl = document.getElementById('select-modal-title');
+            const listEl = document.getElementById('select-modal-list');
+
+            if (type === 'frame') {
+                titleEl.innerHTML = `<i class="fa-solid fa-shield text-amber-400"></i> <span>Chọn Khung Avatar</span>`;
+                listEl.innerHTML = framesList.map(item => `
+                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 hover:border-amber-400 bg-slate-900/90 text-center">
+                        <div class="relative w-24 h-24 my-2 flex items-center justify-center">
+                            <img src="chuc-nu.webp" class="w-16 h-16 rounded-full object-cover">
+                            <img src="${item.img}" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110" onerror="this.src='image_8.png'">
+                        </div>
+                        <h4 class="font-bold text-xs text-amber-200 mt-2 mb-3">${item.name}</h4>
+                        <button onclick="equipFrame('${item.img}')" class="w-full py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs hover:brightness-110 transition">
+                            Trang Bị Khung
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                titleEl.innerHTML = `<i class="fa-solid fa-crown text-purple-400"></i> <span>Chọn Danh Hiệu</span>`;
+                listEl.innerHTML = titlesList.map(item => `
+                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 hover:border-amber-400 bg-slate-900/90 text-center">
+                        <div class="h-16 flex items-center justify-center my-2">
+                            <img src="${item.img}" class="h-12 object-contain drop-shadow-[0_0_8px_rgba(230,57,70,0.6)]" onerror="this.src='image_9.png'">
+                        </div>
+                        <h4 class="font-bold text-xs text-amber-200 mt-2 mb-3">${item.name}</h4>
+                        <button onclick="equipTitle('${item.img}')" class="w-full py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-amber-500 text-white font-bold text-xs hover:brightness-110 transition">
+                            Trang Bị Danh Hiệu
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeSelectModal() {
+            document.getElementById('select-modal').classList.add('hidden');
+        }
+
+        function equipFrame(imgUrl) {
+            document.getElementById('equipped-frame-img').src = imgUrl;
             showToast("Đã trang bị Khung Avatar thành công!");
+            closeSelectModal();
         }
 
-        // TRANG BỊ RIÊNG CHO DANH HIỆU
-        function equipTitleOnly() {
-            const selectedTitle = document.getElementById('select-title').value;
-            document.getElementById('equipped-title-img').src = selectedTitle;
+        function equipTitle(imgUrl) {
+            document.getElementById('equipped-title-img').src = imgUrl;
             showToast("Đã trang bị Danh Hiệu thành công!");
+            closeSelectModal();
         }
 
-        // ĐIỀU CHỈNH AURA HÀO QUANG
+        // ĐIỀU CHỈNH AURA HÀO QUANG (ĐÃ FIX LỖI 4 THANH KÉO)
         function updateAuraFilters() {
             const hue = document.getElementById('aura-hue').value;
             const sat = document.getElementById('aura-sat').value;
@@ -510,7 +560,9 @@
             document.getElementById('val-blur').textContent = `${blur}px`;
 
             const circle = document.getElementById('modal-magic-circle');
-            circle.style.filter = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bright}%) blur(${blur}px)`;
+            if (circle) {
+                circle.style.filter = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bright}%) blur(${blur}px)`;
+            }
         }
 
         function resetAuraControls() {
@@ -520,10 +572,6 @@
             document.getElementById('aura-blur').value = 0;
             updateAuraFilters();
         }
-
-        ['aura-hue', 'aura-sat', 'aura-bright', 'aura-blur'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateAuraFilters);
-        });
 
         function renderFilters() {
             const container = document.getElementById('filter-container');
@@ -745,6 +793,14 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // LẮNG NGHE SỰ KIỆN KÉO CỦA 4 THANH SLIDER AURA
+            ['aura-hue', 'aura-sat', 'aura-bright', 'aura-blur'].forEach(id => {
+                const elem = document.getElementById(id);
+                if (elem) {
+                    elem.addEventListener('input', updateAuraFilters);
+                }
+            });
+
             renderFilters();
             renderGallery();
         });
