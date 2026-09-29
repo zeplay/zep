@@ -177,29 +177,38 @@
                         </div>
                     </div>
 
-                    <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-amber-500/20">
-                        <div class="w-full sm:w-auto">
-                            <label class="block text-[11px] text-amber-300/80 mb-1 font-semibold">Chọn Khung WebP</label>
-                            <select id="select-frame" class="w-full bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
+                    <!-- DANH HIỆU NÚT RIÊNG VÀ KHUNG AVATAR NÚT RIÊNG -->
+                    <div class="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-end gap-4 bg-slate-900/60 p-4 rounded-xl border border-amber-500/20">
+                        <!-- Cụm Khung Avatar -->
+                        <div class="flex flex-col gap-2 border-b sm:border-b-0 sm:border-r border-amber-500/20 pb-3 sm:pb-0 sm:pr-4">
+                            <label class="text-[11px] text-amber-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-circle-user text-amber-400"></i> Khung Avatar
+                            </label>
+                            <select id="select-frame" class="bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
                                 <option value="khung-vip-1.webp">Khung VIP 1 (Động)</option>
                                 <option value="moc-vip-2.webp">Khung Mộc VIP 2 (Động)</option>
                                 <option value="image_8.png">Khung Thái Cổ Kim Lân</option>
                                 <option value="image_14.png">Khung Hàn Băng Bát Quái</option>
                             </select>
+                            <button id="btn-equip-frame" onclick="equipFrameOnly()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
+                                <i class="fa-solid fa-shield"></i> Dùng Khung
+                            </button>
                         </div>
 
-                        <div class="w-full sm:w-auto">
-                            <label class="block text-[11px] text-amber-300/80 mb-1 font-semibold">Chọn Danh Hiệu</label>
-                            <select id="select-title" class="w-full bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
+                        <!-- Cụm Danh Hiệu -->
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[11px] text-amber-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-award text-amber-400"></i> Danh Hiệu
+                            </label>
+                            <select id="select-title" class="bg-slate-950 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-amber-100 focus:outline-none focus:border-amber-400">
                                 <option value="thien-menh-ky-tai.webp">Thiên Mệnh Kỳ Tài (Động)</option>
                                 <option value="mi-nguyet-yeu-ho.webp">Mị Nguyệt Yêu Hồ (Động)</option>
                                 <option value="thien-ha-de-nhat-tong.webp">Thiên Hạ Đệ Nhất Tông</option>
                             </select>
+                            <button id="btn-equip-title" onclick="equipTitleOnly()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-1 shadow-[0_0_10px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
+                                <i class="fa-solid fa-crown"></i> Dùng Danh Hiệu
+                            </button>
                         </div>
-
-                        <button id="btn-equip-item" onclick="equipSelectedItem()" class="w-full sm:w-auto mt-2 sm:mt-5 px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
-                            <i class="fa-solid fa-shield-halved"></i> Trang Bị
-                        </button>
                     </div>
 
                 </div>
@@ -253,7 +262,7 @@
 
             <!-- LEFT SIDE -->
             <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[350px] lg:min-h-[500px]">
-                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-40 transition-all duration-300">
+                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-80 transition-all duration-300">
                     <svg class="w-full h-full animate-spin-slow" viewBox="0 0 400 400" fill="none">
                         <circle cx="200" cy="200" r="190" stroke="url(#modal-grad)" stroke-width="2" stroke-dasharray="10 5" />
                         <circle cx="200" cy="200" r="160" stroke="url(#modal-grad)" stroke-width="1.5" />
@@ -296,6 +305,44 @@
                         </button>
                     </div>
 
+                    <!-- 4 THANH KÉO ĐIỀU CHỈNH AURA/HÀO QUANG -->
+                    <div class="mb-4 bg-slate-900/90 p-3 rounded-xl border border-amber-500/30 space-y-2">
+                        <div class="flex items-center justify-between text-xs text-amber-300 font-bold mb-1">
+                            <span><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Tùy Chỉnh Màu Hào Quang (Aura)</span>
+                            <button onclick="resetAuraControls()" class="text-[10px] text-slate-400 hover:text-amber-400 underline">Mặc định</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px]">
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-0.5">
+                                    <span>Đổi Màu (Hue)</span>
+                                    <span id="val-hue" class="text-amber-300 font-mono">0°</span>
+                                </div>
+                                <input type="range" id="aura-hue" min="0" max="360" value="0" class="w-full h-1 bg-slate-800 rounded">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-0.5">
+                                    <span>Bão Hòa (Sat)</span>
+                                    <span id="val-sat" class="text-amber-300 font-mono">100%</span>
+                                </div>
+                                <input type="range" id="aura-sat" min="0" max="200" value="100" class="w-full h-1 bg-slate-800 rounded">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-0.5">
+                                    <span>Độ Sáng (Light)</span>
+                                    <span id="val-bright" class="text-amber-300 font-mono">100%</span>
+                                </div>
+                                <input type="range" id="aura-bright" min="50" max="200" value="100" class="w-full h-1 bg-slate-800 rounded">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-0.5">
+                                    <span>Độ Tỏa (Blur)</span>
+                                    <span id="val-blur" class="text-amber-300 font-mono">0px</span>
+                                </div>
+                                <input type="range" id="aura-blur" min="0" max="15" value="0" class="w-full h-1 bg-slate-800 rounded">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
                         <div class="flex justify-between text-xs mb-1">
                             <span class="text-slate-400"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Linh Lực:</span>
@@ -328,64 +375,78 @@
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <script>
+        // HÀM TỰ ĐỘNG ĐỔI TÊN SLUG CHUẨN THEO TÊN FILE WEBP
+        function formatWebpName(webpFilename) {
+            let name = webpFilename.replace(/\.webp$/i, '');
+            return name.split('-').map(word => {
+                if (!word) return '';
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+
         function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/><stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/></radialGradient></defs><rect width="100%" height="100%" fill="#080a10"/><circle cx="200" cy="220" r="140" fill="url(#bgGlow)" /><circle cx="200" cy="220" r="120" stroke="${colorHex}" stroke-width="2" stroke-dasharray="8 4" fill="none" opacity="0.6"/><g transform="translate(200, 220)"><text x="0" y="20" font-family="sans-serif" font-size="60" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName}</text></g><text x="200" y="390" font-family="sans-serif" font-size="18" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text></svg>`;
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
-        /* TÍCH HỢP DANH SÁCH WEBP TỪ HÌNH ẢNH CỦA BẠN */
-        const baseCharacters = [
-            { id: 1, name: "Chúc Nữ Tiên Tử", element: "Thủy", grade: "Thần Cấp", power: 98500000, image: "chuc-nu.webp", isFavorite: true },
-            { id: 2, name: "Khương Lập Thần Nữ", element: "Mộc", grade: "Thượng Cổ Thần Cấp", power: 99800000, image: "khuong-lap.webp", isFavorite: true },
-            { id: 3, name: "Bạch Trạch Cổ Thú", element: "Kim", grade: "Thái Cổ Thần Cấp", power: 94200000, image: "bach-trach-1.webp", isFavorite: false },
-            { id: 4, name: "Hằng Nga Tru Tiên", element: "Thần", grade: "Thần Cấp", power: 97600000, image: "hang-nga-trung-thu-2025.webp", isFavorite: false },
-            { id: 5, name: "Kiếm Tiên Lý Bạch", element: "Kim", grade: "Thánh Cấp", power: 96800000, image: "kiem-tien-ly-bach-1.webp", isFavorite: false },
-            { id: 6, name: "Hào Thiên Thần Tướng", element: "Hỏa", grade: "Thượng Cổ Đế Cấp", power: 100000000, image: "hao-thien-than-tuong.webp", isFavorite: true },
-            { id: 7, name: "Đông Hoàng Thái Nhất", element: "Thần", grade: "Thái Cổ Thần Cấp", power: 99000000, image: "dong-hoang-thai-nhat-limited.webp", isFavorite: true },
-            { id: 8, name: "Tề Thiên Đại Thánh", element: "Kim", grade: "Thần Cấp", power: 98900000, image: "ngo-khong-dau-chien-thang-phat.webp", isFavorite: true },
-            { id: 9, name: "Ngưu Ma Vương", element: "Thổ", grade: "Thánh Cấp", power: 93500000, image: "nguu-ma-vuong.webp", isFavorite: false },
-            { id: 10, name: "Nữ Đế Võ Tắc Thiên", element: "Thần", grade: "Đế Cấp", power: 97800000, image: "nu-de-vo-tac-thien.webp", isFavorite: false },
-            { id: 11, name: "Như Lai Phật Tổ", element: "Thần", grade: "Thái Cổ Thần Cấp", power: 99900000, image: "nhu-lai.webp", isFavorite: true },
-            { id: 12, name: "Thông Thiên Giáo Chủ", element: "Ma", grade: "Thượng Cổ Thần Cấp", power: 99500000, image: "thong-thien-giao-chu-limited.webp", isFavorite: true },
-            { id: 13, name: "Lạc Thần", element: "Thủy", grade: "Thần Cấp", power: 96000000, image: "lac-than.webp", isFavorite: false },
-            { id: 14, name: "Vương Lâm", element: "Ma", grade: "Thượng Cổ Thần Cấp", power: 99200000, image: "vuong-lam.webp", isFavorite: true },
-            { id: 15, name: "Thái Tử Na Tra", element: "Hỏa", grade: "Thần Cấp", power: 95500000, image: "thai-tu-na-tra-limited.webp", isFavorite: false },
-            { id: 16, name: "Thanh Xà Tiểu Thanh", element: "Thủy", grade: "Thánh Cấp", power: 92000000, image: "thanh-xa-tieu-thanh.webp", isFavorite: false },
-            { id: 17, name: "Hồng Hài Nhi", element: "Hỏa", grade: "Thánh Cấp", power: 91000000, image: "hong-hai-nhi.webp", isFavorite: false },
-            { id: 18, name: "Thủy Long Thánh Mẫu", element: "Thủy", grade: "Thượng Cổ Thần Cấp", power: 97000000, image: "thuy-long-thanh-mau.webp", isFavorite: false },
-            { id: 19, name: "Thái Cổ Thanh Long", element: "Mộc", grade: "Thái Cổ Thần Cấp", power: 98700000, image: "thai-co-thanh-long.webp", isFavorite: true },
-            { id: 20, name: "Thiên Thủ Như Lai", element: "Thần", grade: "Thái Cổ Thần Cấp", power: 99600000, image: "thien-thu-nhu-lai.webp", isFavorite: false },
-            { id: 21, name: "Kim Diệm Kỳ Lân", element: "Hỏa", grade: "Thánh Cấp", power: 94800000, image: "kim-diem-ky-lan.webp", isFavorite: false },
-            { id: 22, name: "Tích Diệt Ma Viêm", element: "Ma", grade: "Thượng Cổ Thần Cấp", power: 96500000, image: "tich-diet-ma-viem-duc.webp", isFavorite: false },
-            { id: 23, name: "Diêm Vương", element: "Ma", grade: "Thần Cấp", power: 95000000, image: "diem-vuong.webp", isFavorite: false },
-            { id: 24, name: "Đường Tăng", element: "Thần", grade: "Thánh Cấp", power: 93000000, image: "duong-tank.webp", isFavorite: false },
-            { id: 25, name: "Tiểu Bạch Long", element: "Thủy", grade: "Thánh Cấp", power: 91500000, image: "tieu-bach-long.webp", isFavorite: false },
-            { id: 26, name: "Tử Điện Ma Cầu", element: "Ma", grade: "Thánh Cấp", power: 90500000, image: "tu-dien-ma-cau.webp", isFavorite: false },
-            { id: 27, name: "Xích Thố Ma", element: "Hỏa", grade: "Thánh Cấp", power: 89000000, image: "xich-tho-ma.webp", isFavorite: false }
+        /* DANH SÁCH WEBP TỰ ĐỘNG CHUYỂN TÊN CHUẨN WEBP */
+        const webpFilesList = [
+            { file: "ba-ba-cau.webp", element: "Thủy", grade: "Thánh Cấp" },
+            { file: "bach-trach-1.webp", element: "Kim", grade: "Thái Cổ Thần Cấp" },
+            { file: "bach-vo-thuong-limited.webp", element: "Ma", grade: "Thượng Cổ Thần Cấp" },
+            { file: "bang-hoa-luong-nghi-lien.webp", element: "Thủy", grade: "Thần Cấp" },
+            { file: "bang-phach-co-long.webp", element: "Thủy", grade: "Thái Cổ Thần Cấp" },
+            { file: "bang-phach-than-quang-kiem.webp", element: "Kim", grade: "Thượng Cổ Thần Cấp" },
+            { file: "bat-tu-dieu.webp", element: "Hỏa", grade: "Thái Cổ Thần Cấp" },
+            { file: "bich-hai-cuu-dau-xa.webp", element: "Thủy", grade: "Thánh Cấp" },
+            { file: "bich-hai-loi-ton.webp", element: "Thần", grade: "Thượng Cổ Thần Cấp" },
+            { file: "bich-hai-thanh-nu.webp", element: "Thủy", grade: "Thần Cấp" },
+            { file: "bich-thuong-quan.webp", element: "Mộc", grade: "Thánh Cấp" },
+            { file: "can-co-vung-chac-cap-6.webp", element: "Thổ", grade: "Thánh Cấp" },
+            { file: "can-co-vung-chac-cap-9.webp", element: "Thổ", grade: "Thần Cấp" },
+            { file: "can-co-vung-chac-level-3.webp", element: "Thổ", grade: "Thánh Cấp" },
+            { file: "can-khon-kim-chu.webp", element: "Kim", grade: "Thần Cấp" },
+            { file: "chi-ton-kiem-than.webp", element: "Kim", grade: "Thái Cổ Thần Cấp" },
+            { file: "chu-tuoc-tu-kich-fan-cung-lan-1.webp", element: "Hỏa", grade: "Thần Cấp" },
+            { file: "chuc-nu.webp", element: "Thủy", grade: "Thần Cấp" },
+            { file: "co-chut-danh-tieng.webp", element: "Thần", grade: "Đế Cấp" },
+            { file: "cuc-lac-bang-tam.webp", element: "Thủy", grade: "Thánh Cấp" },
+            { file: "cuu-long-loi-cuong-hoa-limited.webp", element: "Thần", grade: "Thái Cổ Thần Cấp" },
+            { file: "cuu-u-sat-than.webp", element: "Ma", grade: "Thượng Cổ Thần Cấp" },
+            { file: "cuu-u-tuyet-hau.webp", element: "Ma", grade: "Thánh Cấp" },
+            { file: "dap-thien-van-dao-30268.webp", element: "Kim", grade: "Thái Cổ Thần Cấp" },
+            { file: "dau-chien-thang-phat.webp", element: "Kim", grade: "Thần Cấp" },
+            { file: "diem-phuong-linh.webp", element: "Hỏa", grade: "Thần Cấp" }
         ];
 
-        /* TỰ ĐỘNG KHỞI TẠO ĐỦ 1000 Ô LINH TƯỚNG */
+        /* KHỞI TẠO ĐỦ 1000 LINH TƯỚNG VỚI TÊN ĐƯỢC CHUYỂN TỪ WEBP */
         function generate1000Characters() {
-            const list = baseCharacters.map(char => ({
-                ...char,
-                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", char.name, "✨"),
-                skill: `Tuyệt kỹ trấn phái của ${char.name} - Uy lực chấn động cửu châu.`,
-                lore: `Huyền thoại về ${char.name} được ghi chép trong Linh Giới Bảo Lục.`
-            }));
+            const list = webpFilesList.map((item, index) => {
+                const formattedName = formatWebpName(item.file);
+                return {
+                    id: index + 1,
+                    name: formattedName,
+                    element: item.element,
+                    grade: item.grade,
+                    power: 90000000 + (index * 450000),
+                    image: item.file,
+                    fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", formattedName, "✨"),
+                    skill: `Tuyệt kỹ trấn phái của ${formattedName} - Uy lực chấn động cửu châu.`,
+                    lore: `Huyền thoại về ${formattedName} được ghi chép trong Linh Giới Bảo Lục.`,
+                    isFavorite: index % 3 === 0
+                };
+            });
 
             const elements = ["Kim", "Mộc", "Thủy", "Hỏa", "Thổ", "Thần", "Ma"];
             const grades = ["Thần Cấp", "Thượng Cổ Thần Cấp", "Thái Cổ Thần Cấp", "Thánh Cấp", "Đế Cấp"];
-            const prefixes = ["Huyền", "Chân", "Thái", "U", "Cửu", "Bát", "Thiên", "Địa", "Tử", "Hoàng"];
-            const suffixes = ["Thần", "Tướng", "Tiên", "Vương", "Đế", "Tôn", "Thú", "Linh"];
             const colors = ["#dfac42", "#2a9d8f", "#3a86ff", "#e63946", "#9d4edd", "#ffd700"];
             const icons = ["✨", "⚔️", "🔥", "❄️", "⚡", "🌙", "🛡️", "🐉"];
 
             for (let i = list.length + 1; i <= 1000; i++) {
                 const elem = elements[(i - 1) % elements.length];
                 const grade = grades[(i - 1) % grades.length];
-                const prefix = prefixes[(i - 1) % prefixes.length];
-                const suffix = suffixes[(i - 1) % suffixes.length];
-                const name = `${prefix} ${elem} ${suffix} #${i}`;
+                const webpFileName = `linh-tuong-huyen-thoai-${i}.webp`;
+                const name = formatWebpName(webpFileName);
                 const color = colors[(i - 1) % colors.length];
                 const icon = icons[(i - 1) % icons.length];
                 const power = 50000000 + ((i * 123456) % 50000000);
@@ -396,7 +457,7 @@
                     element: elem,
                     grade: grade,
                     power: power,
-                    image: `non-existent-${i}.webp`,
+                    image: webpFileName,
                     fallbackImage: createXianxiaSvgPlaceholder(color, name, icon),
                     skill: `Linh Giới Quyết thứ ${i} - Uy lực chấn động cửu châu.`,
                     lore: `Linh tướng thứ ${i} trong Linh Giới Bảo Lục.`,
@@ -422,15 +483,47 @@
             { name: "Ma", icon: "fa-skull", color: "text-purple-500" }
         ];
 
-        function equipSelectedItem() {
+        // TRANG BỊ RIÊNG CHO KHUNG AVATAR
+        function equipFrameOnly() {
             const selectedFrame = document.getElementById('select-frame').value;
-            const selectedTitle = document.getElementById('select-title').value;
-
             document.getElementById('equipped-frame-img').src = selectedFrame;
-            document.getElementById('equipped-title-img').src = selectedTitle;
-
-            showToast("Đã trang bị thành công Khung & Danh hiệu!");
+            showToast("Đã trang bị Khung Avatar thành công!");
         }
+
+        // TRANG BỊ RIÊNG CHO DANH HIỆU
+        function equipTitleOnly() {
+            const selectedTitle = document.getElementById('select-title').value;
+            document.getElementById('equipped-title-img').src = selectedTitle;
+            showToast("Đã trang bị Danh Hiệu thành công!");
+        }
+
+        // ĐIỀU CHỈNH AURA HÀO QUANG
+        function updateAuraFilters() {
+            const hue = document.getElementById('aura-hue').value;
+            const sat = document.getElementById('aura-sat').value;
+            const bright = document.getElementById('aura-bright').value;
+            const blur = document.getElementById('aura-blur').value;
+
+            document.getElementById('val-hue').textContent = `${hue}°`;
+            document.getElementById('val-sat').textContent = `${sat}%`;
+            document.getElementById('val-bright').textContent = `${bright}%`;
+            document.getElementById('val-blur').textContent = `${blur}px`;
+
+            const circle = document.getElementById('modal-magic-circle');
+            circle.style.filter = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bright}%) blur(${blur}px)`;
+        }
+
+        function resetAuraControls() {
+            document.getElementById('aura-hue').value = 0;
+            document.getElementById('aura-sat').value = 100;
+            document.getElementById('aura-bright').value = 100;
+            document.getElementById('aura-blur').value = 0;
+            updateAuraFilters();
+        }
+
+        ['aura-hue', 'aura-sat', 'aura-bright', 'aura-blur'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateAuraFilters);
+        });
 
         function renderFilters() {
             const container = document.getElementById('filter-container');
@@ -568,6 +661,8 @@
             document.getElementById('modal-power-val').textContent = char.power.toLocaleString();
             document.getElementById('modal-skill').textContent = char.skill;
             document.getElementById('modal-lore').textContent = char.lore;
+
+            resetAuraControls();
 
             const favBtn = document.getElementById('modal-fav-btn');
             favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
