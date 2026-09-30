@@ -56,8 +56,8 @@
             to { transform: rotate(360deg); }
         }
         @keyframes floatMagic {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-8px) scale(1.02); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
         }
 
         .animate-spin-slow {
@@ -68,17 +68,16 @@
         }
 
         .xianxia-card {
-            background: linear-gradient(135deg, rgba(18, 22, 34, 0.85) 0%, rgba(9, 11, 18, 0.95) 100%);
+            background: rgba(13, 15, 23, 0.9);
             border: 1px solid rgba(223, 172, 66, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            will-change: transform;
         }
 
         .xianxia-card:hover {
             border-color: rgba(223, 172, 66, 0.7);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px -10px rgba(223, 172, 66, 0.35);
+            transform: translateY(-4px);
         }
 
         ::-webkit-scrollbar {
@@ -115,7 +114,7 @@
     <div class="relative z-10 flex-1 flex flex-col">
 
         <!-- HEADER -->
-        <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/80 backdrop-blur-md px-4 py-3 sm:px-8">
+        <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/90 px-4 py-3 sm:px-8">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 
                 <div class="flex items-center gap-3">
@@ -133,22 +132,12 @@
                 <div class="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
                     <div class="relative flex-1 sm:w-64 md:w-48 lg:w-64">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-amber-500/60"></i>
-                        <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+                        <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 transition">
                     </div>
-
-                    <button id="btn-audio-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition">
-                        <i class="fa-solid fa-music text-amber-400" id="audio-icon"></i>
-                        <span class="hidden sm:inline">Linh Âm</span>
-                    </button>
 
                     <button id="btn-favorites-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition">
                         <i class="fa-solid fa-star text-amber-400"></i>
                         <span class="hidden sm:inline">Yêu Thích</span>
-                    </button>
-
-                    <button id="btn-open-upload" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(223,172,66,0.4)] transition transform active:scale-95">
-                        <i class="fa-solid fa-plus-circle"></i>
-                        <span>Thêm WebP</span>
                     </button>
                 </div>
             </div>
@@ -156,7 +145,7 @@
 
         <!-- KHU VỰC AVATAR, KHUNG WEBP & DANH HIỆU TRANG BỊ -->
         <section class="max-w-7xl mx-auto w-full px-4 pt-6">
-            <div class="xianxia-card rounded-2xl p-4 sm:p-6 border border-amber-500/30 bg-slate-950/80 backdrop-blur-md">
+            <div class="xianxia-card rounded-2xl p-4 sm:p-6 border border-amber-500/30 bg-slate-950">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                     
                     <div class="flex flex-col items-center text-center sm:flex-row sm:text-left gap-4">
@@ -177,15 +166,14 @@
                         </div>
                     </div>
 
-                    <!-- 2 NÚT MỞ MODAL SOI & CHỌN KHUNG AVATAR / DANH HIỆU -->
                     <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-amber-500/20">
                         <button onclick="openSelectModal('frame')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(223,172,66,0.3)] hover:brightness-110 transition active:scale-95">
                             <i class="fa-solid fa-shield text-sm"></i>
-                            <span>Xem & Chọn Khung Avatar</span>
+                            <span>Chọn Khung Avatar</span>
                         </button>
                         <button onclick="openSelectModal('title')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(157,78,221,0.3)] hover:brightness-110 transition active:scale-95">
                             <i class="fa-solid fa-crown text-sm"></i>
-                            <span>Xem & Chọn Danh Hiệu</span>
+                            <span>Chọn Danh Hiệu</span>
                         </button>
                     </div>
 
@@ -206,7 +194,7 @@
                 </div>
                 <div class="text-xs text-slate-400 flex items-center gap-2">
                     <i class="fa-solid fa-circle-info text-amber-500/70"></i>
-                    <span>Nhấn vào thẻ để mở Trấn Điện Soi Tướng</span>
+                    <span>Nhấn vào thẻ để xem thông tin</span>
                 </div>
             </div>
 
@@ -223,17 +211,14 @@
     <!-- FOOTER -->
     <footer class="relative z-10 border-t border-amber-500/20 bg-black/90 py-4 px-4 text-center text-xs text-amber-200/50">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>☯ Linh Giới Bảo Lục &copy; 2026 - GitHub Pages Edition</div>
-            <div class="flex gap-4">
-                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Hỗ trợ định dạng: .webp, .gif, .png')"><i class="fa-solid fa-file-image"></i> WebP V2</span>
-            </div>
+            <div>☯ Linh Giới Bảo Lục &copy; 2026 - Optimized Performance</div>
         </div>
     </footer>
 
-    <!-- MODAL SOI & TRANG BỊ KHUNG AVATAR / DANH HIỆU -->
-    <div id="select-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-3 sm:p-4">
-        <div class="relative w-full max-w-3xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(223,172,66,0.25)] flex flex-col max-h-[90vh]">
-            <div class="p-4 border-b border-amber-500/30 flex justify-between items-center bg-slate-900/80">
+    <!-- MODAL SELECT -->
+    <div id="select-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-3 sm:p-4">
+        <div class="relative w-full max-w-3xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-amber-500/30 flex justify-between items-center bg-slate-900">
                 <h3 id="select-modal-title" class="font-title font-bold text-amber-300 text-lg flex items-center gap-2">
                     <i class="fa-solid fa-shield"></i> <span>Chọn Trang Bị</span>
                 </h3>
@@ -241,24 +226,21 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            
-            <div id="select-modal-list" class="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto flex-1">
-                <!-- NỘI DUNG DANH SÁCH ĐƯỢC GENERATE BẰNG JS -->
-            </div>
+            <div id="select-modal-list" class="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto flex-1"></div>
         </div>
     </div>
 
     <!-- CHARACTER INSPECT MODAL -->
-    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-        <div class="relative w-full max-w-5xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(223,172,66,0.25)] flex flex-col lg:flex-row my-auto max-h-[92vh]">
+    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="relative w-full max-w-5xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden flex flex-col lg:flex-row my-auto max-h-[92vh]">
             
-            <button id="btn-close-modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
+            <button id="btn-close-modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
 
-            <!-- LEFT SIDE -->
+            <!-- LEFT SIDE (VISUAL FX AREA) -->
             <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[350px] lg:min-h-[500px]">
-                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-80 transition-all duration-300">
+                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-80 transition-all duration-150">
                     <svg class="w-full h-full animate-spin-slow" viewBox="0 0 400 400" fill="none">
                         <circle cx="200" cy="200" r="190" stroke="url(#modal-grad)" stroke-width="2" stroke-dasharray="10 5" />
                         <circle cx="200" cy="200" r="160" stroke="url(#modal-grad)" stroke-width="1.5" />
@@ -275,10 +257,10 @@
                 </div>
 
                 <div class="relative z-10 w-full h-full flex items-center justify-center">
-                    <img id="modal-image" src="" alt="Linh Tướng WebP" class="max-h-[300px] sm:max-h-[400px] w-auto object-contain transition-transform duration-200 animate-float">
+                    <img id="modal-image" src="" alt="Linh Tướng WebP" class="max-h-[300px] sm:max-h-[400px] w-auto object-contain transition-transform duration-150 animate-float">
                 </div>
 
-                <div class="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
+                <div class="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/70 px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
                     <div class="flex items-center gap-2">
                         <span class="text-amber-300 font-bold" id="modal-element-badge">Hệ Thủy</span>
                         <span class="text-slate-500">|</span>
@@ -287,7 +269,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDE -->
+            <!-- RIGHT SIDE & FX CONTROLS -->
             <div class="lg:w-1/2 p-6 flex flex-col justify-between overflow-y-auto bg-slate-950 border-t lg:border-t-0 lg:border-l border-amber-500/20">
                 <div>
                     <div class="flex items-start justify-between gap-2 mb-3">
@@ -301,8 +283,8 @@
                         </button>
                     </div>
 
-                    <!-- LIVE VISUAL FX TUNING CONTROLS -->
-                    <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-xl space-y-3">
+                    <!-- LIVE VISUAL FX TUNING CONTROLS (ĐÃ THAY THẾ) -->
+                    <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-xl space-y-3 mb-4">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
                             <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
                                 <i class="fa-solid fa-sliders"></i> Chỉnh Hiệu Ứng Hào Quang
@@ -341,7 +323,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
                     <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
                         <div class="flex justify-between text-xs mb-1">
@@ -349,7 +330,7 @@
                             <span id="modal-power-val" class="font-bold text-amber-400">98,500,000</span>
                         </div>
                         <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-amber-500/30">
-                            <div id="modal-power-bar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
+                            <div id="modal-power-bar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full transition-all duration-300" style="width: 85%;"></div>
                         </div>
                     </div>
 
@@ -375,13 +356,9 @@
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <script>
-        // HÀM TỰ ĐỘNG ĐỔI TÊN SLUG CHUẨN THEO TÊN FILE WEBP
         function formatWebpName(webpFilename) {
             let name = webpFilename.replace(/\.webp$/i, '');
-            return name.split('-').map(word => {
-                if (!word) return '';
-                return word.charAt(0).toUpperCase() + word.slice(1);
-            }).join(' ');
+            return name.split('-').map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '').join(' ');
         }
 
         function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
@@ -389,7 +366,6 @@
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
-        /* DANH SÁCH KHUNG AVATAR VÀ DANH HIỆU DÙNG CHO MODAL SOI SELECT */
         const framesList = [
             { id: "khung-vip-1.webp", name: "Khung VIP 1 (Động)", img: "khung-vip-1.webp" },
             { id: "moc-vip-2.webp", name: "Khung Mộc VIP 2 (Động)", img: "moc-vip-2.webp" },
@@ -403,7 +379,6 @@
             { id: "thien-ha-de-nhat-tong.webp", name: "Thiên Hạ Đệ Nhất Tông", img: "thien-ha-de-nhat-tong.webp" }
         ];
 
-        /* DANH SÁCH WEBP TỰ ĐỘNG CHUYỂN TÊN CHUẨN WEBP */
         const webpFilesList = [
             { file: "ba-ba-cau.webp", element: "Thủy", grade: "Thánh Cấp" },
             { file: "bach-trach-1.webp", element: "Kim", grade: "Thái Cổ Thần Cấp" },
@@ -433,7 +408,6 @@
             { file: "diem-phuong-linh.webp", element: "Hỏa", grade: "Thần Cấp" }
         ];
 
-        /* KHỞI TẠO ĐỦ 1000 LINH TƯỚNG VỚI TÊN ĐƯỢC CHUYỂN TỪ WEBP */
         function generate1000Characters() {
             const list = webpFilesList.map((item, index) => {
                 const formattedName = formatWebpName(item.file);
@@ -482,9 +456,14 @@
         }
 
         let characters = generate1000Characters();
+        let filteredCharacters = [...characters];
         let currentFilter = "Toàn Bộ";
         let searchQuery = "";
         let showFavoritesOnly = false;
+
+        // LAZY LOADING RENDER CONTROLS (TỐI ƯU HIỆU NĂNG)
+        const PAGE_SIZE = 24;
+        let displayedCount = 0;
 
         const elementsList = [
             { name: "Toàn Bộ", icon: "fa-border-all", color: "border-amber-500/50" },
@@ -497,7 +476,146 @@
             { name: "Ma", icon: "fa-skull", color: "text-purple-500" }
         ];
 
-        // MỞ MODAL XEM & CHỌN KHUNG HOẶC DANH HIỆU (GIAO DIỆN SOI TƯỚNG DẠNG TAB)
+        function getElementBadgeStyle(elem) {
+            switch(elem) {
+                case 'Kim': return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+                case 'Mộc': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                case 'Thủy': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+                case 'Hỏa': return 'bg-red-500/20 text-red-300 border-red-500/40';
+                case 'Thổ': return 'bg-amber-700/20 text-amber-200 border-amber-700/40';
+                case 'Thần': return 'bg-yellow-400/20 text-yellow-200 border-yellow-400/40';
+                case 'Ma': return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+                default: return 'bg-slate-800 text-slate-300 border-slate-700';
+            }
+        }
+
+        function filterData() {
+            filteredCharacters = characters.filter(c => {
+                const matchElement = currentFilter === "Toàn Bộ" || c.element === currentFilter;
+                const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    c.grade.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchFav = !showFavoritesOnly || c.isFavorite;
+                return matchElement && matchSearch && matchFav;
+            });
+            document.getElementById('character-count').textContent = filteredCharacters.length;
+            displayedCount = 0;
+            document.getElementById('character-grid').innerHTML = '';
+            renderNextBatch();
+        }
+
+        function renderNextBatch() {
+            const grid = document.getElementById('character-grid');
+            const emptyState = document.getElementById('empty-state');
+
+            if (filteredCharacters.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+            }
+
+            const nextChunk = filteredCharacters.slice(displayedCount, displayedCount + PAGE_SIZE);
+            if (nextChunk.length === 0) return;
+
+            const fragment = document.createDocumentFragment();
+
+            nextChunk.forEach(char => {
+                const badgeStyle = getElementBadgeStyle(char.element);
+                const card = document.createElement('div');
+                card.className = 'xianxia-card rounded-2xl p-4 relative group cursor-pointer overflow-hidden flex flex-col justify-between';
+                card.onclick = () => openInspectModal(char.id);
+
+                card.innerHTML = `
+                    <div class="relative my-1 h-52 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-900 border border-slate-800 group-hover:border-amber-500/30 transition">
+                        <div class="absolute top-2 left-2 right-2 flex justify-between items-center z-20">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold">
+                                Hệ ${char.element}
+                            </span>
+                            <button onclick="event.stopPropagation(); toggleFavorite(${char.id})" class="text-slate-500 hover:text-amber-400 transition p-1 bg-black/40 rounded-full">
+                                <i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>
+                            </button>
+                        </div>
+
+                        <img src="${char.image}" 
+                             onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
+                             alt="${char.name}" 
+                             loading="lazy"
+                             class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-200">
+                    </div>
+
+                    <div class="z-10 mt-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
+                        </div>
+                        <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
+                        <div class="mt-2.5">
+                            <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                                <span>Linh Lực:</span>
+                                <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-amber-500 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
+                        <span>Chi tiết linh tướng</span>
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+
+            grid.appendChild(fragment);
+            displayedCount += nextChunk.length;
+        }
+
+        // TỰ ĐỘNG LẠI TẢI THÊM KHI CUỘN GẦN CUỐI TRANG
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 600) {
+                if (displayedCount < filteredCharacters.length) {
+                    renderNextBatch();
+                }
+            }
+        });
+
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            container.innerHTML = elementsList.map(item => {
+                const isActive = currentFilter === item.name;
+                return `
+                    <button onclick="setFilter('${item.name}')" 
+                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition ${
+                            isActive 
+                            ? 'bg-amber-500 text-slate-950 font-bold' 
+                            : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50'
+                        }">
+                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color}"></i>
+                        <span>${item.name}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function setFilter(elementName) {
+            currentFilter = elementName;
+            renderFilters();
+            filterData();
+        }
+
+        function toggleFavorite(id) {
+            const char = characters.find(c => c.id === id);
+            if (char) {
+                char.isFavorite = !char.isFavorite;
+                filterData();
+                showToast(char.isFavorite ? `Đã thêm vào Yêu Thích` : `Đã xóa khỏi Yêu Thích`);
+            }
+        }
+
+        // MODAL SELECT LOGIC
         function openSelectModal(type) {
             const modal = document.getElementById('select-modal');
             const titleEl = document.getElementById('select-modal-title');
@@ -506,13 +624,13 @@
             if (type === 'frame') {
                 titleEl.innerHTML = `<i class="fa-solid fa-shield text-amber-400"></i> <span>Chọn Khung Avatar</span>`;
                 listEl.innerHTML = framesList.map(item => `
-                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 hover:border-amber-400 bg-slate-900/90 text-center">
+                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 bg-slate-900 text-center">
                         <div class="relative w-24 h-24 my-2 flex items-center justify-center">
                             <img src="chuc-nu.webp" class="w-16 h-16 rounded-full object-cover">
                             <img src="${item.img}" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110" onerror="this.src='image_8.png'">
                         </div>
                         <h4 class="font-bold text-xs text-amber-200 mt-2 mb-3">${item.name}</h4>
-                        <button onclick="equipFrame('${item.img}')" class="w-full py-1.5 rounded-lg bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-bold text-xs hover:brightness-110 transition">
+                        <button onclick="equipFrame('${item.img}')" class="w-full py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs hover:brightness-110 transition">
                             Trang Bị Khung
                         </button>
                     </div>
@@ -520,12 +638,12 @@
             } else {
                 titleEl.innerHTML = `<i class="fa-solid fa-crown text-purple-400"></i> <span>Chọn Danh Hiệu</span>`;
                 listEl.innerHTML = titlesList.map(item => `
-                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 hover:border-amber-400 bg-slate-900/90 text-center">
+                    <div class="xianxia-card rounded-xl p-4 flex flex-col items-center justify-between border border-amber-500/20 bg-slate-900 text-center">
                         <div class="h-16 flex items-center justify-center my-2">
-                            <img src="${item.img}" class="h-12 object-contain drop-shadow-[0_0_8px_rgba(230,57,70,0.6)]" onerror="this.src='image_9.png'">
+                            <img src="${item.img}" class="h-12 object-contain" onerror="this.src='image_9.png'">
                         </div>
                         <h4 class="font-bold text-xs text-amber-200 mt-2 mb-3">${item.name}</h4>
-                        <button onclick="equipTitle('${item.img}')" class="w-full py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-amber-500 text-white font-bold text-xs hover:brightness-110 transition">
+                        <button onclick="equipTitle('${item.img}')" class="w-full py-1.5 rounded-lg bg-purple-600 text-white font-bold text-xs hover:brightness-110 transition">
                             Trang Bị Danh Hiệu
                         </button>
                     </div>
@@ -551,149 +669,39 @@
             closeSelectModal();
         }
 
-        // ĐIỀU CHỈNH AURA HÀO QUANG (ĐÃ FIX LỖI 4 THANH KÉO)
-        function updateAuraFilters() {
-            const hue = document.getElementById('aura-hue').value;
-            const sat = document.getElementById('aura-sat').value;
-            const bright = document.getElementById('aura-bright').value;
-            const blur = document.getElementById('aura-blur').value;
+        // LOGIC CHỈNH LIVE VISUAL FX TUNING CONTROLS MOI
+        function updateVisualFX() {
+            const scale = document.getElementById('slider-scale').value;
+            const glow = document.getElementById('slider-glow').value;
+            const spin = document.getElementById('slider-spin').value;
+            const hue = document.getElementById('slider-hue').value;
 
+            document.getElementById('val-scale').textContent = `${scale}x`;
+            document.getElementById('val-glow').textContent = `${glow}px`;
+            document.getElementById('val-spin').textContent = `${spin}s`;
             document.getElementById('val-hue').textContent = `${hue}°`;
-            document.getElementById('val-sat').textContent = `${sat}%`;
-            document.getElementById('val-bright').textContent = `${bright}%`;
-            document.getElementById('val-blur').textContent = `${blur}px`;
 
-            const circle = document.getElementById('modal-magic-circle');
-            if (circle) {
-                circle.style.filter = `hue-rotate(${hue}deg) saturate(${sat}%) brightness(${bright}%) blur(${blur}px)`;
+            // Áp dụng FX lên Ảnh tướng & Pháp trận
+            const modalImg = document.getElementById('modal-image');
+            const magicCircle = document.getElementById('modal-magic-circle');
+
+            if (modalImg) {
+                modalImg.style.transform = `scale(${scale})`;
+                modalImg.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8))`;
+            }
+
+            if (magicCircle) {
+                magicCircle.style.setProperty('--spin-duration', `${spin}s`);
+                magicCircle.style.filter = `hue-rotate(${hue}deg)`;
             }
         }
 
-        function resetAuraControls() {
-            document.getElementById('aura-hue').value = 0;
-            document.getElementById('aura-sat').value = 100;
-            document.getElementById('aura-bright').value = 100;
-            document.getElementById('aura-blur').value = 0;
-            updateAuraFilters();
-        }
-
-        function renderFilters() {
-            const container = document.getElementById('filter-container');
-            container.innerHTML = elementsList.map(item => {
-                const isActive = currentFilter === item.name;
-                return `
-                    <button onclick="setFilter('${item.name}')" 
-                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition-all ${
-                            isActive 
-                            ? 'bg-amber-500 text-slate-950 shadow-[0_0_15px_rgba(223,172,66,0.5)] font-bold' 
-                            : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50 hover:bg-slate-800'
-                        }">
-                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color}"></i>
-                        <span>${item.name}</span>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        function getElementBadgeStyle(elem) {
-            switch(elem) {
-                case 'Kim': return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
-                case 'Mộc': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
-                case 'Thủy': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
-                case 'Hỏa': return 'bg-red-500/20 text-red-300 border-red-500/40';
-                case 'Thổ': return 'bg-amber-700/20 text-amber-200 border-amber-700/40';
-                case 'Thần': return 'bg-yellow-400/20 text-yellow-200 border-yellow-400/40';
-                case 'Ma': return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
-                default: return 'bg-slate-800 text-slate-300 border-slate-700';
-            }
-        }
-
-        function renderGallery() {
-            const grid = document.getElementById('character-grid');
-            const emptyState = document.getElementById('empty-state');
-            const countLabel = document.getElementById('character-count');
-
-            let filtered = characters.filter(c => {
-                const matchElement = currentFilter === "Toàn Bộ" || c.element === currentFilter;
-                const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                    c.grade.toLowerCase().includes(searchQuery.toLowerCase());
-                const matchFav = !showFavoritesOnly || c.isFavorite;
-                return matchElement && matchSearch && matchFav;
-            });
-
-            countLabel.textContent = filtered.length;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                emptyState.classList.add('flex');
-                return;
-            } else {
-                emptyState.classList.add('hidden');
-                emptyState.classList.remove('flex');
-            }
-
-            grid.innerHTML = filtered.map(char => {
-                const badgeStyle = getElementBadgeStyle(char.element);
-                return `
-                    <div onclick="openInspectModal(${char.id})" class="xianxia-card rounded-2xl p-4 relative group cursor-pointer overflow-hidden flex flex-col justify-between">
-                        
-                        <div class="relative my-1 h-52 w-full flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-slate-900/60 to-black/80 border border-slate-800 group-hover:border-amber-500/30 transition">
-                            <div class="absolute top-2 left-2 right-2 flex justify-between items-center z-20">
-                                <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold backdrop-blur-md">
-                                    Hệ ${char.element}
-                                </span>
-                                <button onclick="event.stopPropagation(); toggleFavorite(${char.id})" class="text-slate-500 hover:text-amber-400 transition p-1 bg-black/40 rounded-full backdrop-blur-md">
-                                    <i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>
-                                </button>
-                            </div>
-
-                            <div class="absolute w-28 h-28 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition"></div>
-
-                            <img src="${char.image}" 
-                                 onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
-                                 alt="${char.name}" 
-                                 class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
-                        </div>
-
-                        <div class="z-10 mt-2">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
-                            </div>
-                            <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
-                            <div class="mt-2.5">
-                                <div class="flex justify-between text-[10px] text-slate-400 mb-1">
-                                    <span>Linh Lực:</span>
-                                    <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
-                                </div>
-                                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
-                            <span>Chi tiết linh tướng</span>
-                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function setFilter(elementName) {
-            currentFilter = elementName;
-            renderFilters();
-            renderGallery();
-        }
-
-        function toggleFavorite(id) {
-            const char = characters.find(c => c.id === id);
-            if (char) {
-                char.isFavorite = !char.isFavorite;
-                renderGallery();
-                showToast(char.isFavorite ? `Đã thêm vào Yêu Thích` : `Đã xóa khỏi Yêu Thích`);
-            }
+        function resetVisualFX() {
+            document.getElementById('slider-scale').value = 1;
+            document.getElementById('slider-glow').value = 20;
+            document.getElementById('slider-spin').value = 25;
+            document.getElementById('slider-hue').value = 0;
+            updateVisualFX();
         }
 
         function openInspectModal(id) {
@@ -714,7 +722,7 @@
             document.getElementById('modal-skill').textContent = char.skill;
             document.getElementById('modal-lore').textContent = char.lore;
 
-            resetAuraControls();
+            resetVisualFX();
 
             const favBtn = document.getElementById('modal-fav-btn');
             favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
@@ -726,20 +734,28 @@
             document.getElementById('inspect-modal').classList.remove('hidden');
         }
 
+        // EVENT LISTENERS
         document.getElementById('search-input').addEventListener('input', (e) => {
             searchQuery = e.target.value;
-            renderGallery();
+            filterData();
         });
 
         document.getElementById('btn-favorites-toggle').addEventListener('click', () => {
             showFavoritesOnly = !showFavoritesOnly;
-            renderGallery();
+            filterData();
         });
 
         document.getElementById('btn-close-modal').addEventListener('click', () => {
             document.getElementById('inspect-modal').classList.add('hidden');
         });
 
+        document.getElementById('btn-reset-fx').addEventListener('click', resetVisualFX);
+
+        ['slider-scale', 'slider-glow', 'slider-spin', 'slider-hue'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateVisualFX);
+        });
+
+        // CANVAS PARTICLES (LIGHTWEIGHT)
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -756,10 +772,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 20;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedY = Math.random() * 1.2 + 0.3;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.7 + 0.2;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 1 + 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.6 + 0.2;
                 this.color = Math.random() > 0.3 ? '#dfac42' : '#3a86ff';
             }
             update() {
@@ -768,17 +784,15 @@
                 if (this.y < -10) this.reset();
             }
             draw() {
-                ctx.save();
                 ctx.globalAlpha = this.opacity;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.restore();
             }
         }
 
-        for (let i = 0; i < 40; i++) particles.push(new Particle());
+        for (let i = 0; i < 25; i++) particles.push(new Particle());
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -790,23 +804,15 @@
         function showToast(msg) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = "bg-slate-900 border border-amber-500/50 text-amber-300 text-xs px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 opacity-100 transition-all";
+            toast.className = "bg-slate-900 border border-amber-500/50 text-amber-300 text-xs px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 transition";
             toast.innerHTML = `<i class="fa-solid fa-bell text-amber-400"></i> <span>${msg}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 2500);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // LẮNG NGHE SỰ KIỆN KÉO CỦA 4 THANH SLIDER AURA
-            ['aura-hue', 'aura-sat', 'aura-bright', 'aura-blur'].forEach(id => {
-                const elem = document.getElementById(id);
-                if (elem) {
-                    elem.addEventListener('input', updateAuraFilters);
-                }
-            });
-
             renderFilters();
-            renderGallery();
+            filterData();
         });
     </script>
 </body>
