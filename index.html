@@ -301,43 +301,47 @@
                         </button>
                     </div>
 
-                    <!-- 4 THANH KÉO ĐIỀU CHỈNH AURA/HÀO QUANG -->
-                    <div class="mb-4 bg-slate-900/90 p-3 rounded-xl border border-amber-500/30 space-y-2">
-                        <div class="flex items-center justify-between text-xs text-amber-300 font-bold mb-1">
-                            <span><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Tùy Chỉnh Màu Hào Quang (Aura)</span>
-                            <button onclick="resetAuraControls()" class="text-[10px] text-slate-400 hover:text-amber-400 underline">Mặc định</button>
+                    <!-- LIVE VISUAL FX TUNING CONTROLS -->
+                    <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
+                            <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-sliders"></i> Chỉnh Hiệu Ứng Hào Quang
+                            </span>
+                            <button id="btn-reset-fx" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">Khôi Phục</button>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 text-[11px]">
+
+                        <div class="grid grid-cols-2 gap-3 text-xs">
                             <div>
-                                <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>Đổi Màu (Hue)</span>
-                                    <span id="val-hue" class="text-amber-300 font-mono">0°</span>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tỉ Lệ Zoom:</span>
+                                    <span id="val-scale" class="text-amber-400">1.0x</span>
                                 </div>
-                                <input type="range" id="aura-hue" min="0" max="360" value="0" class="w-full h-1 bg-slate-800 rounded">
+                                <input id="slider-scale" type="range" min="0.5" max="1.8" step="0.05" value="1" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                             <div>
-                                <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>Bão Hòa (Sat)</span>
-                                    <span id="val-sat" class="text-amber-300 font-mono">100%</span>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Độ Sáng Hào Quang:</span>
+                                    <span id="val-glow" class="text-amber-400">20px</span>
                                 </div>
-                                <input type="range" id="aura-sat" min="0" max="200" value="100" class="w-full h-1 bg-slate-800 rounded">
+                                <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                             <div>
-                                <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>Độ Sáng (Light)</span>
-                                    <span id="val-bright" class="text-amber-300 font-mono">100%</span>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tốc Độ Pháp Trận:</span>
+                                    <span id="val-spin" class="text-amber-400">25s</span>
                                 </div>
-                                <input type="range" id="aura-bright" min="50" max="200" value="100" class="w-full h-1 bg-slate-800 rounded">
+                                <input id="slider-spin" type="range" min="2" max="50" step="2" value="25" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                             <div>
-                                <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>Độ Tỏa (Blur)</span>
-                                    <span id="val-blur" class="text-amber-300 font-mono">0px</span>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Đổi Màu Aura (Hue):</span>
+                                    <span id="val-hue" class="text-amber-400">0°</span>
                                 </div>
-                                <input type="range" id="aura-blur" min="0" max="15" value="0" class="w-full h-1 bg-slate-800 rounded">
+                                <input id="slider-hue" type="range" min="0" max="360" step="10" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                         </div>
                     </div>
+                </div>
 
                     <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
                         <div class="flex justify-between text-xs mb-1">
