@@ -111,7 +111,7 @@
             <!-- AVATAR TƯỚNG DANG XUẤT CHIẾN -->
             <div class="flex items-center gap-3">
                 <div class="relative w-11 h-11 shrink-0 flex items-center justify-center cursor-pointer" onclick="toggleMenuTab('tab-hero')">
-                    <img id="equipped-avatar-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src=createXianxiaSvgPlaceholder('#3a86ff', 'Chúc Nữ', '❄️')" class="w-9 h-9 rounded-full object-cover border border-amber-400">
+                    <img id="equipped-avatar-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src=createXianxiaSvgPlaceholder('#3a86ff', 'Chúc Nữ', '❄️️')" class="w-9 h-9 rounded-full object-cover border border-amber-400">
                     <img id="equipped-frame-img" src="khung-vip-1.webp" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110" onerror="this.src='image_8.png'">
                 </div>
                 <div class="hidden sm:block">
@@ -144,14 +144,14 @@
         </div>
     </header>
 
-    <!-- FLOATING QUICK SKILL & ACTION BUTTONS (GÓC DƯỚI PHẢI MÀN HÌNH MAP) -->
-    <div class="absolute bottom-6 right-6 z-30 flex flex-col items-end gap-3 pointer-events-auto">
-        <button onclick="triggerUltimateSkill()" class="w-16 h-16 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông">
-            ⚡
-        </button>
-        <button onclick="toggleMainMenu('tab-hero')" class="px-4 py-2 rounded-full bg-slate-950/80 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs font-bold shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-2">
+    <!-- FLOATING QUICK SKILL & ACTION BUTTONS (XẾP HÀNG NGANG KHÔNG BỊ CHE PHÍM) -->
+    <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 flex flex-row items-center gap-3 pointer-events-auto">
+        <button onclick="toggleMainMenu('tab-hero')" class="px-4 py-2.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs font-bold shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-2">
             <i class="fa-solid fa-users text-amber-400"></i>
             <span>Bảo Lục 1000 Tướng</span>
+        </button>
+        <button onclick="triggerUltimateSkill()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông">
+            ⚡
         </button>
     </div>
 
@@ -263,7 +263,7 @@
                         </div>
 
                         <div class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl border border-slate-800 leading-relaxed">
-                            💡 Bản đồ mở rộng thế giới 3200x3200 hoạt động mượt mà liên tục. Bạn có thể mở tab giao diện xuyên thấu thao tác bất cứ lúc nào mà trận đấu vẫn diễn ra bình thường!
+                            💡 Bản đồ mở rộng thế giới 3200x3200 hoạt động mượt mà liên tục. Tỉ lệ góc nhìn camera được đưa về chuẩn toàn diện, giúp quan sát rõ trận chiến mà không bị phóng to!
                         </div>
                     </div>
                 </div>
@@ -398,6 +398,18 @@
 
     <!-- MAIN GAME ENGINE & DATA SCRIPT -->
     <script>
+        // BỘ NHỚ ĐỆM ẢNH (GIÚP WEBP ĐỘNG HOẠT ĐỘNG LIÊN TỤC TRÊN CANVAS KHÔNG BỊ KHỰA)
+        const imageCache = {};
+        function getCachedImage(src) {
+            if (!src) return null;
+            if (!imageCache[src]) {
+                const img = new Image();
+                img.src = src;
+                imageCache[src] = img;
+            }
+            return imageCache[src];
+        }
+
         function formatWebpName(webpFilename) {
             let name = webpFilename.replace(/\.webp$/i, '');
             return name.split('-').map(word => word ? word.charAt(0).toUpperCase() + word.slice(1) : '').join(' ');
@@ -712,7 +724,7 @@
         }
 
         function equipTitle(imgUrl) {
-            titleImageObj.src = imgUrl;
+            titleImageObj = getCachedImage(imgUrl);
             currentEquippedTitleImg = imgUrl;
             showToast("Đã trang bị Danh Hiệu thành công!");
         }
@@ -784,18 +796,19 @@
             document.getElementById('equipped-avatar-img').src = char.image;
             document.getElementById('equipped-char-name').textContent = char.name;
             document.getElementById('equipped-power').textContent = char.power.toLocaleString();
-            gameState.hero.img.src = char.image;
+            gameState.hero.img = getCachedImage(char.image);
             renderEquipGrids();
             showToast(`Đã xuất chiến Linh Tướng: ${char.name}`);
         }
 
         // ==========================================
-        // GAME ENGINE - MAP MỞ RỘNG (3200x3200 CHUẨN MƯỢT TỰ ĐỘNG KHÔNG DỪNG)
+        // GAME ENGINE - MAP MỞ RỘNG (3200x3200 CHUẨN TẦM NHÌN TOÀN CẢNH)
         // ==========================================
         let gameCanvas, gameCtx;
         const WORLD_SIZE = 3200; // CHUẨN BẢN ĐỒ 3200x3200
+        const VIEW_SCALE = 0.75; // TỈ LỆ THU PHÓNG TOÀN CẢNH (MAP KHÔNG BỊ ZOOM TO)
 
-        let titleImageObj = new Image();
+        let titleImageObj;
 
         let gameState = {
             active: true,
@@ -809,10 +822,10 @@
             hero: { 
                 x: WORLD_SIZE / 2, 
                 y: WORLD_SIZE / 2, 
-                speed: 5.2, 
+                speed: 5.5, 
                 angle: 0, 
-                img: new Image(), 
-                radius: 50
+                img: null, 
+                radius: 42
             },
             targetPos: { x: WORLD_SIZE / 2, y: WORLD_SIZE / 2 },
             monsters: [],
@@ -826,11 +839,10 @@
 
         const mapNames = ["Thái Cổ Tiên Đài Mở Rộng (3200x3200)", "Cửu U Ma Vực Mở Rộng (3200x3200)"];
 
-        const monsterSpriteList = webpFilesList.map(item => {
-            const img = new Image();
-            img.src = item.file;
-            return { img: img, name: formatWebpName(item.file) };
-        });
+        const monsterSpriteList = webpFilesList.map(item => ({
+            img: getCachedImage(item.file),
+            name: formatWebpName(item.file)
+        }));
 
         function initGameCanvas() {
             gameCanvas = document.getElementById('game-canvas');
@@ -839,10 +851,10 @@
             gameCanvas.width = window.innerWidth;
             gameCanvas.height = window.innerHeight;
 
-            titleImageObj.src = currentEquippedTitleImg;
-            gameState.hero.img.src = selectedHero.image;
+            titleImageObj = getCachedImage(currentEquippedTitleImg);
+            gameState.hero.img = getCachedImage(selectedHero.image);
 
-            for(let i=0; i<12; i++) spawnMonster();
+            for(let i=0; i<15; i++) spawnMonster();
 
             updateArenaHUD();
             requestAnimationFrame(gameLoop);
@@ -869,8 +881,10 @@
         function handleInputMove(clientX, clientY) {
             if (!gameCanvas) return;
             const rect = gameCanvas.getBoundingClientRect();
-            const canvasX = clientX - rect.left;
-            const canvasY = clientY - rect.top;
+            
+            // Tính toán vị trí chuột/cảm ứng theo tỉ lệ góc nhìn VIEW_SCALE
+            const canvasX = (clientX - rect.left) / VIEW_SCALE;
+            const canvasY = (clientY - rect.top) / VIEW_SCALE;
 
             gameState.targetPos.x = canvasX + gameState.camX;
             gameState.targetPos.y = canvasY + gameState.camY;
@@ -891,8 +905,8 @@
         // VẠN KIẾM QUY TÔNG
         function triggerUltimateSkill() {
             const swordCount = 50;
-            const viewWidth = gameCanvas.width || 1200;
-            const viewHeight = gameCanvas.height || 800;
+            const viewWidth = (gameCanvas.width || 1200) / VIEW_SCALE;
+            const viewHeight = (gameCanvas.height || 800) / VIEW_SCALE;
 
             for (let i = 0; i < swordCount; i++) {
                 const offsetX = (Math.random() - 0.5) * (viewWidth * 1.3);
@@ -942,7 +956,7 @@
                 hp: baseHp,
                 maxHp: baseHp,
                 speed: isBoss ? 1.5 : (1.8 + Math.random() * 1.0),
-                radius: isBoss ? 65 : 32,
+                radius: isBoss ? 60 : 30,
                 img: spriteObj.img,
                 name: spriteObj.name,
                 isBoss: isBoss
@@ -967,7 +981,7 @@
             const width = gameCanvas.width;
             const height = gameCanvas.height;
 
-            // 1. UPDATE HERO & CAMERA
+            // 1. UPDATE HERO & CAMERA (TÍNH THEO TỈ LỆ TOÀN CẢNH VIEW_SCALE)
             const dx = gameState.targetPos.x - gameState.hero.x;
             const dy = gameState.targetPos.y - gameState.hero.y;
             const distToTarget = Math.hypot(dx, dy);
@@ -980,19 +994,23 @@
             gameState.hero.x = Math.max(gameState.hero.radius, Math.min(WORLD_SIZE - gameState.hero.radius, gameState.hero.x));
             gameState.hero.y = Math.max(gameState.hero.radius, Math.min(WORLD_SIZE - gameState.hero.radius, gameState.hero.y));
 
-            gameState.camX = gameState.hero.x - width / 2;
-            gameState.camY = gameState.hero.y - height / 2;
+            const viewW = width / VIEW_SCALE;
+            const viewH = height / VIEW_SCALE;
 
-            // 2. RENDER MAP GRID
+            gameState.camX = gameState.hero.x - viewW / 2;
+            gameState.camY = gameState.hero.y - viewH / 2;
+
+            // 2. RENDER MAP GRID VỚI TỈ LỆ THU PHÓNG TIÊU CHUẨN
             gameCtx.clearRect(0, 0, width, height);
             gameCtx.save();
+            gameCtx.scale(VIEW_SCALE, VIEW_SCALE);
             gameCtx.translate(-gameState.camX, -gameState.camY);
 
             if (gameState.mapIndex === 0) {
                 gameCtx.fillStyle = '#060812';
                 gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
-                gameCtx.strokeStyle = 'rgba(223, 172, 66, 0.08)';
+                gameCtx.strokeStyle = 'rgba(223, 172, 66, 0.12)';
                 gameCtx.lineWidth = 2;
                 const gridSize = 160;
                 for (let gx = 0; gx <= WORLD_SIZE; gx += gridSize) {
@@ -1005,7 +1023,7 @@
                 gameCtx.fillStyle = '#0e030a';
                 gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
-                gameCtx.strokeStyle = 'rgba(230, 57, 70, 0.1)';
+                gameCtx.strokeStyle = 'rgba(230, 57, 70, 0.14)';
                 gameCtx.lineWidth = 2;
                 const gridSize = 160;
                 for (let gx = 0; gx <= WORLD_SIZE; gx += gridSize) {
@@ -1092,11 +1110,11 @@
                 gameCtx.lineTo(sw.x, sw.y);
                 gameCtx.stroke();
 
-                if (sw.life <= 0 || sw.y > gameState.camY + height + 300) gameState.fallingSwords.splice(i, 1);
+                if (sw.life <= 0 || sw.y > gameState.camY + viewH + 300) gameState.fallingSwords.splice(i, 1);
             }
             gameCtx.restore();
 
-            // 7. DRAW MONSTERS
+            // 7. DRAW MONSTERS & BOSS (HIỂN THỊ WEBP ĐỘNG NGUYÊN GỐC MƯỢT MÀ)
             for (let i = gameState.monsters.length - 1; i >= 0; i--) {
                 const m = gameState.monsters[i];
                 const angle = Math.atan2(gameState.hero.y - m.y, gameState.hero.x - m.x);
@@ -1133,16 +1151,16 @@
                 }
             }
 
-            // 8. DRAW HERO & TITLE
+            // 8. DRAW HERO & TITLE (WEBP ĐỘNG CHUẨN)
             gameCtx.save();
             gameCtx.translate(gameState.hero.x, gameState.hero.y);
 
             // Aura
-            const auraGrad = gameCtx.createRadialGradient(0, 0, 10, 0, 0, gameState.hero.radius + 30);
-            auraGrad.addColorStop(0, 'rgba(255, 215, 0, 0.8)');
+            const auraGrad = gameCtx.createRadialGradient(0, 0, 10, 0, 0, gameState.hero.radius + 25);
+            auraGrad.addColorStop(0, 'rgba(255, 215, 0, 0.7)');
             auraGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             gameCtx.fillStyle = auraGrad;
-            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 30, 0, Math.PI * 2); gameCtx.fill();
+            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 25, 0, Math.PI * 2); gameCtx.fill();
 
             // WebP Image
             if (gameState.hero.img && gameState.hero.img.complete && gameState.hero.img.naturalWidth !== 0) {
@@ -1151,7 +1169,7 @@
 
             // TITLE ON HEAD
             if (titleImageObj && titleImageObj.complete && titleImageObj.naturalWidth !== 0) {
-                gameCtx.drawImage(titleImageObj, -65, -gameState.hero.radius - 40, 130, 38);
+                gameCtx.drawImage(titleImageObj, -60, -gameState.hero.radius - 38, 120, 35);
             }
 
             // Hero Name
