@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Linh Giới Bảo Lục - Chiến Trường Map Mở Rộng (Kim Quang Trảm)</title>
+    <title>Linh Giới Bảo Lục - Vạn Kiếm Quy Tông (Map Mở Rộng)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -125,7 +125,7 @@
                         <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
                             LINH GIỚI BẢO LỤC
                         </h1>
-                        <p class="text-xs text-amber-200/60 font-medium">Map Mở Rộng • WebP Động • Kim Quang Trảm</p>
+                        <p class="text-xs text-amber-200/60 font-medium">Map Mở Rộng • WebP Động • Vạn Kiếm Quy Tông</p>
                     </div>
                 </div>
 
@@ -361,7 +361,7 @@
         </div>
     </div>
 
-    <!-- ARENA BATTLE MODAL (MAP MỞ RỘNG & KIM QUANG TRẢM) -->
+    <!-- ARENA BATTLE MODAL (MAP MỞ RỘNG & VẠN KIẾM QUY TÔNG) -->
     <div id="arena-modal" class="fixed inset-0 z-50 hidden bg-black/95 flex flex-col justify-between overflow-hidden">
         
         <!-- TOP HUD ARENA -->
@@ -409,7 +409,7 @@
             <!-- STAGE CLEAR BANNER NOTIFICATION -->
             <div id="stage-clear-banner" class="absolute inset-x-0 top-1/3 pointer-events-none hidden flex-col items-center justify-center">
                 <h2 class="font-title text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-amber-600 drop-shadow-[0_0_30px_rgba(255,215,0,0.9)] animate-bounce">
-                    KIM QUANG PHÁ BÁT QUÁI!
+                    VẠN KIẾM PHÁ BÁT QUÁI!
                 </h2>
                 <p id="stage-clear-sub" class="text-amber-200 text-sm mt-2 bg-black/70 px-6 py-1.5 rounded-full border border-amber-500/50">
                     TIẾN VÀO CHIẾN TRƯỜNG MAP MỞ RỘNG KẾ TIẾP...
@@ -426,7 +426,7 @@
             <div class="flex gap-2">
                 <button onclick="triggerUltimateSkill()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs shadow-[0_0_20px_rgba(255,215,0,0.6)] hover:brightness-125 transition active:scale-95 flex items-center gap-1.5">
                     <i class="fa-solid fa-sun"></i>
-                    <span>⚡ VẠN KIẾM KIM QUANG</span>
+                    <span>⚡ VẠN KIẾM QUY TÔNG</span>
                 </button>
             </div>
         </div>
@@ -498,7 +498,7 @@
                     power: 90000000 + (index * 450000),
                     image: item.file,
                     fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", formattedName, "✨"),
-                    skill: `Tuyệt kỹ trấn phái của ${formattedName} - Kim Quang Trảm Chấn Động Cửu Châu.`,
+                    skill: `Tuyệt kỹ trấn phái của ${formattedName} - Vạn Kiếm Quy Tông Chấn Động Cửu Châu.`,
                     lore: `Huyền thoại về ${formattedName} được ghi chép trong Linh Giới Bảo Lục.`,
                     isFavorite: index % 3 === 0
                 };
@@ -827,7 +827,7 @@
         }
 
         // ==========================================
-        // GAME ENGINE - MAP MỞ RỘNG (3200x3200) & KIM QUANG TRẢM
+        // GAME ENGINE - MAP MỞ RỘNG (3200x3200) & VẠN KIẾM QUY TÔNG
         // ==========================================
         let gameCanvas, gameCtx;
         const WORLD_SIZE = 3200; // MAP MỞ RỘNG RỘNG LỚN
@@ -840,11 +840,9 @@
             kills: 0,
             targetKills: 15,
             isBossWave: false,
-            mapIndex: 0, // 0: Thái Cổ Tiên Đài Mở Rộng, 1: Cửu U Ma Vực Mở Rộng
-            // CAMERA
+            mapIndex: 0,
             camX: 0,
             camY: 0,
-            // NHÂN VẬT (KÍCH THƯỚC TO RÕ - RADIUS 55)
             hero: { 
                 x: WORLD_SIZE / 2, 
                 y: WORLD_SIZE / 2, 
@@ -853,11 +851,12 @@
                 speed: 4.5, 
                 angle: 0, 
                 img: new Image(), 
-                radius: 55 // NHÂN VẬT NHÌN TO RÕ HƠN RẤT NHIỀU
+                radius: 55
             },
             targetPos: { x: WORLD_SIZE / 2, y: WORLD_SIZE / 2 },
             monsters: [],
             slashes: [],
+            fallingSwords: [], // VẠN KIẾM QUY TÔNG: KIẾM Ý TỪ TRÊN TRỜI RƠI XUỐNG
             particles: [],
             texts: [],
             lastAttackTime: 0,
@@ -878,15 +877,12 @@
             gameCanvas = document.getElementById('game-canvas');
             gameCtx = gameCanvas.getContext('2d');
 
-            // Dynamic view size
             gameCanvas.width = gameCanvas.clientWidth;
             gameCanvas.height = gameCanvas.clientHeight;
 
-            // Load Title image for head banner
             titleImageObj = new Image();
             titleImageObj.src = currentEquippedTitleImg;
 
-            // Set hero initial position in center of large world
             gameState.hero.x = WORLD_SIZE / 2;
             gameState.hero.y = WORLD_SIZE / 2;
             gameState.targetPos.x = WORLD_SIZE / 2;
@@ -901,7 +897,6 @@
             document.getElementById('arena-hero-img').src = selectedHero.image;
             document.getElementById('arena-hero-name').textContent = selectedHero.name;
 
-            // Start Game Engine
             gameState.active = true;
             gameState.stage = 1;
             gameState.kills = 0;
@@ -909,10 +904,10 @@
             gameState.isBossWave = false;
             gameState.monsters = [];
             gameState.slashes = [];
+            gameState.fallingSwords = [];
             gameState.particles = [];
             gameState.texts = [];
 
-            // Spawn initial wave
             for(let i=0; i<10; i++) spawnMonster();
 
             updateArenaHUD();
@@ -944,14 +939,12 @@
             }
         }
 
-        // TỰ ĐỘNG DI CHUYỂN TỚI ĐIỂM CHUỘT / CẢM ỨNG TRÊN MAP MỞ RỘNG
         function handleInputMove(clientX, clientY) {
             if (!gameState.active || !gameCanvas) return;
             const rect = gameCanvas.getBoundingClientRect();
             const canvasX = clientX - rect.left;
             const canvasY = clientY - rect.top;
 
-            // Convert canvas point to World position
             gameState.targetPos.x = canvasX + gameState.camX;
             gameState.targetPos.y = canvasY + gameState.camY;
         }
@@ -968,59 +961,68 @@
             }
         });
 
-        // TUYỆT KỸ KIM QUANG TRẢM SÁNG RỰC RỠ
+        // TUYỆT KỸ VẠN KIẾM QUY TÔNG: VÔ SỐ KIẾM Ý KIM QUANG TỪ TRÊN TRỜI RƠI XUỐNG
         function triggerUltimateSkill() {
             if (!gameState.active) return;
             
-            // Vạn Kiếm Kim Quang: 36 Đạo Kiếm Khí Hoàng Kim Bát Quái
-            const count = 36;
-            for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 / count) * i;
-                gameState.slashes.push({
-                    x: gameState.hero.x,
-                    y: gameState.hero.y,
-                    vx: Math.cos(angle) * 16,
-                    vy: Math.sin(angle) * 16,
-                    radius: 65,
-                    life: 50,
-                    maxLife: 50,
-                    isUltimate: true
+            const swordCount = 140; // 140 ĐẠO KIẾM HOÀNG KIM
+            const viewWidth = gameCanvas.width || 1200;
+            const viewHeight = gameCanvas.height || 800;
+
+            for (let i = 0; i < swordCount; i++) {
+                const offsetX = (Math.random() - 0.5) * (viewWidth * 1.5);
+                const startX = gameState.hero.x + offsetX;
+                // Tạo độ cao ngẫu nhiên phía trên bầu trời để rơi xuống liên tục
+                const startY = gameState.camY - 200 - (Math.random() * 1400);
+                const speedY = 22 + Math.random() * 14;
+                const speedX = (Math.random() - 0.5) * 3;
+                
+                gameState.fallingSwords.push({
+                    x: startX,
+                    y: startY,
+                    vx: speedX,
+                    vy: speedY,
+                    length: 80 + Math.random() * 45,
+                    width: 4 + Math.random() * 4,
+                    life: 130,
+                    hasHit: false,
+                    targetGroundY: gameState.camY + Math.random() * viewHeight + 100
                 });
             }
 
-            // Nổ Kim Quang Diện Rộng
-            for(let p=0; p<60; p++) {
+            // Nổ Kim Quang Hào Quang Cực Đại Quanh Nhân Vật
+            for (let p = 0; p < 100; p++) {
                 const pAngle = Math.random() * Math.PI * 2;
-                const pSpeed = Math.random() * 12 + 4;
+                const pSpeed = Math.random() * 18 + 4;
                 gameState.particles.push({
                     x: gameState.hero.x,
                     y: gameState.hero.y,
                     vx: Math.cos(pAngle) * pSpeed,
                     vy: Math.sin(pAngle) * pSpeed,
-                    size: Math.random() * 6 + 3,
-                    color: '#ffe066',
-                    life: 40
+                    size: Math.random() * 8 + 3,
+                    color: Math.random() > 0.4 ? '#ffe066' : '#ffffff',
+                    life: 60
                 });
             }
 
+            // Sát thương diện rộng toàn màn hình
             gameState.monsters.forEach(m => {
-                m.hp -= 500000;
-                addDamageText(m.x, m.y, "KIM QUANG BẠO KÍCH! -500,000", "#ffee55");
+                const dmg = Math.floor(350000 + Math.random() * 250000);
+                m.hp -= dmg;
+                addDamageText(m.x, m.y, `VẠN KIẾM QUY TÔNG! -${dmg.toLocaleString()}`, "#ffee55");
             });
 
-            showToast("Bá Chủ Tung Chiêu: VẠN KIẾM KIM QUANG TRẢM!");
+            showToast("Bá Chủ Tung Chiêu: VẠN KIẾM QUY TÔNG - KIẾM Ý GIỘI TỪ BẦU TRỜI!");
         }
 
         function spawnMonster() {
             if (gameState.monsters.length >= 35) return;
 
-            // Spawn quanh nhân vật trong Map rộng
             const angle = Math.random() * Math.PI * 2;
             const spawnRadius = 600 + Math.random() * 400;
             let x = gameState.hero.x + Math.cos(angle) * spawnRadius;
             let y = gameState.hero.y + Math.sin(angle) * spawnRadius;
 
-            // Giới hạn trong World Map
             x = Math.max(100, Math.min(WORLD_SIZE - 100, x));
             y = Math.max(100, Math.min(WORLD_SIZE - 100, y));
 
@@ -1036,7 +1038,7 @@
                 hp: baseHp,
                 maxHp: baseHp,
                 speed: speed,
-                radius: isBoss ? 65 : 32, // Quái & Boss hiển thị WebP rõ ràng hơn
+                radius: isBoss ? 65 : 32,
                 img: spriteObj.img,
                 name: spriteObj.name,
                 isBoss: isBoss
@@ -1063,7 +1065,7 @@
             const width = gameCanvas.width;
             const height = gameCanvas.height;
 
-            // 1. CẬP NHẬT VỊ TRÍ NHÂN VẬT & CAMERA TỰ ĐỘNG THEO DÕI
+            // 1. CẬP NHẬT VỊ TRÍ NHÂN VẬT & CAMERA
             const dx = gameState.targetPos.x - gameState.hero.x;
             const dy = gameState.targetPos.y - gameState.hero.y;
             const distToTarget = Math.hypot(dx, dy);
@@ -1074,28 +1076,23 @@
                 gameState.hero.y += (dy / distToTarget) * gameState.hero.speed;
             }
 
-            // Giới hạn Nhân vật trong World Map 3200x3200
             gameState.hero.x = Math.max(gameState.hero.radius, Math.min(WORLD_SIZE - gameState.hero.radius, gameState.hero.x));
             gameState.hero.y = Math.max(gameState.hero.radius, Math.min(WORLD_SIZE - gameState.hero.radius, gameState.hero.y));
 
-            // Cập nhật vị trí Camera
             gameState.camX = gameState.hero.x - width / 2;
             gameState.camY = gameState.hero.y - height / 2;
 
             // 2. CLEAR CANVAS
             gameCtx.clearRect(0, 0, width, height);
 
-            // 3. VẼ MAP MỞ RỘNG (MAP BACKGROUND & TỰ ĐỘNG CUỘN GRID)
+            // 3. VẼ MAP MỞ RỘNG (3200x3200)
             gameCtx.save();
             gameCtx.translate(-gameState.camX, -gameState.camY);
 
-            // Vẽ Nền Bản Đồ Mở Rộng
             if (gameState.mapIndex === 0) {
-                // MAP 1: THÁI CỔ TIÊN ĐÀI MỞ RỘNG
                 gameCtx.fillStyle = '#050811';
                 gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
-                // Lưới Trận Pháp Kim Quang Map Mở Rộng
                 gameCtx.strokeStyle = 'rgba(223, 172, 66, 0.08)';
                 gameCtx.lineWidth = 2;
                 const gridSize = 160;
@@ -1112,16 +1109,13 @@
                     gameCtx.stroke();
                 }
 
-                // Vẽ Trận Pháp Thái Cổ Trung Tâm Map
                 gameCtx.strokeStyle = 'rgba(255, 215, 0, 0.25)';
                 gameCtx.lineWidth = 4;
                 gameCtx.beginPath();
                 gameCtx.arc(WORLD_SIZE/2, WORLD_SIZE/2, 600, 0, Math.PI * 2);
                 gameCtx.arc(WORLD_SIZE/2, WORLD_SIZE/2, 1000, 0, Math.PI * 2);
                 gameCtx.stroke();
-
             } else {
-                // MAP 2: CỬU U MA VỰC MỞ RỘNG
                 gameCtx.fillStyle = '#0d0208';
                 gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
@@ -1142,7 +1136,6 @@
                 }
             }
 
-            // Ranh giới Map Rộng
             gameCtx.strokeStyle = '#dfac42';
             gameCtx.lineWidth = 8;
             gameCtx.strokeRect(0, 0, WORLD_SIZE, WORLD_SIZE);
@@ -1153,9 +1146,8 @@
                 gameState.lastSpawnTime = time;
             }
 
-            // 5. AUTO ATTACK LOGIC - TỰ ĐỘNG BẮN KIM QUANG TRẢM
+            // 5. TỰ ĐỘNG BẮN KIM QUANG TRẢM THƯỜNG
             if (time - gameState.lastAttackTime > 220 && gameState.monsters.length > 0) {
-                // Tìm quái gần nhất
                 let closest = null;
                 let minDist = 999999;
                 gameState.monsters.forEach(m => {
@@ -1169,7 +1161,6 @@
                 if (closest && minDist < 850) {
                     const attackAngle = Math.atan2(closest.y - gameState.hero.y, closest.x - gameState.hero.x);
 
-                    // Bắn 2 Đạo Kim Quang Trảm Song Song
                     gameState.slashes.push({
                         x: gameState.hero.x,
                         y: gameState.hero.y,
@@ -1177,14 +1168,13 @@
                         vy: Math.sin(attackAngle) * 16,
                         radius: 45,
                         life: 38,
-                        maxLife: 38,
-                        isUltimate: false
+                        maxLife: 38
                     });
                 }
                 gameState.lastAttackTime = time;
             }
 
-            // 6. VẼ & CẬP NHẬT KIM QUANG TRẢM (KIẾM KHÍ HIỆN RÕ SÁNG LỚN)
+            // 6. VẼ KIM QUANG TRẢM THƯỜNG
             for (let i = gameState.slashes.length - 1; i >= 0; i--) {
                 const s = gameState.slashes[i];
                 s.x += s.vx;
@@ -1196,28 +1186,25 @@
                 gameCtx.save();
                 gameCtx.globalCompositeOperation = 'lighter';
                 
-                // --- LỚP HÀO QUANG KIM QUANG DẦY ---
                 gameCtx.shadowColor = '#ffe066';
                 gameCtx.shadowBlur = 25;
                 gameCtx.strokeStyle = '#ffd700';
-                gameCtx.lineWidth = s.isUltimate ? 14 : 8;
+                gameCtx.lineWidth = 8;
 
                 gameCtx.beginPath();
                 gameCtx.arc(s.x, s.y, s.radius, attackAngle - 0.9, attackAngle + 0.9);
                 gameCtx.stroke();
 
-                // --- LỚP LÕI TRẮNG KIM CƯƠNG SÁNG RỰC (TẠO ĐỘ SẮC BÉN) ---
                 gameCtx.shadowColor = '#ffffff';
                 gameCtx.shadowBlur = 10;
                 gameCtx.strokeStyle = '#ffffff';
-                gameCtx.lineWidth = s.isUltimate ? 6 : 3;
+                gameCtx.lineWidth = 3;
 
                 gameCtx.beginPath();
                 gameCtx.arc(s.x, s.y, s.radius, attackAngle - 0.7, attackAngle + 0.7);
                 gameCtx.stroke();
                 gameCtx.restore();
 
-                // Tạo hạt bụi kim quang bay theo vệt chém
                 if (Math.random() > 0.4) {
                     gameState.particles.push({
                         x: s.x + (Math.random() - 0.5) * 20,
@@ -1230,7 +1217,6 @@
                     });
                 }
 
-                // Va chạm quái
                 for (let j = gameState.monsters.length - 1; j >= 0; j--) {
                     const m = gameState.monsters[j];
                     const dist = Math.hypot(s.x - m.x, s.y - m.y);
@@ -1238,7 +1224,6 @@
                         const dmg = Math.floor(60000 + Math.random() * 30000);
                         m.hp -= dmg;
 
-                        // Tia Kim Quang Bắn Ra Khi Trúng Quái
                         for (let p = 0; p < 5; p++) {
                             gameState.particles.push({
                                 x: m.x,
@@ -1252,11 +1237,8 @@
                         }
 
                         addDamageText(m.x, m.y, `-${dmg.toLocaleString()}`);
-
-                        if (!s.isUltimate) {
-                            gameState.slashes.splice(i, 1);
-                            break;
-                        }
+                        gameState.slashes.splice(i, 1);
+                        break;
                     }
                 }
 
@@ -1265,23 +1247,109 @@
                 }
             }
 
-            // 7. VẼ QUÁI & BOSS (HIỂN THỊ WEBP ĐỘNG SẮC NÉT)
+            // 7. VẼ & CẬP NHẬT VẠN KIẾM QUY TÔNG (KIẾM Ý TỪ TRÊN TRỜI RƠI XUỐNG VÔ SỐ HÀO QUANG)
+            for (let i = gameState.fallingSwords.length - 1; i >= 0; i--) {
+                const sw = gameState.fallingSwords[i];
+                sw.x += sw.vx;
+                sw.y += sw.vy;
+                sw.life--;
+
+                const angle = Math.atan2(sw.vy, sw.vx);
+
+                // Hiển thị kiếm khi chui vào khung hình
+                if (sw.y + sw.length > gameState.camY - 150) {
+                    gameCtx.save();
+                    gameCtx.globalCompositeOperation = 'lighter';
+
+                    // Hào Quang Hoàng Kim Rực Rỡ
+                    gameCtx.shadowColor = '#ffe066';
+                    gameCtx.shadowBlur = 25;
+
+                    // Thân Kiếm Kim Quang Phát Sáng
+                    const grad = gameCtx.createLinearGradient(
+                        sw.x - Math.cos(angle) * sw.length,
+                        sw.y - Math.sin(angle) * sw.length,
+                        sw.x,
+                        sw.y
+                    );
+                    grad.addColorStop(0, 'rgba(255, 215, 0, 0)');
+                    grad.addColorStop(0.4, '#dfac42');
+                    grad.addColorStop(0.8, '#ffd700');
+                    grad.addColorStop(1, '#ffffff');
+
+                    gameCtx.strokeStyle = grad;
+                    gameCtx.lineWidth = sw.width;
+                    gameCtx.lineCap = 'round';
+
+                    gameCtx.beginPath();
+                    gameCtx.moveTo(sw.x - Math.cos(angle) * sw.length, sw.y - Math.sin(angle) * sw.length);
+                    gameCtx.lineTo(sw.x, sw.y);
+                    gameCtx.stroke();
+
+                    // Lõi Kiếm Sáng Trắng Kim Cương
+                    gameCtx.shadowColor = '#ffffff';
+                    gameCtx.shadowBlur = 10;
+                    gameCtx.strokeStyle = '#ffffff';
+                    gameCtx.lineWidth = Math.max(1.5, sw.width - 2);
+
+                    gameCtx.beginPath();
+                    gameCtx.moveTo(sw.x - Math.cos(angle) * (sw.length * 0.5), sw.y - Math.sin(angle) * (sw.length * 0.5));
+                    gameCtx.lineTo(sw.x, sw.y);
+                    gameCtx.stroke();
+
+                    // Vệt bụi kim quang rơi theo kiếm
+                    if (Math.random() > 0.4) {
+                        gameState.particles.push({
+                            x: sw.x - Math.cos(angle) * (sw.length * 0.4),
+                            y: sw.y - Math.sin(angle) * (sw.length * 0.4),
+                            vx: (Math.random() - 0.5) * 2,
+                            vy: (Math.random() - 0.5) * 2,
+                            size: Math.random() * 4 + 1.5,
+                            color: '#ffee55',
+                            life: 14
+                        });
+                    }
+
+                    // Tác động mặt đất / quái: Tạo nổ hoa kiếm & bụi hào quang
+                    if (!sw.hasHit && sw.y >= sw.targetGroundY) {
+                        sw.hasHit = true;
+                        for (let p = 0; p < 8; p++) {
+                            const pAng = Math.random() * Math.PI * 2;
+                            const pSpd = Math.random() * 7 + 2;
+                            gameState.particles.push({
+                                x: sw.x,
+                                y: sw.y,
+                                vx: Math.cos(pAng) * pSpd,
+                                vy: Math.sin(pAng) * pSpd - 2,
+                                size: Math.random() * 5 + 2,
+                                color: '#ffd700',
+                                life: 22
+                            });
+                        }
+                    }
+
+                    gameCtx.restore();
+                }
+
+                if (sw.life <= 0 || sw.y > gameState.camY + height + 350) {
+                    gameState.fallingSwords.splice(i, 1);
+                }
+            }
+
+            // 8. VẼ QUÁI & BOSS (WEBP ĐỘNG SẮC NÉT)
             for (let i = gameState.monsters.length - 1; i >= 0; i--) {
                 const m = gameState.monsters[i];
                 
-                // Quái di chuyển hướng về Nhân Vật
                 const angle = Math.atan2(gameState.hero.y - m.y, gameState.hero.x - m.x);
                 m.x += Math.cos(angle) * m.speed;
                 m.y += Math.sin(angle) * m.speed;
 
                 gameCtx.save();
                 if (m.isBoss) {
-                    // Hào Quang Boss Thượng Cổ
                     gameCtx.shadowColor = '#e63946';
                     gameCtx.shadowBlur = 30;
                 }
 
-                // Vẽ WebP Động Quái/Boss
                 if (m.img.complete && m.img.naturalWidth !== 0) {
                     gameCtx.drawImage(m.img, m.x - m.radius, m.y - m.radius, m.radius * 2, m.radius * 2);
                 } else {
@@ -1300,13 +1368,11 @@
                 gameCtx.fillStyle = m.isBoss ? '#e63946' : '#dfac42';
                 gameCtx.fillRect(m.x - barWidth/2, m.y - m.radius - 12, barWidth * hpPercent, 6);
 
-                // Tên Quái / Boss
                 gameCtx.fillStyle = '#fbe29d';
                 gameCtx.font = '10px "Plus Jakarta Sans"';
                 gameCtx.textAlign = 'center';
                 gameCtx.fillText(m.isBoss ? `🔥 BOSS ${m.name}` : m.name, m.x, m.y - m.radius - 16);
 
-                // Quái chết
                 if (m.hp <= 0) {
                     gameState.monsters.splice(i, 1);
                     gameState.kills++;
@@ -1322,11 +1388,11 @@
                 }
             }
 
-            // 8. VẼ NHÂN VẬT TO RÕ & HIỆN DANH HIỆU TRÊN ĐẦU
+            // 9. VẼ NHÂN VẬT & DANH HIỆU TRÊN ĐẦU
             gameCtx.save();
             gameCtx.translate(gameState.hero.x, gameState.hero.y);
 
-            // Aura Kim Quang Dưới Chân Nhân Vật (To hoành tráng)
+            // Aura Kim Quang Chân Nhân Vật
             const auraGrad = gameCtx.createRadialGradient(0, 0, 15, 0, 0, gameState.hero.radius + 35);
             auraGrad.addColorStop(0, 'rgba(255, 215, 0, 0.85)');
             auraGrad.addColorStop(0.6, 'rgba(223, 172, 66, 0.3)');
@@ -1336,7 +1402,7 @@
             gameCtx.arc(0, 0, gameState.hero.radius + 35, 0, Math.PI * 2);
             gameCtx.fill();
 
-            // Vẽ Sprite WebP Nhân Vật (Kích thước Radius 55 - To Rõ Vượt Trội)
+            // WebP Nhân Vật
             if (gameState.hero.img.complete && gameState.hero.img.naturalWidth !== 0) {
                 gameCtx.drawImage(
                     gameState.hero.img, 
@@ -1352,11 +1418,10 @@
                 gameCtx.fill();
             }
 
-            // --- HIỆN DANH HIỆU TRÊN ĐẦU NHÂN VẬT ---
+            // DANH HIỆU TRÊN ĐẦU NHÂN VẬT
             if (titleImageObj && titleImageObj.complete && titleImageObj.naturalWidth !== 0) {
                 const titleWidth = 140;
                 const titleHeight = 42;
-                // Vẽ danh hiệu lơ lửng ngay phía trên đầu nhân vật
                 gameCtx.shadowColor = 'rgba(255, 215, 0, 0.9)';
                 gameCtx.shadowBlur = 15;
                 gameCtx.drawImage(
@@ -1367,14 +1432,13 @@
                     titleHeight
                 );
             } else {
-                // Fallback Text Badge Danh Hiệu
                 gameCtx.fillStyle = '#fbe29d';
                 gameCtx.font = 'bold 12px "Plus Jakarta Sans"';
                 gameCtx.textAlign = 'center';
                 gameCtx.fillText("👑 THIÊN MỆNH KỲ TÀI", 0, -gameState.hero.radius - 18);
             }
 
-            // Tên Nhân Vật Dưới Chân / Trên Đầu
+            // Tên Nhân Vật
             gameCtx.shadowColor = '#000';
             gameCtx.shadowBlur = 4;
             gameCtx.fillStyle = '#ffffff';
@@ -1384,7 +1448,7 @@
 
             gameCtx.restore();
 
-            // 9. VẼ HẠT KIM QUANG & TEXT DẠ MẠNG
+            // 10. VẼ HẠT KIM QUANG & TEXT DẠ MẠNG
             for (let i = gameState.particles.length - 1; i >= 0; i--) {
                 const p = gameState.particles[i];
                 p.x += p.vx;
@@ -1410,7 +1474,7 @@
                 if (t.opacity <= 0) gameState.texts.splice(i, 1);
             }
 
-            gameCtx.restore(); // Restores map camera translation
+            gameCtx.restore();
 
             requestAnimationFrame(gameLoop);
         }
