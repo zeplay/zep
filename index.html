@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Linh Giới Bảo Lục - Map Mở Rộng 3200x3200 Xuyên Thấu</title>
+    <title>Linh Giới Bảo Lục - Map Mở Rộng 3200x3200 LED 3D</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+TC:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Serif+TC:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -48,8 +48,31 @@
             user-select: none;
         }
 
+        /* TÊN LINH TƯỚNG PHONG CÁCH LED 3D GLOW */
+        .text-led-3d {
+            color: #ffffff;
+            font-weight: 900;
+            text-shadow: 
+                0 0 5px #00f6ff,
+                0 0 12px #00f6ff,
+                0 0 25px #00a2ff,
+                1px 1px 2px #000000,
+                2px 2px 0px #06070a;
+        }
+
+        .text-led-gold-3d {
+            color: #fff7d6;
+            font-weight: 900;
+            text-shadow: 
+                0 0 5px #ffd700,
+                0 0 12px #ff9900,
+                0 0 25px #ff4500,
+                1px 1px 2px #000000,
+                2px 2px 0px #1a0500;
+        }
+
         .text-glow-gold {
-            text-shadow: 0 0 12px rgba(223, 172, 66, 0.6), 0 0 25px rgba(223, 172, 66, 0.3);
+            text-shadow: 0 0 12px rgba(223, 172, 66, 0.8), 0 0 25px rgba(223, 172, 66, 0.4);
         }
 
         @keyframes spinSlow {
@@ -83,8 +106,8 @@
 
         /* Glassmorphism scrollbar */
         ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(6, 7, 10, 0.5);
@@ -105,111 +128,118 @@
     <canvas id="game-canvas" class="absolute inset-0 w-full h-full block cursor-crosshair z-0"></canvas>
 
     <!-- FLOATING TOP HUD (Thanh Tiên Đài Xuyên Thấu) -->
-    <header class="absolute top-3 inset-x-3 sm:inset-x-6 z-30 pointer-events-auto">
-        <div class="max-w-7xl mx-auto bg-slate-950/80 backdrop-blur-md border border-amber-500/40 rounded-2xl p-2.5 sm:px-5 sm:py-3 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-between gap-3">
+    <header class="absolute top-2 inset-x-2 sm:top-3 sm:inset-x-6 z-30 pointer-events-auto">
+        <div class="max-w-7xl mx-auto bg-slate-950/80 backdrop-blur-md border border-amber-500/40 rounded-2xl p-2 sm:px-5 sm:py-2.5 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-between gap-2.5">
             
             <!-- AVATAR TƯỚNG DANG XUẤT CHIẾN -->
-            <div class="flex items-center gap-3">
-                <div class="relative w-11 h-11 shrink-0 flex items-center justify-center cursor-pointer" onclick="toggleMenuTab('tab-hero')">
-                    <img id="equipped-avatar-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src=createXianxiaSvgPlaceholder('#3a86ff', 'Chúc Nữ', '❄️️')" class="w-9 h-9 rounded-full object-cover border border-amber-400">
+            <div class="flex items-center gap-2.5">
+                <div class="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 flex items-center justify-center cursor-pointer" onclick="toggleMainMenu('tab-hero')">
+                    <img id="equipped-avatar-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src=createXianxiaSvgPlaceholder('#3a86ff', 'Chúc Nữ', '❄')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border border-amber-400">
                     <img id="equipped-frame-img" src="khung-vip-1.webp" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110" onerror="this.src='image_8.png'">
                 </div>
                 <div class="hidden sm:block">
                     <div class="flex items-center gap-2">
-                        <h1 id="equipped-char-name" class="font-title font-bold text-xs sm:text-sm text-amber-200">Chúc Nữ Tiên Tử</h1>
+                        <h1 id="equipped-char-name" class="font-title font-bold text-xs sm:text-sm text-led-gold-3d">Chúc Nữ Tiên Tử</h1>
                         <span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Cấp 100</span>
                     </div>
                     <p class="text-[10px] text-slate-400 mt-0.5">Linh Lực: <span id="equipped-power" class="text-amber-400 font-bold">98,500,000</span></p>
                 </div>
             </div>
 
-            <!-- TIẾN TRÌNH ẢI BẢN ĐỒ -->
-            <div class="flex-1 max-w-xs sm:max-w-md mx-2">
-                <div class="flex items-center justify-between text-[10px] sm:text-xs font-bold text-amber-300 mb-1">
-                    <span id="arena-wave-status">ẢI 1 - TIÊU DIỆT QUÁI (0/15)</span>
-                    <span class="text-yellow-300">Ải <strong id="arena-stage-val">1</strong></span>
+            <!-- TIẾN TRÌNH ẢI BẢN ĐỒ (GỌN GÀNG) -->
+            <div class="flex-1 max-w-xs sm:max-w-md mx-1 sm:mx-2">
+                <div class="flex items-center justify-between text-[10px] sm:text-xs font-bold mb-1">
+                    <span id="arena-wave-status" class="text-led-gold-3d">ẢI 1 - TIÊU DIỆT QUÁI (0/15)</span>
+                    <span class="text-yellow-300 text-[10px] sm:text-xs">Ải <strong id="arena-stage-val">1</strong></span>
                 </div>
-                <div class="w-full bg-slate-900/90 border border-amber-500/30 h-2 rounded-full overflow-hidden p-0.5 shadow-inner">
+                <div class="w-full bg-slate-900/90 border border-amber-500/30 h-1.5 sm:h-2 rounded-full overflow-hidden p-0.5 shadow-inner">
                     <div id="arena-wave-bar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
                 </div>
             </div>
 
-            <!-- THAO TÁC NÚT MENU MAIN (XUYÊN THẤU MỞ TAB) -->
+            <!-- THAO TÁC NÚT MENU MAIN -->
             <div class="flex items-center gap-2">
-                <button onclick="toggleMainMenu()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-[0_0_20px_rgba(223,172,66,0.6)] hover:brightness-125 transition active:scale-95">
-                    <i class="fa-solid fa-bars-staggered text-sm"></i>
+                <button onclick="toggleMainMenu()" class="px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-[11px] sm:text-xs flex items-center gap-1.5 shadow-[0_0_20px_rgba(223,172,66,0.6)] hover:brightness-125 transition active:scale-95">
+                    <i class="fa-solid fa-bars-staggered text-xs"></i>
                     <span class="hidden md:inline">DANH MỤC THAO TÁC</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- FLOATING QUICK SKILL & ACTION BUTTONS (XẾP HÀNG NGANG KHÔNG BỊ CHE PHÍM) -->
+    <!-- FLOATING QUICK SKILL & ACTION BUTTONS -->
     <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 flex flex-row items-center gap-3 pointer-events-auto">
         <button onclick="toggleMainMenu('tab-hero')" class="px-4 py-2.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs font-bold shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-2">
             <i class="fa-solid fa-users text-amber-400"></i>
             <span>Bảo Lục 1000 Tướng</span>
         </button>
-        <button onclick="triggerUltimateSkill()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông">
+        <button onclick="triggerUltimateSkill()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông LED 3D">
             ⚡
         </button>
     </div>
 
-    <!-- MAIN TRANSLUCENT MENU PANEL (TAB GIAO DIỆN XUYÊN THẤU TRONG MAP) -->
-    <div id="main-game-menu" class="absolute inset-0 z-40 hidden bg-black/40 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 pointer-events-auto">
-        <div class="relative w-full max-w-6xl h-[88vh] bg-slate-950/80 backdrop-blur-2xl border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+    <!-- MAIN TRANSLUCENT MENU PANEL -->
+    <div id="main-game-menu" class="absolute inset-0 z-40 hidden bg-black/40 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-6 pointer-events-auto">
+        <div class="relative w-full max-w-6xl h-[90vh] bg-slate-950/80 backdrop-blur-2xl border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_60px_rgba(0,0,0,0.9)]">
             
             <!-- HEADER TABS DANH MỤC -->
-            <div class="p-3 sm:p-4 border-b border-amber-500/30 bg-slate-900/60 backdrop-blur-lg flex items-center justify-between gap-2 shrink-0">
+            <div class="p-2.5 sm:p-4 border-b border-amber-500/30 bg-slate-900/60 backdrop-blur-lg flex items-center justify-between gap-2 shrink-0">
                 <div class="flex items-center gap-1.5 sm:gap-3 overflow-x-auto scrollbar-none">
-                    <button onclick="switchTab('tab-hero')" id="nav-tab-hero" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400">
+                    <button onclick="switchTab('tab-hero')" id="nav-tab-hero" class="tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400">
                         <i class="fa-solid fa-book-bookmark"></i>
                         <span>Linh Giới Bảo Lục</span>
                     </button>
-                    <button onclick="switchTab('tab-equip')" id="nav-tab-equip" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
+                    <button onclick="switchTab('tab-equip')" id="nav-tab-equip" class="tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
                         <i class="fa-solid fa-shield-halved"></i>
                         <span>Trang Bị & FX</span>
                     </button>
-                    <button onclick="switchTab('tab-stage')" id="nav-tab-stage" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
+                    <button onclick="switchTab('tab-stage')" id="nav-tab-stage" class="tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
                         <i class="fa-solid fa-map-location-dot"></i>
                         <span>Ải Map Chiến Đấu</span>
                     </button>
                 </div>
 
-                <button onclick="closeMainMenu()" class="w-9 h-9 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition shrink-0">
+                <button onclick="closeMainMenu()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition shrink-0">
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
 
             <!-- BODY PANEL TABS CONTAINER -->
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 relative">
+            <div class="flex-1 overflow-y-auto p-3 sm:p-5 relative">
 
                 <!-- TAB 1: BẢO LỤC 1000 LINH TƯỚNG -->
-                <div id="tab-hero" class="tab-content space-y-4">
+                <div id="tab-hero" class="tab-content space-y-3">
+                    
                     <!-- SEARCH & FILTER BAR -->
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-3 bg-slate-900/50 p-3 rounded-2xl border border-amber-500/20">
-                        <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-none" id="filter-container"></div>
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-2.5 bg-slate-900/50 p-2.5 rounded-2xl border border-amber-500/20">
+                        <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto scrollbar-none" id="filter-container"></div>
                         
                         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
-                            <div class="relative w-full sm:w-64">
+                            <div class="relative w-full sm:w-60">
                                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-amber-500/60"></i>
-                                <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 transition">
+                                <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 transition">
                             </div>
 
-                            <button id="btn-favorites-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition shrink-0">
+                            <button id="btn-favorites-toggle" class="px-3 py-1 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition shrink-0">
                                 <i class="fa-solid fa-star text-amber-400"></i>
                                 <span class="hidden sm:inline">Yêu Thích</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- GRID DANH SÁCH LINH TƯỚNG -->
-                    <div class="text-xs text-amber-300/70 flex justify-between items-center px-1">
-                        <span>Hiển thị <strong id="character-count" class="text-amber-400">0</strong> linh tướng</span>
-                        <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-circle-info text-amber-500/70"></i> Nhấn vào thẻ tướng để Xuất Chiến hoặc Xem FX</span>
+                    <!-- THANH THÔNG TIN BẢO LỤC - ĐÃ ĐƯỢC CHỈNH THU GỌN VỪA MẮT TINH TẾ -->
+                    <div class="flex items-center justify-between text-[10px] text-amber-200/80 bg-slate-900/60 border border-amber-500/20 px-3 py-1 rounded-lg backdrop-blur-sm">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-book-open text-amber-400 text-[9px]"></i>
+                            <span>Sưu Tập: <strong id="character-count" class="text-amber-300 font-bold">0</strong> Linh Tướng</span>
+                        </span>
+                        <span class="text-slate-400 text-[9px] truncate max-w-[220px] sm:max-w-none">
+                            <i class="fa-solid fa-circle-info text-amber-400/60 mr-1"></i>Chạm thẻ tướng để xuất chiến / xem FX LED 3D
+                        </span>
                     </div>
 
-                    <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+                    <!-- GRID DANH SÁCH LINH TƯỚNG -->
+                    <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
 
                     <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
                         <i class="fa-solid fa-ghost text-5xl text-amber-500/20 mb-3 animate-bounce"></i>
@@ -253,7 +283,7 @@
                         <div class="space-y-3">
                             <button onclick="triggerUltimateSkill(); closeMainMenu();" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs shadow-[0_0_20px_rgba(255,215,0,0.6)] hover:brightness-125 transition active:scale-95 flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-sun"></i>
-                                <span>⚡ KÍCH HOẠT VẠN KIẾM QUY TÔNG</span>
+                                <span>⚡ KÍCH HOẠT VẠN KIẾM QUY TÔNG (LED 3D)</span>
                             </button>
 
                             <button onclick="toggleGameMap()" class="w-full py-3 rounded-xl border border-purple-500/50 bg-purple-950/60 hover:bg-purple-900 text-purple-200 text-xs font-bold transition flex items-center justify-center gap-2">
@@ -263,7 +293,7 @@
                         </div>
 
                         <div class="text-xs text-slate-400 bg-slate-900/60 p-3 rounded-xl border border-slate-800 leading-relaxed">
-                            💡 Bản đồ mở rộng thế giới 3200x3200 hoạt động mượt mà liên tục. Tỉ lệ góc nhìn camera được đưa về chuẩn toàn diện, giúp quan sát rõ trận chiến mà không bị phóng to!
+                            💡 Bản đồ thế giới 3200x3200 hoạt động mượt mà liên tục với đòn chém phát sáng LED 3D xung quanh 360 độ cực kỳ mãn nhãn!
                         </div>
                     </div>
                 </div>
@@ -272,7 +302,7 @@
         </div>
     </div>
 
-    <!-- CHARACTER INSPECT MODAL (CHỈNH FX CHUYÊN SÂU) -->
+    <!-- CHARACTER INSPECT MODAL -->
     <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-lg flex items-center justify-center p-3 sm:p-4 pointer-events-auto">
         <div class="relative w-full max-w-4xl bg-slate-950/90 border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col lg:flex-row shadow-2xl my-auto max-h-[92vh]">
             
@@ -320,7 +350,7 @@
                     <div class="flex items-start justify-between gap-2 mb-3">
                         <div>
                             <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
-                            <h2 id="modal-title" class="font-title font-black text-2xl text-amber-300 text-glow-gold">Chúc Nữ Tiên Tử</h2>
+                            <h2 id="modal-title" class="font-title font-black text-2xl text-led-gold-3d">Chúc Nữ Tiên Tử</h2>
                             <p id="modal-subtitle" class="text-xs text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Linh Giới Trấn Điện</p>
                         </div>
                         <button id="modal-fav-btn" class="w-8 h-8 rounded-full border border-amber-500/30 bg-slate-900 hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition">
@@ -332,7 +362,7 @@
                     <div class="bg-slate-900/90 border border-amber-500/30 p-3.5 rounded-xl space-y-3 mb-4">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-1.5">
                             <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
-                                <i class="fa-solid fa-sliders"></i> Tinh Chỉnh Aura & Hue
+                                <i class="fa-solid fa-sliders"></i> Tinh Chỉnh Aura & Hue LED 3D
                             </span>
                             <button id="btn-reset-fx" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">Khôi Phục</button>
                         </div>
@@ -347,7 +377,7 @@
                             </div>
                             <div>
                                 <div class="flex justify-between text-slate-400 mb-1">
-                                    <span>Độ Sáng Hào Quang:</span>
+                                    <span>Độ Sáng LED Glow:</span>
                                     <span id="val-glow" class="text-amber-400">20px</span>
                                 </div>
                                 <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
@@ -361,7 +391,7 @@
                             </div>
                             <div>
                                 <div class="flex justify-between text-slate-400 mb-1">
-                                    <span>Đổi Màu Hue:</span>
+                                    <span>Đổi Màu Hue LED:</span>
                                     <span id="val-hue" class="text-amber-400">0°</span>
                                 </div>
                                 <input id="slider-hue" type="range" min="0" max="360" step="10" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
@@ -384,9 +414,8 @@
         </div>
     </div>
 
-    <!-- BANNER KHÔNG BẮT BUỘC -->
     <div id="stage-clear-banner" class="fixed inset-x-0 top-1/3 pointer-events-none hidden flex-col items-center justify-center z-50">
-        <h2 class="font-title text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-amber-600 drop-shadow-[0_0_30px_rgba(255,215,0,0.9)] animate-bounce text-center">
+        <h2 class="font-title text-3xl sm:text-5xl font-black text-led-gold-3d animate-bounce text-center">
             VẠN KIẾM PHÁ BÁT QUÁI!
         </h2>
         <p id="stage-clear-sub" class="text-amber-200 text-xs sm:text-sm mt-2 bg-black/80 px-6 py-1.5 rounded-full border border-amber-500/50">
@@ -398,12 +427,13 @@
 
     <!-- MAIN GAME ENGINE & DATA SCRIPT -->
     <script>
-        // BỘ NHỚ ĐỆM ẢNH (GIÚP WEBP ĐỘNG HOẠT ĐỘNG LIÊN TỤC TRÊN CANVAS KHÔNG BỊ KHỰA)
+        // CACHE DỮ LIỆU BỘ NHỚ ĐỆM ẢNH ĐỂ ĐẢM BẢO WEBP ĐỘNG CHẠY MƯỢT MÀ KHÔNG BỊ DỪNG FRAME
         const imageCache = {};
         function getCachedImage(src) {
             if (!src) return null;
             if (!imageCache[src]) {
                 const img = new Image();
+                img.crossOrigin = "anonymous";
                 img.src = src;
                 imageCache[src] = img;
             }
@@ -473,7 +503,7 @@
                     power: 90000000 + (index * 450000),
                     image: item.file,
                     fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", formattedName, "✨"),
-                    skill: `Tuyệt kỹ trấn phái của ${formattedName} - Vạn Kiếm Quy Tông Chấn Động Cửu Châu.`,
+                    skill: `Tuyệt kỹ trấn phái của ${formattedName} - Vạn Kiếm LED 3D Chấn Động Cửu Châu.`,
                     lore: `Huyền thoại về ${formattedName} được ghi chép trong Linh Giới Bảo Lục.`,
                     isFavorite: index % 3 === 0
                 };
@@ -562,13 +592,13 @@
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400";
+                btn.className = "tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400";
             });
 
             document.getElementById(tabId).classList.remove('hidden');
             const activeNav = document.getElementById('nav-' + tabId);
             if (activeNav) {
-                activeNav.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400";
+                activeNav.className = "tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400";
             }
         }
 
@@ -611,7 +641,7 @@
                 card.onclick = () => openInspectModal(char.id);
 
                 card.innerHTML = `
-                    <div class="relative my-1 h-44 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-900/80 border border-slate-800 group-hover:border-amber-500/30 transition">
+                    <div class="relative my-1 h-40 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-900/80 border border-slate-800 group-hover:border-amber-500/30 transition">
                         <div class="absolute top-2 left-2 right-2 flex justify-between items-center z-20">
                             <span class="text-[9px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold">
                                 Hệ ${char.element}
@@ -625,16 +655,16 @@
                              onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
                              alt="${char.name}" 
                              loading="lazy"
-                             class="relative z-10 max-h-36 w-auto object-contain group-hover:scale-105 transition-transform duration-200">
+                             class="relative z-10 max-h-32 w-auto object-contain group-hover:scale-105 transition-transform duration-200">
                     </div>
 
                     <div class="z-10 mt-1">
                         <div class="flex items-center justify-between">
-                            <h3 class="font-title font-bold text-sm text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
+                            <h3 class="font-title font-bold text-xs text-led-gold-3d group-hover:scale-105 transition truncate">${char.name}</h3>
                         </div>
-                        <p class="text-[10px] text-amber-400/80 font-medium">${char.grade}</p>
-                        <div class="mt-2">
-                            <div class="flex justify-between text-[9px] text-slate-400 mb-1">
+                        <p class="text-[9px] text-amber-400/80 font-medium">${char.grade}</p>
+                        <div class="mt-1.5">
+                            <div class="flex justify-between text-[9px] text-slate-400 mb-0.5">
                                 <span>Linh Lực:</span>
                                 <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
                             </div>
@@ -644,9 +674,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-amber-300/70 group-hover:text-amber-300">
+                    <div class="mt-2 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-[9px] text-amber-300/70 group-hover:text-amber-300">
                         <span>Xuất Chiến / Tinh Chỉnh</span>
-                        <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                        <i class="fa-solid fa-chevron-right text-[8px]"></i>
                     </div>
                 `;
                 fragment.appendChild(card);
@@ -662,7 +692,7 @@
                 const isActive = currentFilter === item.name;
                 return `
                     <button onclick="setFilter('${item.name}')" 
-                        class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition ${
+                        class="px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1 transition ${
                             isActive 
                             ? 'bg-amber-500 text-slate-950 font-bold' 
                             : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50'
@@ -729,7 +759,6 @@
             showToast("Đã trang bị Danh Hiệu thành công!");
         }
 
-        // INSPECTION & VISUAL FX
         function updateVisualFX() {
             const scale = document.getElementById('slider-scale').value;
             const glow = document.getElementById('slider-glow').value;
@@ -746,7 +775,7 @@
 
             if (modalImg) {
                 modalImg.style.transform = `scale(${scale})`;
-                modalImg.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8)) hue-rotate(${hue}deg)`;
+                modalImg.style.filter = `drop-shadow(0 0 ${glow}px rgba(0, 246, 255, 0.9)) hue-rotate(${hue}deg)`;
             }
 
             if (magicCircle) {
@@ -802,11 +831,11 @@
         }
 
         // ==========================================
-        // GAME ENGINE - MAP MỞ RỘNG (3200x3200 CHUẨN TẦM NHÌN TOÀN CẢNH)
+        // GAME ENGINE - CHÉM XUNG QUANH LED 3D & WEBP ĐỘNG
         // ==========================================
         let gameCanvas, gameCtx;
-        const WORLD_SIZE = 3200; // CHUẨN BẢN ĐỒ 3200x3200
-        const VIEW_SCALE = 0.75; // TỈ LỆ THU PHÓNG TOÀN CẢNH (MAP KHÔNG BỊ ZOOM TO)
+        const WORLD_SIZE = 3200;
+        const VIEW_SCALE = 0.75;
 
         let titleImageObj;
 
@@ -831,7 +860,6 @@
             monsters: [],
             slashes: [],
             fallingSwords: [], 
-            particles: [],
             texts: [],
             lastAttackTime: 0,
             lastSpawnTime: 0
@@ -881,8 +909,6 @@
         function handleInputMove(clientX, clientY) {
             if (!gameCanvas) return;
             const rect = gameCanvas.getBoundingClientRect();
-            
-            // Tính toán vị trí chuột/cảm ứng theo tỉ lệ góc nhìn VIEW_SCALE
             const canvasX = (clientX - rect.left) / VIEW_SCALE;
             const canvasY = (clientY - rect.top) / VIEW_SCALE;
 
@@ -902,6 +928,42 @@
             }
         });
 
+        // HÀM VẼ CHỮ LED 3D NGUYÊN BẢN TRÊN CANVAS
+        function drawLED3DTextOnCanvas(ctx, text, x, y, fontSize, isBoss = false, isHero = false) {
+            ctx.save();
+            ctx.font = `900 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Lớp 1: Khối bóng chìm 3D sâu
+            ctx.fillStyle = '#000000';
+            ctx.fillText(text, x + 2, y + 2);
+            ctx.fillText(text, x + 1, y + 1);
+
+            // Lớp 2: Hào quang LED 3D Neon Glow phát sáng cực mạnh
+            if (isBoss) {
+                ctx.shadowColor = '#ff0055';
+                ctx.shadowBlur = 18;
+                ctx.fillStyle = '#ff99bb';
+            } else if (isHero) {
+                ctx.shadowColor = '#ffd700';
+                ctx.shadowBlur = 16;
+                ctx.fillStyle = '#fff6cc';
+            } else {
+                ctx.shadowColor = '#00f6ff';
+                ctx.shadowBlur = 12;
+                ctx.fillStyle = '#d4f8ff';
+            }
+            ctx.fillText(text, x, y);
+
+            // Lớp 3: Lõi sáng rực rỡ
+            ctx.shadowBlur = 2;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(text, x, y);
+
+            ctx.restore();
+        }
+
         // VẠN KIẾM QUY TÔNG
         function triggerUltimateSkill() {
             const swordCount = 50;
@@ -920,18 +982,35 @@
                     vy: 24 + Math.random() * 12,
                     length: 80 + Math.random() * 40,
                     width: 3.5 + Math.random() * 2,
-                    life: 90,
-                    targetGroundY: gameState.camY + Math.random() * viewHeight + 50
+                    life: 90
                 });
             }
+
+            // Kích hoạt trảm xung quanh toàn màn hình LED 3D
+            triggerSurroundingSlash(280);
 
             gameState.monsters.forEach(m => {
                 const dmg = Math.floor(380000 + Math.random() * 250000);
                 m.hp -= dmg;
-                addDamageText(m.x, m.y, `VẠN KIẾM! -${dmg.toLocaleString()}`, "#ffee55");
+                addDamageText(m.x, m.y, `VẠN KIẾM LED 3D! -${dmg.toLocaleString()}`, "#00f6ff");
             });
 
-            showToast("Bá Chủ Tung Chiêu: VẠN KIẾM QUY TÔNG!");
+            showToast("Bá Chủ Tung Chiêu: VẠN KIẾM QUY TÔNG LED 3D!");
+        }
+
+        // TẠO ĐÒN CHÉM XUNG QUANH HỆ THỐNG PHÁT SÁNG LED 3D (360 ĐỘ)
+        function triggerSurroundingSlash(customMaxRadius) {
+            gameState.slashes.push({
+                x: gameState.hero.x,
+                y: gameState.hero.y,
+                currentRadius: 15,
+                maxRadius: customMaxRadius || 170,
+                expandSpeed: 10,
+                life: 18,
+                maxLife: 18,
+                rotation: Math.random() * Math.PI * 2,
+                hitMonsters: new Set()
+            });
         }
 
         function spawnMonster() {
@@ -956,9 +1035,9 @@
                 hp: baseHp,
                 maxHp: baseHp,
                 speed: isBoss ? 1.5 : (1.8 + Math.random() * 1.0),
-                radius: isBoss ? 60 : 30,
+                radius: isBoss ? 60 : 32,
                 img: spriteObj.img,
-                name: spriteObj.name,
+                name: (isBoss ? "BOSS " : "") + spriteObj.name,
                 isBoss: isBoss
             });
         }
@@ -981,7 +1060,7 @@
             const width = gameCanvas.width;
             const height = gameCanvas.height;
 
-            // 1. UPDATE HERO & CAMERA (TÍNH THEO TỈ LỆ TOÀN CẢNH VIEW_SCALE)
+            // 1. UPDATE HERO & CAMERA
             const dx = gameState.targetPos.x - gameState.hero.x;
             const dy = gameState.targetPos.y - gameState.hero.y;
             const distToTarget = Math.hypot(dx, dy);
@@ -1000,7 +1079,7 @@
             gameState.camX = gameState.hero.x - viewW / 2;
             gameState.camY = gameState.hero.y - viewH / 2;
 
-            // 2. RENDER MAP GRID VỚI TỈ LỆ THU PHÓNG TIÊU CHUẨN
+            // 2. RENDER MAP
             gameCtx.clearRect(0, 0, width, height);
             gameCtx.save();
             gameCtx.scale(VIEW_SCALE, VIEW_SCALE);
@@ -1044,54 +1123,80 @@
                 gameState.lastSpawnTime = time;
             }
 
-            // 4. AUTO ATTACK
-            if (time - gameState.lastAttackTime > 220 && gameState.monsters.length > 0) {
-                let closest = null;
-                let minDist = 999999;
+            // 4. AUTO SURROUNDING ATTACK (CHÉM XUNG QUANH 360 ĐỘ)
+            if (time - gameState.lastAttackTime > 260 && gameState.monsters.length > 0) {
+                let hasMonsterNearby = false;
                 gameState.monsters.forEach(m => {
                     const d = Math.hypot(m.x - gameState.hero.x, m.y - gameState.hero.y);
-                    if (d < minDist) { minDist = d; closest = m; }
+                    if (d < 350) hasMonsterNearby = true;
                 });
 
-                if (closest && minDist < 850) {
-                    const attackAngle = Math.atan2(closest.y - gameState.hero.y, closest.x - gameState.hero.x);
-                    gameState.slashes.push({
-                        x: gameState.hero.x,
-                        y: gameState.hero.y,
-                        vx: Math.cos(attackAngle) * 16,
-                        vy: Math.sin(attackAngle) * 16,
-                        radius: 45,
-                        life: 38
-                    });
+                if (hasMonsterNearby) {
+                    triggerSurroundingSlash();
                 }
                 gameState.lastAttackTime = time;
             }
 
-            // 5. DRAW SLASHES
+            // 5. DRAW SURROUNDING LED 3D SLASH EFFECT (HIỆU ỨNG TRẢM XUNG QUANH LED 3D CỰC ĐẸP)
             gameCtx.save();
             gameCtx.globalCompositeOperation = 'lighter';
             for (let i = gameState.slashes.length - 1; i >= 0; i--) {
                 const s = gameState.slashes[i];
-                s.x += s.vx; s.y += s.vy; s.life--;
+                s.currentRadius += s.expandSpeed;
+                s.life--;
+                s.rotation += 0.1;
 
-                const attackAngle = Math.atan2(s.vy, s.vx);
-                gameCtx.strokeStyle = '#ffd700';
-                gameCtx.lineWidth = 5;
+                const progress = s.life / s.maxLife;
+                const alpha = Math.max(0, progress);
+
+                // Vòng LED 3D Cực Quang Xanh Neon
+                gameCtx.shadowColor = '#00f6ff';
+                gameCtx.shadowBlur = 22;
+                gameCtx.strokeStyle = `rgba(0, 246, 255, ${alpha})`;
+                gameCtx.lineWidth = 6 * progress;
                 gameCtx.beginPath();
-                gameCtx.arc(s.x, s.y, s.radius, attackAngle - 0.8, attackAngle + 0.8);
+                gameCtx.arc(s.x, s.y, s.currentRadius, 0, Math.PI * 2);
                 gameCtx.stroke();
 
+                // Vòng LED 3D Kim Hoàng Lõi
+                gameCtx.shadowColor = '#ffd700';
+                gameCtx.shadowBlur = 14;
+                gameCtx.strokeStyle = `rgba(255, 215, 0, ${alpha})`;
+                gameCtx.lineWidth = 3 * progress;
+                gameCtx.beginPath();
+                gameCtx.arc(s.x, s.y, s.currentRadius * 0.85, 0, Math.PI * 2);
+                gameCtx.stroke();
+
+                // Tia Trạm Ma Xung Quanh 360 Độ
+                const rayCount = 8;
+                for (let r = 0; r < rayCount; r++) {
+                    const rAngle = s.rotation + (r * Math.PI * 2 / rayCount);
+                    const x1 = s.x + Math.cos(rAngle) * (s.currentRadius * 0.4);
+                    const y1 = s.y + Math.sin(rAngle) * (s.currentRadius * 0.4);
+                    const x2 = s.x + Math.cos(rAngle) * (s.currentRadius * 1.15);
+                    const y2 = s.y + Math.sin(rAngle) * (s.currentRadius * 1.15);
+
+                    gameCtx.strokeStyle = `rgba(255, 0, 128, ${alpha})`;
+                    gameCtx.lineWidth = 3.5;
+                    gameCtx.beginPath();
+                    gameCtx.moveTo(x1, y1);
+                    gameCtx.lineTo(x2, y2);
+                    gameCtx.stroke();
+                }
+
+                // Va chạm quét quái vật xung quanh
                 for (let j = gameState.monsters.length - 1; j >= 0; j--) {
                     const m = gameState.monsters[j];
-                    if (Math.hypot(s.x - m.x, s.y - m.y) < s.radius + m.radius) {
-                        const dmg = Math.floor(65000 + Math.random() * 30000);
+                    const dist = Math.hypot(s.x - m.x, s.y - m.y);
+                    if (dist < s.currentRadius + m.radius && !s.hitMonsters.has(m)) {
+                        s.hitMonsters.add(m);
+                        const dmg = Math.floor(75000 + Math.random() * 35000);
                         m.hp -= dmg;
-                        addDamageText(m.x, m.y, `-${dmg.toLocaleString()}`);
-                        gameState.slashes.splice(i, 1);
-                        break;
+                        addDamageText(m.x, m.y, `TRẢM LED 3D -${dmg.toLocaleString()}`, '#00f6ff');
                     }
                 }
-                if (s.life <= 0) gameState.slashes.splice(i, 1);
+
+                if (s.life <= 0 || s.currentRadius >= s.maxRadius) gameState.slashes.splice(i, 1);
             }
             gameCtx.restore();
 
@@ -1103,6 +1208,8 @@
                 sw.x += sw.vx; sw.y += sw.vy; sw.life--;
 
                 const angle = Math.atan2(sw.vy, sw.vx);
+                gameCtx.shadowColor = '#00f6ff';
+                gameCtx.shadowBlur = 10;
                 gameCtx.strokeStyle = '#ffd700';
                 gameCtx.lineWidth = sw.width;
                 gameCtx.beginPath();
@@ -1114,7 +1221,7 @@
             }
             gameCtx.restore();
 
-            // 7. DRAW MONSTERS & BOSS (HIỂN THỊ WEBP ĐỘNG NGUYÊN GỐC MƯỢT MÀ)
+            // 7. DRAW MONSTERS & BOSS (WEBP ĐỘNG NGUYÊN GỐC VÀ TÊN LED 3D)
             for (let i = gameState.monsters.length - 1; i >= 0; i--) {
                 const m = gameState.monsters[i];
                 const angle = Math.atan2(gameState.hero.y - m.y, gameState.hero.x - m.x);
@@ -1122,6 +1229,7 @@
                 m.y += Math.sin(angle) * m.speed;
 
                 gameCtx.save();
+                // Vẽ WebP Động nguyên bản chuẩn xác
                 if (m.img && m.img.complete && m.img.naturalWidth !== 0) {
                     gameCtx.drawImage(m.img, m.x - m.radius, m.y - m.radius, m.radius * 2, m.radius * 2);
                 } else {
@@ -1129,6 +1237,9 @@
                     gameCtx.beginPath(); gameCtx.arc(m.x, m.y, m.radius, 0, Math.PI * 2); gameCtx.fill();
                 }
                 gameCtx.restore();
+
+                // TÊN LINH TƯỚNG QUÁI/BOSS LED 3D
+                drawLED3DTextOnCanvas(gameCtx, m.name, m.x, m.y + m.radius + 15, m.isBoss ? 13 : 11, m.isBoss);
 
                 // HP Bar
                 const barWidth = m.radius * 2;
@@ -1151,18 +1262,19 @@
                 }
             }
 
-            // 8. DRAW HERO & TITLE (WEBP ĐỘNG CHUẨN)
+            // 8. DRAW HERO & TITLE (WEBP ĐỘNG CHUẨN & TÊN LED 3D)
             gameCtx.save();
             gameCtx.translate(gameState.hero.x, gameState.hero.y);
 
-            // Aura
-            const auraGrad = gameCtx.createRadialGradient(0, 0, 10, 0, 0, gameState.hero.radius + 25);
-            auraGrad.addColorStop(0, 'rgba(255, 215, 0, 0.7)');
+            // Aura LED 3D
+            const auraGrad = gameCtx.createRadialGradient(0, 0, 10, 0, 0, gameState.hero.radius + 28);
+            auraGrad.addColorStop(0, 'rgba(0, 246, 255, 0.7)');
+            auraGrad.addColorStop(0.5, 'rgba(255, 215, 0, 0.4)');
             auraGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             gameCtx.fillStyle = auraGrad;
-            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 25, 0, Math.PI * 2); gameCtx.fill();
+            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 28, 0, Math.PI * 2); gameCtx.fill();
 
-            // WebP Image
+            // WebP Image Nhân Vật Động Nguyên Bản
             if (gameState.hero.img && gameState.hero.img.complete && gameState.hero.img.naturalWidth !== 0) {
                 gameCtx.drawImage(gameState.hero.img, -gameState.hero.radius, -gameState.hero.radius, gameState.hero.radius * 2, gameState.hero.radius * 2);
             }
@@ -1172,21 +1284,20 @@
                 gameCtx.drawImage(titleImageObj, -60, -gameState.hero.radius - 38, 120, 35);
             }
 
-            // Hero Name
-            gameCtx.fillStyle = '#ffffff';
-            gameCtx.font = 'bold 12px "Plus Jakarta Sans"';
-            gameCtx.textAlign = 'center';
-            gameCtx.fillText(selectedHero.name, 0, gameState.hero.radius + 18);
-
             gameCtx.restore();
+
+            // TÊN NHÂN VẬT CHÍNH VẼ LED 3D PHÁT SÁNG
+            drawLED3DTextOnCanvas(gameCtx, selectedHero.name, gameState.hero.x, gameState.hero.y + gameState.hero.radius + 18, 13, false, true);
 
             // 9. DAMAGE TEXTS
             for (let i = gameState.texts.length - 1; i >= 0; i--) {
                 const t = gameState.texts[i];
                 t.y += t.vy; t.opacity -= 0.02;
                 gameCtx.save();
-                gameCtx.font = 'bold 12px "Plus Jakarta Sans"';
+                gameCtx.font = '900 12px "Plus Jakarta Sans"';
                 gameCtx.fillStyle = t.color;
+                gameCtx.shadowColor = '#00f6ff';
+                gameCtx.shadowBlur = 8;
                 gameCtx.globalAlpha = Math.max(0, t.opacity);
                 gameCtx.fillText(t.text, t.x - 20, t.y);
                 gameCtx.restore();
