@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Linh Giới Bảo Lục - Bộ Sưu Tập WebP Tiên Hiệp</title>
+    <title>Linh Giới Bảo Lục - Hệ Thống Soi Tướng & Trang Bị</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -95,6 +95,10 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(223, 172, 66, 0.7);
         }
+
+        input[type=range] {
+            accent-color: #dfac42;
+        }
     </style>
 </head>
 <body class="min-h-screen relative flex flex-col justify-between selection:bg-amber-500 selection:text-black">
@@ -104,19 +108,36 @@
 
     <div class="relative z-10 flex-1 flex flex-col">
 
-        <!-- HEADER / THANH ĐIỀU HƯỚNG -->
-        <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/85 backdrop-blur-md px-4 py-3 sm:px-8">
+        <!-- HEADER BANNER: KHUNG AVATAR NHÂN VẬT ĐƯỢC ĐƯA LÊN TRÊN CÙNG THAY CHO KHUNG CŨ -->
+        <header class="sticky top-0 z-40 border-b border-amber-500/30 bg-black/90 backdrop-blur-md px-4 py-3 sm:px-8">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full border border-amber-500/60 bg-amber-500/10 flex items-center justify-center text-amber-400 font-bold text-xl">
-                        ☯
+                <!-- KHUNG AVATAR & THÔNG TIN TRANG BỊ ĐANG ĐEO (ĐƯA LÊN CÙNG) -->
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center flex-shrink-0">
+                        <!-- Khung Avatar -->
+                        <img id="header-equipped-frame" src="khung-vip-1.webp" onerror="this.onerror=null; this.src='nap-3000k.webp';" class="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none drop-shadow-[0_0_10px_rgba(223,172,66,0.8)] animate-pulse" alt="Khung Avatar">
+                        
+                        <!-- Linh Tướng Đang Đeo -->
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden flex items-center justify-center bg-black/80 border border-amber-500/40 relative z-10">
+                            <img id="header-equipped-character" src="chuc-nu.webp" onerror="this.onerror=null; this.src='dau-chien-thang-phat.webp';" class="w-full h-full object-contain transform scale-110 animate-float" alt="Linh Tướng">
+                        </div>
                     </div>
-                    <div>
-                        <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
-                            LINH GIỚI BẢO LỤC
-                        </h1>
-                        <p class="text-[11px] text-amber-200/60 font-medium">Bộ Sưu Tập Tiên Hiệp & Hệ Thống Trang Bị Vô Song</p>
+
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <h1 id="header-character-name" class="font-title font-black text-lg sm:text-xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
+                                Chúc Nữ Tiên Tử
+                            </h1>
+                            <span id="header-frame-name" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold">
+                                VIP Chí Tôn
+                            </span>
+                        </div>
+                        
+                        <!-- KHU VỰC DANH HIỆU ĐÃ ĐEO: CHỈ HIỂN THỊ LOGO (ẨN TÊN) -->
+                        <div id="header-titles-logo-only" class="flex items-center gap-1.5 mt-1 overflow-x-auto max-w-[280px] sm:max-w-md py-0.5">
+                            <!-- Logo danh hiệu render tại đây -->
+                        </div>
                     </div>
                 </div>
 
@@ -139,64 +160,6 @@
                 </div>
             </div>
         </header>
-
-        <!-- KHU VỰC HIỂN THỊ TRANG BỊ ĐANG ĐEO (SHOWCASE AVATAR & DANH HIỆU) -->
-        <section class="max-w-7xl mx-auto w-full px-4 pt-6">
-            <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-amber-500/40 rounded-2xl p-4 sm:p-6 shadow-[0_0_30px_rgba(223,172,66,0.15)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-                
-                <!-- Hiệu ứng Pháp Trận Nền -->
-                <div class="absolute -right-10 -bottom-10 w-64 h-64 opacity-10 pointer-events-none animate-spin-slow">
-                    <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none">
-                        <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2"/>
-                        <polygon points="50,10 85,75 15,75" stroke="currentColor" stroke-width="0.8"/>
-                    </svg>
-                </div>
-
-                <!-- Bên trái: Avatar Bọc Khung Đang Đeo (Khung nằm trên Avatar) -->
-                <div class="flex items-center gap-4 sm:gap-6 z-10">
-                    <div class="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center flex-shrink-0 cursor-pointer group" onclick="openDetailModal(equippedCharacter.id)" title="Bấm để xem tướng đầy đủ">
-                        <!-- Linh Tướng Đang Đeo Nằm Lớp Bên Dưới (z-10) -->
-                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden flex items-center justify-center bg-black/80 border border-amber-500/40 relative z-10">
-                            <img id="equipped-character-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src='dau-chien-thang-phat.webp';" class="w-full h-full object-contain transform scale-110 animate-float" alt="Linh Tướng Đang Đeo">
-                        </div>
-
-                        <!-- Khung Avatar Đang Đeo Nằm Lớp LÊN TRÊN (z-30) -->
-                        <img id="equipped-frame-img" src="khung-vip-1.webp" onerror="this.onerror=null; this.src='nap-3000k.webp';" class="absolute inset-0 w-full h-full object-contain z-30 pointer-events-none drop-shadow-[0_0_12px_rgba(223,172,66,0.8)] animate-pulse" alt="Khung Avatar">
-                    </div>
-
-                    <div>
-                        <div class="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[10px] text-amber-300 font-bold uppercase mb-1">
-                            Trạng Thái Trang Bị
-                        </div>
-                        <h2 id="equipped-character-name" class="font-title font-black text-xl sm:text-2xl text-amber-300 text-glow-gold flex items-center gap-2">
-                            <span>Chúc Nữ Tiên Tử</span>
-                            <button onclick="openDetailModal(equippedCharacter.id)" class="text-xs text-amber-400 hover:text-amber-200 transition" title="Xem Tướng Đầy Đủ">
-                                <i class="fa-solid fa-expand"></i>
-                            </button>
-                        </h2>
-                        <p id="equipped-frame-name" class="text-xs text-slate-400 mt-0.5">
-                            Khung Avatar: <span class="text-amber-400 font-semibold">VIP Chí Tôn</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Bên phải: Tất Cả Danh Hiệu Đã Đeo (Chỉ hiển thị LOGO, không hiện TÊN) -->
-                <div class="w-full md:w-auto flex-1 md:max-w-md bg-black/60 border border-amber-500/20 rounded-xl p-3 z-10">
-                    <div class="flex items-center justify-between border-b border-amber-500/20 pb-1.5 mb-2">
-                        <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                            <i class="fa-solid fa-award text-amber-400"></i> Danh Hiệu Đã Đeo (<span id="equipped-title-count">0</span>)
-                        </span>
-                        <button onclick="removeAllTitles()" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">Tháo Tất Cả</button>
-                    </div>
-                    
-                    <!-- Container Danh Hiệu - CHỈ HIỂN THỊ LOGO -->
-                    <div id="equipped-titles-list" class="flex flex-wrap gap-2.5 max-h-28 overflow-y-auto pr-1 items-center">
-                        <!-- Render JS Logo Only -->
-                    </div>
-                </div>
-
-            </div>
-        </section>
 
         <!-- THANH LỌC 3 Ô CHÍNH: LINH TƯỚNG / DANH HIỆU / KHUNG AVATAR -->
         <section class="max-w-7xl mx-auto w-full px-4 pt-6">
@@ -228,7 +191,7 @@
                 </div>
                 <div class="text-xs text-slate-400">
                     <i class="fa-solid fa-circle-info text-amber-500/70 mr-1"></i>
-                    <span>Nhấn nút <b class="text-amber-400">Trang Bị</b> để đeo vật phẩm</span>
+                    <span>Nhấn <b class="text-amber-400">Soi Tướng</b> để chỉnh màu Aura hoặc <b class="text-amber-400">Trang Bị</b> để đeo</span>
                 </div>
             </div>
 
@@ -250,37 +213,88 @@
             <div>☯ Linh Giới Bảo Lục &copy; 2026 - Huyền Huyễn Động Thái WebP Showcase</div>
             <div class="flex gap-4">
                 <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Hỗ trợ định dạng: .webp, .gif, .png')"><i class="fa-solid fa-file-image"></i> WebP V2</span>
-                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Đã tích hợp Hệ Thống Trang Bị Đa Danh Hiệu')"><i class="fa-solid fa-shield-halved"></i> Equip System</span>
+                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Hệ Thống Soi Tướng & Chỉnh Màu Aura Đã Sẵn Sàng')"><i class="fa-solid fa-eye"></i> Soi Tướng Aura</span>
             </div>
         </div>
     </footer>
 
-    <!-- MODAL XEM TƯỚNG ĐẦY ĐỦ / BẢO VẬT CHI TIẾT -->
-    <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-        <div class="relative w-full max-w-xl bg-slate-950 border border-amber-500/50 rounded-2xl p-6 shadow-[0_0_50px_rgba(223,172,66,0.3)] flex flex-col items-center text-center">
-            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+    <!-- MODAL SOI TƯỚNG ĐẦY ĐỦ & CHỈNH MÀU AURA HUE (4 THANH CÔNG CỤ + LƯU RIÊNG) -->
+    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="relative w-full max-w-2xl bg-slate-950 border border-amber-500/50 rounded-2xl p-6 shadow-[0_0_50px_rgba(223,172,66,0.3)] flex flex-col md:flex-row gap-6">
+            <button onclick="closeInspectModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white z-20">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
-            <span id="modal-grade" class="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase mb-2">
-                Thượng Cổ Thần Tướng
-            </span>
-            <h3 id="modal-title" class="font-title font-black text-2xl text-amber-300 text-glow-gold mb-4">
-                Tên Linh Tướng
-            </h3>
+            <!-- Bên trái: Xem trước Tướng + Aura -->
+            <div class="w-full md:w-1/2 flex flex-col items-center justify-center bg-slate-900/80 border border-amber-500/30 rounded-xl p-4 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-400 via-transparent to-transparent pointer-events-none"></div>
+                
+                <div class="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
+                    <img id="inspect-img" src="" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_20px_rgba(223,172,66,0.5)] transition duration-150" alt="Linh Tướng">
+                </div>
 
-            <!-- Ảnh Phóng To Chi Tiết -->
-            <div class="relative w-full h-72 sm:h-80 flex items-center justify-center bg-slate-900/60 rounded-xl border border-amber-500/20 mb-4 overflow-hidden">
-                <img id="modal-img" src="" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_20px_rgba(223,172,66,0.4)] animate-float" alt="Xem Tướng Chi Tiết">
+                <h3 id="inspect-title-name" class="font-title font-black text-lg text-amber-300 text-glow-gold mt-3 text-center">---</h3>
+                <span id="inspect-grade" class="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-200 font-bold mt-1">---</span>
             </div>
 
-            <div class="flex gap-3 w-full justify-center">
-                <button id="modal-equip-btn" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-bold text-xs shadow-lg transition">
-                    Trang Bị Ngay
-                </button>
-                <button onclick="closeDetailModal()" class="px-6 py-2.5 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 font-bold text-xs transition">
-                    Đóng
-                </button>
+            <!-- Bên phải: 4 Thanh Chỉnh Màu Aura Hue & Nút Lưu Chi Tiết -->
+            <div class="w-full md:w-1/2 flex flex-col justify-between space-y-4">
+                <div>
+                    <h4 class="font-title font-bold text-amber-400 text-base border-b border-amber-500/30 pb-2 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-500"></i>
+                        <span>Chỉnh Màu Aura / Hue</span>
+                    </h4>
+
+                    <!-- 4 Thanh trượt chỉnh Aura -->
+                    <div class="space-y-3 text-xs">
+                        <!-- 1. Hue Rotate -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Đổi Màu (Hue Rotate)</span>
+                                <span id="val-hue" class="text-amber-400 font-bold">0°</span>
+                            </div>
+                            <input type="range" id="slider-hue" min="0" max="360" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- 2. Brightness -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Độ Sáng (Brightness)</span>
+                                <span id="val-brightness" class="text-amber-400 font-bold">100%</span>
+                            </div>
+                            <input type="range" id="slider-brightness" min="50" max="200" value="100" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- 3. Contrast -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Độ Tương Phản (Contrast)</span>
+                                <span id="val-contrast" class="text-amber-400 font-bold">100%</span>
+                            </div>
+                            <input type="range" id="slider-contrast" min="50" max="200" value="100" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- 4. Saturation -->
+                        <div>
+                            <div class="flex justify-between text-slate-300 mb-1">
+                                <span>Độ Bão Hòa (Saturate)</span>
+                                <span id="val-saturate" class="text-amber-400 font-bold">100%</span>
+                            </div>
+                            <input type="range" id="slider-saturate" min="0" max="300" value="100" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thao tác Lưu / Mặc Định -->
+                <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row gap-2">
+                    <button onclick="resetAuraSettings()" class="w-full sm:w-1/3 py-2 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-semibold">
+                        Đặt Lại
+                    </button>
+                    <button onclick="saveAuraForCurrentCharacter()" class="w-full sm:w-2/3 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 text-xs font-bold shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Lưu Cho Tướng Này</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -343,6 +357,7 @@
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
+        // DATABASE VẬT PHẨM
         const database = [
             /* --- 1. LINH TƯỚNG & PHÁP BẢO & THẦN THÚ --- */
             { id: 101, name: "Ba Ba Cầu", type: "character", element: "Thủy", grade: "Thần Thú", image: "ba-ba-cau.webp" },
@@ -385,18 +400,24 @@
             { id: 304, name: "Thiên Điện Linh Dực 1", type: "frame", grade: "Khung Thần Cấp", image: "thien-dien-linh-duc-1.webp" }
         ];
 
-        /* TRẠNG THÁI TRANG BỊ HIỆN TẠI */
-        let currentCategory = "character";
+        /* CẤU HÌNH MÀU AURA LƯU RIÊNG CHO TỪNG TƯỚNG (MAP: ITEM_ID -> AURA CONFIG) */
+        let auraConfigs = {};
+
+        /* TRẠNG THÁI HIỆN TẠI */
+        let currentCategory = "character"; 
         let currentElementFilter = "Toàn Bộ";
         let searchQuery = "";
 
-        // Vật phẩm đang đeo
+        // Trang bị đang đeo
         let equippedCharacter = database.find(i => i.id === 115) || database[0]; // Chúc Nữ
         let equippedFrame = database.find(i => i.id === 301) || database.find(i => i.type === 'frame');
-        let equippedTitles = [database.find(i => i.id === 201), database.find(i => i.id === 205)].filter(Boolean); // Mặc định 2 danh hiệu
+        let equippedTitles = [database.find(i => i.id === 201), database.find(i => i.id === 205)].filter(Boolean);
+
+        // Tướng đang được soi
+        let inspectingItem = null;
 
         /* ==========================================================================
-           2. RENDER & LOGIC TRANG BỊ
+           2. RENDER TRANG BỊ HEADER & DANH HIỆU LOGO ONLY
            ========================================================================== */
 
         function setMainCategory(cat) {
@@ -415,41 +436,43 @@
             renderGallery();
         }
 
-        function renderEquippedShowcase() {
-            // Linh tướng đang đeo
-            const charImg = document.getElementById('equipped-character-img');
-            const charName = document.getElementById('equipped-character-name');
+        function renderHeaderEquipped() {
+            // Linh Tướng
+            const charImg = document.getElementById('header-equipped-character');
+            const charName = document.getElementById('header-character-name');
             if (equippedCharacter) {
                 charImg.src = equippedCharacter.image;
                 charImg.onerror = () => { charImg.src = createSvgFallback('#3a86ff', equippedCharacter.name); };
-                charName.querySelector('span').textContent = equippedCharacter.name;
+                charName.textContent = equippedCharacter.name;
+
+                // Áp dụng Aura Filter nếu có
+                const cfg = auraConfigs[equippedCharacter.id];
+                if (cfg) {
+                    charImg.style.filter = `hue-rotate(${cfg.hue}deg) brightness(${cfg.brightness}%) contrast(${cfg.contrast}%) saturate(${cfg.saturate}%)`;
+                } else {
+                    charImg.style.filter = 'none';
+                }
             }
 
-            // Khung Avatar đang đeo
-            const frameImg = document.getElementById('equipped-frame-img');
-            const frameName = document.getElementById('equipped-frame-name');
+            // Khung Avatar
+            const frameImg = document.getElementById('header-equipped-frame');
+            const frameName = document.getElementById('header-frame-name');
             if (equippedFrame) {
                 frameImg.src = equippedFrame.image;
-                frameImg.onerror = () => { frameImg.src = createSvgFallback('#dfac42', 'Khung Avatar'); };
-                frameName.innerHTML = `Khung Avatar: <span class="text-amber-400 font-semibold">${equippedFrame.name}</span>`;
+                frameImg.onerror = () => { frameImg.src = createSvgFallback('#dfac42', 'Khung'); };
+                frameName.textContent = equippedFrame.name;
             }
 
-            // Danh sách Danh Hiệu đang đeo -> CHỈ HIỂN THỊ LOGO (KHÔNG HIỆN TÊN)
-            const titlesContainer = document.getElementById('equipped-titles-list');
-            const titlesCount = document.getElementById('equipped-title-count');
-            titlesCount.textContent = equippedTitles.length;
-
+            // Danh Hiệu Đã Đeo - CHỈ HIỂN THỊ LOGO / ẢNH (ẨN TÊN)
+            const titlesContainer = document.getElementById('header-titles-logo-only');
             if (equippedTitles.length === 0) {
-                titlesContainer.innerHTML = `<span class="text-[11px] text-slate-500 italic">Chưa đeo danh hiệu nào</span>`;
+                titlesContainer.innerHTML = `<span class="text-[10px] text-slate-500 italic">Chưa đeo danh hiệu</span>`;
                 return;
             }
 
             titlesContainer.innerHTML = equippedTitles.map(t => `
-                <div class="relative group bg-slate-900/80 border border-amber-500/30 rounded-lg p-1.5 flex items-center justify-center shadow-md hover:border-amber-400 transition" title="${t.name}">
-                    <img src="${t.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#e63946', t.name)}'" class="h-7 sm:h-9 object-contain drop-shadow" alt="${t.name}">
-                    <button onclick="unequipTitle(${t.id})" class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-600/90 text-white flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow" title="Tháo danh hiệu">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                <div class="relative group flex-shrink-0 cursor-pointer" onclick="unequipTitle(${t.id})" title="Nhấn để tháo: ${t.name}">
+                    <img src="${t.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#e63946', t.name)}'" class="h-6 sm:h-7 object-contain drop-shadow-[0_0_8px_rgba(223,172,66,0.5)] hover:scale-110 transition" alt="${t.name}">
                 </div>
             `).join('');
         }
@@ -468,32 +491,110 @@
             } else if (item.type === 'title') {
                 if (!equippedTitles.some(t => t.id === item.id)) {
                     equippedTitles.push(item);
-                    showToast(`Đã đeo thêm Danh Hiệu: ${item.name}`);
+                    showToast(`Đã đeo thêm Logo Danh Hiệu mới`);
                 } else {
                     showToast(`Danh hiệu này đã được đeo!`);
                 }
             }
 
-            renderEquippedShowcase();
+            renderHeaderEquipped();
             renderGallery();
         }
 
         function unequipTitle(id) {
             equippedTitles = equippedTitles.filter(t => t.id !== id);
-            renderEquippedShowcase();
+            renderHeaderEquipped();
             renderGallery();
             showToast('Đã tháo danh hiệu');
         }
 
-        function removeAllTitles() {
-            equippedTitles = [];
-            renderEquippedShowcase();
+        /* ==========================================================================
+           3. SOI TƯỚNG FULL & HỆ THỐNG 4 THANH CHỈNH MÀU AURA (LƯU RIÊNG CHO TỪNG TƯỚNG)
+           ========================================================================== */
+
+        function openInspectModal(id) {
+            const item = database.find(i => i.id === id);
+            if (!item) return;
+
+            inspectingItem = item;
+            const modal = document.getElementById('inspect-modal');
+            const img = document.getElementById('inspect-img');
+            const name = document.getElementById('inspect-title-name');
+            const grade = document.getElementById('inspect-grade');
+
+            img.src = item.image;
+            img.onerror = () => { img.src = createSvgFallback('#dfac42', item.name); };
+            name.textContent = item.name;
+            grade.textContent = item.grade || 'Tiên Giới';
+
+            // Lấy cấu hình Aura đã lưu hoặc khởi tạo mặc định
+            const cfg = auraConfigs[item.id] || { hue: 0, brightness: 100, contrast: 100, saturate: 100 };
+            
+            document.getElementById('slider-hue').value = cfg.hue;
+            document.getElementById('slider-brightness').value = cfg.brightness;
+            document.getElementById('slider-contrast').value = cfg.contrast;
+            document.getElementById('slider-saturate').value = cfg.saturate;
+
+            updateAuraPreview();
+            modal.classList.remove('hidden');
+        }
+
+        function closeInspectModal() {
+            document.getElementById('inspect-modal').classList.add('hidden');
+            inspectingItem = null;
+        }
+
+        function updateAuraPreview() {
+            if (!inspectingItem) return;
+
+            const hue = document.getElementById('slider-hue').value;
+            const brightness = document.getElementById('slider-brightness').value;
+            const contrast = document.getElementById('slider-contrast').value;
+            const saturate = document.getElementById('slider-saturate').value;
+
+            document.getElementById('val-hue').textContent = `${hue}°`;
+            document.getElementById('val-brightness').textContent = `${brightness}%`;
+            document.getElementById('val-contrast').textContent = `${contrast}%`;
+            document.getElementById('val-saturate').textContent = `${saturate}%`;
+
+            const img = document.getElementById('inspect-img');
+            img.style.filter = `hue-rotate(${hue}deg) brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%)`;
+        }
+
+        // Bắt sự kiện thay đổi slider
+        ['slider-hue', 'slider-brightness', 'slider-contrast', 'slider-saturate'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateAuraPreview);
+        });
+
+        function resetAuraSettings() {
+            document.getElementById('slider-hue').value = 0;
+            document.getElementById('slider-brightness').value = 100;
+            document.getElementById('slider-contrast').value = 100;
+            document.getElementById('slider-saturate').value = 100;
+            updateAuraPreview();
+            showToast('Đã khôi phục cài đặt màu mặc định');
+        }
+
+        function saveAuraForCurrentCharacter() {
+            if (!inspectingItem) return;
+
+            const hue = parseInt(document.getElementById('slider-hue').value);
+            const brightness = parseInt(document.getElementById('slider-brightness').value);
+            const contrast = parseInt(document.getElementById('slider-contrast').value);
+            const saturate = parseInt(document.getElementById('slider-saturate').value);
+
+            // Lưu chi tiết riêng cho tướng này
+            auraConfigs[inspectingItem.id] = { hue, brightness, contrast, saturate };
+
+            showToast(`Lưu Aura thành công cho [${inspectingItem.name}]!`);
+            
+            renderHeaderEquipped();
             renderGallery();
-            showToast('Đã tháo tất cả danh hiệu');
+            closeInspectModal();
         }
 
         /* ==========================================================================
-           3. BỘ LỌC HỆ VÀ RENDER GALLERY GRID
+           4. GALLERY & FILTER RENDER
            ========================================================================== */
 
         const elementsList = ["Toàn Bộ", "Kim", "Mộc", "Thủy", "Hỏa", "Thổ", "Thần", "Ma"];
@@ -556,6 +657,10 @@
                 if (item.type === 'frame') isEquipped = equippedFrame && equippedFrame.id === item.id;
                 if (item.type === 'title') isEquipped = equippedTitles.some(t => t.id === item.id);
 
+                // Lấy style Aura riêng của tướng
+                const cfg = auraConfigs[item.id];
+                const filterStyle = cfg ? `filter: hue-rotate(${cfg.hue}deg) brightness(${cfg.brightness}%) contrast(${cfg.contrast}%) saturate(${cfg.saturate}%);` : '';
+
                 return `
                     <div class="xianxia-card rounded-2xl p-4 relative flex flex-col justify-between group">
                         
@@ -571,69 +676,42 @@
                             ` : ''}
                         </div>
 
-                        <!-- Khung Ảnh Vật Phẩm (Bấm vào để xem phóng to) -->
-                        <div onclick="openDetailModal(${item.id})" class="relative my-2 h-44 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer group-hover:border-amber-500/50 transition">
+                        <!-- Khung Ảnh Vật Phẩm -->
+                        <div class="relative my-2 h-44 w-full flex items-center justify-center overflow-hidden rounded-xl bg-slate-900/80 border border-slate-800 cursor-pointer" onclick="openInspectModal(${item.id})">
                             <img src="${item.image}" 
+                                 style="${filterStyle}"
                                  onerror="this.onerror=null; this.src='${createSvgFallback('#dfac42', item.name)}'" 
                                  alt="${item.name}" 
-                                 class="relative z-10 max-h-36 max-w-[85%] object-contain group-hover:scale-105 transition duration-300 filter drop-shadow-[0_0_10px_rgba(223,172,66,0.3)]">
-                            <span class="absolute bottom-2 right-2 text-[10px] bg-black/60 px-2 py-0.5 rounded text-amber-300/80 opacity-0 group-hover:opacity-100 transition">
-                                <i class="fa-solid fa-magnifying-glass-plus"></i> Xem Chi Tiết
-                            </span>
+                                 class="relative z-10 max-h-36 max-w-[85%] object-contain group-hover:scale-105 transition duration-300 drop-shadow-[0_0_10px_rgba(223,172,66,0.3)]">
                         </div>
 
                         <!-- Thông Tin Vật Phẩm -->
                         <div class="mt-2">
                             <h3 class="font-title font-bold text-sm text-amber-200 group-hover:text-amber-400 transition truncate">${item.name}</h3>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Loại: <span class="text-amber-300/80 font-medium">${item.type === 'character' ? 'Linh Tướng' : item.type === 'title' ? 'Danh Hiệu' : 'Khung Avatar'}</span></p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Loại: <span class="text-amber-300/80 font-medium">${item.type === 'character' ? 'Linh Tướng' : item.type === 'title' ? 'Danh Hiệu Logo' : 'Khung Avatar'}</span></p>
                         </div>
 
-                        <!-- Nút Thao Tác: Trang Bị & Xem Tướng Đầy Đủ -->
+                        <!-- Các Nút Thao Tác -->
                         <div class="mt-3 pt-2 border-t border-slate-800 flex items-center gap-2">
+                            ${item.type === 'character' ? `
+                                <button onclick="openInspectModal(${item.id})" class="px-2.5 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-bold transition flex items-center gap-1" title="Soi Tướng & Chỉnh Aura">
+                                    <i class="fa-solid fa-eye"></i> Soi
+                                </button>
+                            ` : ''}
+
                             ${isEquipped ? `
                                 <button onclick="${item.type === 'title' ? `unequipTitle(${item.id})` : ''}" class="flex-1 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition hover:bg-emerald-500/30">
-                                    ${item.type === 'title' ? 'Tháo Danh Hiệu' : 'Đang Sử Dụng'}
+                                    ${item.type === 'title' ? 'Tháo Logo' : 'Đang Đeo'}
                                 </button>
                             ` : `
                                 <button onclick="equipItem(${item.id})" class="flex-1 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 text-xs font-bold shadow-md transition">
                                     + Đeo Trang Bị
                                 </button>
                             `}
-                            
-                            <button onclick="openDetailModal(${item.id})" class="px-2.5 py-1.5 rounded-lg bg-slate-800 border border-amber-500/30 text-amber-300 hover:bg-amber-500/20 text-xs transition" title="Xem Tướng Đầy Đủ">
-                                <i class="fa-solid fa-expand"></i>
-                            </button>
                         </div>
                     </div>
                 `;
             }).join('');
-        }
-
-        /* ==========================================================================
-           4. MODAL XEM TƯỚNG ĐẦY ĐỦ / CHI TIẾT VẬT PHẨM
-           ========================================================================== */
-        function openDetailModal(id) {
-            const item = database.find(i => i.id === id);
-            if (!item) return;
-
-            document.getElementById('modal-title').textContent = item.name;
-            document.getElementById('modal-grade').textContent = item.grade || 'Bảo Vật Tiên Giới';
-            
-            const img = document.getElementById('modal-img');
-            img.src = item.image;
-            img.onerror = () => { img.src = createSvgFallback('#dfac42', item.name); };
-
-            const equipBtn = document.getElementById('modal-equip-btn');
-            equipBtn.onclick = () => {
-                equipItem(item.id);
-                closeDetailModal();
-            };
-
-            document.getElementById('detail-modal').classList.remove('hidden');
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detail-modal').classList.add('hidden');
         }
 
         /* ==========================================================================
@@ -768,7 +846,7 @@
 
         /* Khởi tạo giao diện khi tải trang */
         window.addEventListener('DOMContentLoaded', () => {
-            renderEquippedShowcase();
+            renderHeaderEquipped();
             setMainCategory('character');
         });
     </script>
