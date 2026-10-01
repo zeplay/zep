@@ -117,7 +117,7 @@
     <!-- THANH TUYỆT KỸ BẤM TAY (SKILL HOTBAR) -->
     <div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
         <button onclick="triggerVanKiemQuyTong()" class="group relative px-5 py-2.5 rounded-2xl bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 border border-cyan-300/60 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(58,134,255,0.6)] hover:scale-105 active:scale-95 transition flex items-center gap-2">
-            <i class="fa-solid fa-swords text-lg text-cyan-200"></i>
+            <i class="fa-solid fa-khanda text-lg text-cyan-200"></i>
             <div class="text-left">
                 <div class="text-[10px] text-cyan-200 uppercase font-black">Tuyệt Kỹ 1</div>
                 <div class="text-xs font-title font-bold text-white">Vạn Kiếm Quy Tông</div>
@@ -125,7 +125,7 @@
         </button>
 
         <button onclick="triggerDaCauBong()" class="group relative px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-700 via-teal-600 to-green-600 border border-emerald-300/60 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(42,157,143,0.6)] hover:scale-105 active:scale-95 transition flex items-center gap-2">
-            <i class="fa-solid fa-staff text-lg text-emerald-200"></i>
+            <i class="fa-solid fa-wand-sparkles text-lg text-emerald-200"></i>
             <div class="text-left">
                 <div class="text-[10px] text-emerald-200 uppercase font-black">Tuyệt Kỹ 2</div>
                 <div class="text-xs font-title font-bold text-white">Đả Cẩu Bổng Pháp</div>
@@ -186,7 +186,7 @@
                     <div class="lg:col-span-2 space-y-4">
                         <div class="flex justify-between items-center">
                             <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
-                                <i class="fa-solid fa-sparkles text-amber-400"></i> Danh Sách Linh Tướng Tiên Hiệp
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Danh Sách Linh Tướng Tiên Hiệp
                             </h3>
                             <span id="deployed-count" class="text-xs text-amber-400 font-mono bg-amber-500/20 px-3 py-1 rounded-full border border-amber-400/30">Đã xuất trận: 2/4</span>
                         </div>
@@ -287,7 +287,7 @@
            ========================================================================== */
         function createSvgWebP(colorHex, nameText, icon) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${colorHex}" stop-opacity="0.9"/><stop offset="100%" stop-color="#000" stop-opacity="0.3"/></radialGradient></defs><circle cx="100" cy="100" r="85" fill="url(#g)" stroke="${colorHex}" stroke-width="4"/><text x="100" y="115" font-family="sans-serif" font-size="55" fill="#fff" text-anchor="middle">${icon}</text></svg>`;
-            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+            return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
         }
 
         const characterDatabase = [
@@ -338,8 +338,9 @@
         let playerY = 2000;
         let killsCount = 0;
         let autoBattle = true;
+        let currentPreviewHeroId = 1;
 
-        // SCALE PARAMETERS (YÊU CẦU ĐỀ BÀI)
+        // SCALE PARAMETERS
         const PLAYER_RADIUS = 75; // Nhân vật to gấp 3 lần (Cũ: 25 -> Mới: 75)
         const BOSS_RADIUS = 225;   // Boss to gấp 5 lần (Cũ: 45 -> Mới: 225)
         const MONSTER_RADIUS = 30;
@@ -352,10 +353,16 @@
         let activeSkillEffects = [];
         let loadedImages = {};
 
-        function getWebPImage(src) {
+        function getWebPImage(src, fallbackSrc) {
             if (!loadedImages[src]) {
                 const img = new Image();
                 img.src = src;
+                if (fallbackSrc) {
+                    img.onerror = () => {
+                        img.onerror = null;
+                        img.src = fallbackSrc;
+                    };
+                }
                 loadedImages[src] = img;
             }
             return loadedImages[src];
@@ -379,7 +386,7 @@
                     speed: 18,
                     delay: i * 2,
                     timer: 0,
-                    state: 'orbit', // 'orbit' then 'launch'
+                    state: 'orbit',
                     target: null
                 });
             }
@@ -426,7 +433,7 @@
                 hp: isBoss ? 3000 : 80,
                 maxHp: isBoss ? 3000 : 80,
                 speed: isBoss ? 0.9 : 1.8 + Math.random() * 0.6,
-                radius: isBoss ? BOSS_RADIUS : MONSTER_RADIUS, // BOSS TO GẤP 5 LẦN
+                radius: isBoss ? BOSS_RADIUS : MONSTER_RADIUS,
                 isBoss: isBoss,
                 sprite: randomSprite,
                 name: isBoss ? "MA THẦN THÁI CỔ (KHỔNG LỒ)" : "Linh Tà Quái"
@@ -501,10 +508,10 @@
                 if (eff.type === 'van_kiem') {
                     eff.timer++;
                     if (eff.timer > eff.delay) {
-                        if (!eff.target && monsters.length > 0) {
+                        if ((!eff.target || eff.target.hp <= 0 || !monsters.includes(eff.target)) && monsters.length > 0) {
                             eff.target = monsters[Math.floor(Math.random() * monsters.length)];
                         }
-                        if (eff.target) {
+                        if (eff.target && eff.target.hp > 0) {
                             const dx = eff.target.x - eff.x;
                             const dy = eff.target.y - eff.y;
                             const dist = Math.hypot(dx, dy);
@@ -581,7 +588,7 @@
                 ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
                 ctx.fillRect(screenX - hpBarWidth / 2, screenY - m.radius - 20, hpBarWidth, m.isBoss ? 10 : 6);
                 ctx.fillStyle = m.isBoss ? "#e63946" : "#2a9d8f";
-                ctx.fillRect(screenX - hpBarWidth / 2, screenY - m.radius - 20, (m.hp / m.maxHp) * hpBarWidth, m.isBoss ? 10 : 6);
+                ctx.fillRect(screenX - hpBarWidth / 2, screenY - m.radius - 20, Math.max(0, (m.hp / m.maxHp)) * hpBarWidth, m.isBoss ? 10 : 6);
 
                 // Tên Boss
                 if (m.isBoss) {
@@ -655,7 +662,7 @@
                 const hx = viewWidth / 2 + Math.cos(angle) * HERO_ORBIT_RADIUS;
                 const hy = viewHeight / 2 + Math.sin(angle) * HERO_ORBIT_RADIUS;
 
-                const img = getWebPImage(hero.image || hero.fallback);
+                const img = getWebPImage(hero.image, hero.fallback);
                 ctx.drawImage(img, hx - 35, hy - 35, 70, 70);
 
                 ctx.beginPath();
@@ -714,7 +721,7 @@
 
         document.getElementById('btn-toggle-menu').addEventListener('click', () => {
             menuOverlay.classList.remove('hidden');
-            renderHeroesTab();
+            renderHeroesTab(currentPreviewHeroId);
             renderTitlesTab();
         });
 
@@ -736,7 +743,7 @@
             }
         }
 
-        function renderHeroesTab() {
+        function renderHeroesTab(selectedId = currentPreviewHeroId) {
             const grid = document.getElementById('heroes-list-grid');
             const deployedCount = characterDatabase.filter(c => c.deployed).length;
             document.getElementById('deployed-count').textContent = `Đã xuất trận: ${deployedCount}/4`;
@@ -744,7 +751,7 @@
             grid.innerHTML = characterDatabase.map(char => `
                 <div onclick="previewHero(${char.id})" class="cursor-pointer p-3.5 rounded-2xl border ${char.deployed ? 'border-amber-400 bg-amber-500/15' : 'border-slate-800 bg-black/50'} hover:border-amber-400/80 transition flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <img src="${char.image}" onerror="this.src='${char.fallback}'" class="w-14 h-14 rounded-2xl object-contain bg-slate-900 border border-amber-500/30 p-1">
+                        <img src="${char.image}" onerror="this.onerror=null; this.src='${char.fallback}'" class="w-14 h-14 rounded-2xl object-contain bg-slate-900 border border-amber-500/30 p-1">
                         <div>
                             <h4 class="font-bold text-xs text-amber-200">${char.name}</h4>
                             <span class="text-[10px] text-amber-400/80">Hệ ${char.element} • DPS: ${(char.dps/1000000).toFixed(1)}M</span>
@@ -756,18 +763,22 @@
                 </div>
             `).join('');
 
-            // Mặc định chọn hero đầu tiên để preview
-            previewHero(1);
+            previewHero(selectedId);
         }
 
         function previewHero(id) {
             const hero = characterDatabase.find(c => c.id === id);
             if (!hero) return;
+            currentPreviewHeroId = id;
 
             document.getElementById('preview-hero-name').textContent = hero.name;
             const img = document.getElementById('preview-hero-img');
+            img.onerror = () => {
+                img.onerror = null;
+                img.src = hero.fallback;
+            };
             img.src = hero.image;
-            img.onerror = () => { img.src = hero.fallback; };
+
             document.getElementById('preview-hero-elem').textContent = hero.element;
             document.getElementById('preview-hero-dps').textContent = hero.dps.toLocaleString();
 
@@ -775,7 +786,6 @@
             deployBtn.textContent = hero.deployed ? "Thu Hồi Linh Tướng" : "Xuất Trận Trợ Chiến";
             deployBtn.onclick = () => {
                 toggleDeployHero(hero.id);
-                previewHero(hero.id);
             };
         }
 
@@ -790,7 +800,7 @@
             }
 
             hero.deployed = !hero.deployed;
-            renderHeroesTab();
+            renderHeroesTab(id);
             showToast(hero.deployed ? `Đã xuất trận ${hero.name}` : `Đã thu hồi ${hero.name}`);
         }
 
@@ -814,7 +824,7 @@
             
             const badge = document.getElementById('hud-title-badge');
             badge.textContent = activeTitle.name;
-            badge.className = `animate-title px-4 py-1 rounded-full bg-gradient-to-r ${activeTitle.style} font-black tracking-widest text-xs mb-44 shadow-lg`;
+            badge.className = `animate-title px-4 py-1 rounded-full bg-gradient-to-r ${activeTitle.style} font-black tracking-widest text-xs mb-44 shadow-[0_0_20px_rgba(223,172,66,0.8)]`;
 
             renderTitlesTab();
             showToast(`Đã đổi danh hiệu thành: ${activeTitle.name}`);
@@ -846,7 +856,7 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = "bg-slate-900/95 border border-amber-500/50 text-amber-300 text-xs px-4 py-3 rounded-xl shadow-[0_0_20px_rgba(223,172,66,0.4)] backdrop-blur-md flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300";
-            toast.innerHTML = `<i class="fa-solid fa-sparkles text-amber-400 text-base"></i> <span>${msg}</span>`;
+            toast.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-amber-400 text-base"></i> <span>${msg}</span>`;
             
             container.appendChild(toast);
             setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
