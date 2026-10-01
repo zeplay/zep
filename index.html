@@ -388,7 +388,7 @@
         </div>
     </div>
 
-    <!-- UPLOAD CUSTOM WEBP MODAL (BỔ SUNG Ô AVATAR & ĐẢM BẢO Ô DANH HIỆU) -->
+    <!-- UPLOAD CUSTOM WEBP MODAL -->
     <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="relative w-full max-w-lg bg-slate-950 border border-amber-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(223,172,66,0.3)]">
             <button id="btn-close-upload" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -494,7 +494,7 @@
 
     <script>
         /* ==========================================================================
-           1. DATASET & STATE VỚI ĐẦY ĐỦ TÊN FILE WEBP, Ô DANH HIỆU & Ô AVATAR
+           1. DATASET & STATE VỚI CẬP NHẬT ĐẦY ĐỦ TÊN FILE WEBP, Ô DANH HIỆU & Ô AVATAR
            ========================================================================== */
 
         // Helper tạo ảnh SVG giả lập khi file webp không tồn tại cục bộ
@@ -524,7 +524,7 @@
             return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
         }
 
-        // MẢNG LINH TƯỚNG TỔNG HỢP ĐẦY ĐỦ TỪ DANH SÁCH ẢNH WEBP CỦA BẠN
+        // MẢNG LINH TƯỚNG TỔNG HỢP ĐÃ ĐƯỢC CẬP NHẬT CHUẨN DANH HIỆU VÀ AVATAR THEO FILE
         const defaultCharacters = [
             {
                 id: 1,
@@ -542,14 +542,14 @@
             },
             {
                 id: 2,
-                name: "Ngộ Không Đấu Chiến",
+                name: "Tôn Ngộ Không",
                 danhHieu: "Tề Thiên Đại Thánh",
                 element: "Kim",
                 grade: "Thái Cổ Thần Cấp",
                 power: 100000000,
                 image: "ngo-khong-dau-chien-thang-phat.webp",
                 avatar: "ngo-khong-dau-chien-thang-phat.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Ngộ Không", "🐒"),
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Tôn Ngộ Không", "🐒"),
                 skill: "Như Ý Kim Cung - Nhất bổng định càn khôn, san bằng cửu thiên.",
                 lore: "Đấu Chiến Thắng Phật trấn áp tam giới, thân thể kim cang bất hoại.",
                 isFavorite: true
@@ -557,13 +557,13 @@
             {
                 id: 3,
                 name: "Tử Hà Tiên Tử",
-                danhHieu: "Bàn Tơ Đại Thánh",
+                danhHieu: "Bàn Tơ Tiên Tử",
                 element: "Thủy",
                 grade: "Thần Cấp",
                 power: 96500000,
                 image: "tu-ha-tien-tu.webp",
                 avatar: "tu-ha-tien-tu.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Tử Hà Tiên Tử", "❄️️"),
+                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Tử Hà Tiên Tử", "❄"),
                 skill: "Tử Thanh Linh Kiếm - Kiếm khí hóa trần, duyên định tam sinh.",
                 lore: "Nguồn gốc từ ngọn đèn Bàn Tơ, mang tình duyên vạn năm bất diệt.",
                 isFavorite: true
@@ -571,7 +571,7 @@
             {
                 id: 4,
                 name: "Thiên Thủ Như Lai",
-                danhHieu: "Vạn Phật Triều Zông",
+                danhHieu: "Vạn Phật Triều Tông",
                 element: "Thần",
                 grade: "Chí Tôn Phật Cấp",
                 power: 100000000,
@@ -599,7 +599,7 @@
             {
                 id: 6,
                 name: "Thái Tử Na Tra",
-                danhHieu: "Tam Nhạn Hội Hải",
+                danhHieu: "Tam Đầu Lục Tí",
                 element: "Hỏa",
                 grade: "Thượng Cổ Thần Cấp",
                 power: 98200000,
@@ -613,7 +613,7 @@
             {
                 id: 7,
                 name: "Thủy Long Thánh Mẫu",
-                danhHieu: "Chủ Cảnh Băng Thủy",
+                danhHieu: "Bắc Hải Thần Mẫu",
                 element: "Thủy",
                 grade: "Thần Cấp",
                 power: 95400000,
@@ -627,7 +627,7 @@
             {
                 id: 8,
                 name: "Thông Thiên Giáo Chủ",
-                danhHieu: "Trụ Quốc Kiếm Tổ",
+                danhHieu: "Bích Du Kiếm Tổ",
                 element: "Kim",
                 grade: "Chí Tôn Thần Cấp",
                 power: 99990000,
@@ -683,7 +683,7 @@
             {
                 id: 12,
                 name: "Xích Thố Ma Thần",
-                danhHieu: "Thần Ký Ma Thú",
+                danhHieu: "Vô Song Ma Ký",
                 element: "Hỏa",
                 grade: "Thượng Cổ Linh Thú",
                 power: 91200000,
