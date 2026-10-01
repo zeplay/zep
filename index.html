@@ -105,12 +105,6 @@
             box-shadow: 0 12px 40px -10px rgba(223, 172, 66, 0.35);
         }
 
-        /* Khung Avatar Hào Quang */
-        .avatar-frame-gold {
-            background: radial-gradient(circle, rgba(223,172,66,0.3) 0%, rgba(0,0,0,0.8) 100%);
-            box-shadow: 0 0 15px rgba(223,172,66,0.5), inset 0 0 8px rgba(251,226,157,0.4);
-        }
-
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 6px;
@@ -157,16 +151,31 @@
         <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/80 backdrop-blur-md px-4 py-3 sm:px-8">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 
-                <!-- Logo & Title -->
+                <!-- Logo, Frame & Title Banner -->
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full border-2 border-amber-500/70 flex items-center justify-center bg-amber-500/10 shadow-[0_0_15px_rgba(223,172,66,0.3)] animate-pulse">
-                        <i class="fa-solid fa-yin-yang text-amber-400 text-lg"></i>
+                    <!-- KHUNG AVATAR ĐƯỢC BỔ SUNG PHÍA TRÊN -->
+                    <div class="relative w-14 h-14 flex items-center justify-center flex-shrink-0 cursor-pointer" onclick="toggleAvatarFrame()" title="Đổi Khung Avatar Tiên Giới">
+                        <!-- Khung Avatar Lớp Ngoài -->
+                        <img id="header-avatar-frame" src="khung-vip-1.webp" onerror="this.onerror=null; this.src='nap-3000k.webp';" class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none drop-shadow-[0_0_10px_rgba(223,172,66,0.8)]" alt="Khung Avatar VIP">
+                        <!-- Ảnh Linh Tướng Bên Trong Khung -->
+                        <div class="w-9 h-9 rounded-full border border-amber-500/70 overflow-hidden flex items-center justify-center bg-black shadow-[0_0_15px_rgba(223,172,66,0.3)]">
+                            <i class="fa-solid font-bold text-amber-400 text-base animate-pulse">☯</i>
+                        </div>
                     </div>
+
                     <div>
-                        <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
-                            LINH GIỚI BẢO LỤC
-                        </h1>
-                        <p class="text-xs text-amber-200/60 font-medium">Bộ Sưu Tập WebP Động Tiên Hiệp & Huyền Huyễn</p>
+                        <!-- BẢNG DANH HIỆU THAY THẾ/BỔ SUNG CHO KHUNG TIÊU ĐỀ -->
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
+                                LINH GIỚI BẢO LỤC
+                            </h1>
+                            <!-- Ảnh Danh Hiệu Thần Vực -->
+                            <img id="header-title-badge" src="thien-ha-de-nhat-tong.webp" onerror="this.onerror=null; this.src='vo-song-chi-tong.webp';" class="h-6 sm:h-7 object-contain drop-shadow-[0_0_8px_rgba(223,172,66,0.8)]" alt="Danh Hiệu Đệ Nhất Tông">
+                        </div>
+                        <p class="text-xs text-amber-200/60 font-medium flex items-center gap-2 mt-0.5">
+                            <span>Bộ Sưu Tập WebP Động Tiên Hiệp & Huyền Huyễn</span>
+                            <span class="hidden sm:inline-block text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Vô Song Đệ Nhất</span>
+                        </p>
                     </div>
                 </div>
 
@@ -175,7 +184,7 @@
                     <!-- Search Bar -->
                     <div class="relative flex-1 sm:w-64 md:w-48 lg:w-64">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-amber-500/60"></i>
-                        <input id="search-input" type="text" placeholder="Tìm tên, danh hiệu..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+                        <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
                     </div>
 
                     <!-- Audio Ambient Sound Toggle -->
@@ -286,35 +295,17 @@
             <!-- RIGHT SIDE -->
             <div class="lg:w-1/2 p-6 flex flex-col justify-between overflow-y-auto bg-slate-950 border-t lg:border-t-0 lg:border-l border-amber-500/20">
                 <div>
-                    <!-- Header Info với Ô Avatar & Ô Danh Hiệu -->
-                    <div class="flex items-center gap-4 mb-4 pb-3 border-b border-amber-500/20">
-                        <!-- Ô AVATAR LINH TƯỚNG (Khung Hào Quang) -->
-                        <div class="relative flex-shrink-0">
-                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-amber-400 p-0.5 avatar-frame-gold overflow-hidden shadow-[0_0_15px_rgba(223,172,66,0.4)]">
-                                <img id="modal-avatar" src="" alt="Avatar" class="w-full h-full object-cover rounded-full">
-                            </div>
-                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full whitespace-nowrap shadow-md">Avatar</span>
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                        <div>
+                            <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
+                            <h2 id="modal-title" class="font-title font-black text-2xl text-amber-300 text-glow-gold">Hoàng Kim Vũ Thần</h2>
+                            <p id="modal-subtitle" class="text-xs text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Bát Nhã Thần Tướng</p>
                         </div>
-
-                        <!-- Tên & Ô Danh Hiệu -->
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
-                                <button id="modal-fav-btn" class="w-8 h-8 rounded-full border border-amber-500/30 bg-slate-900 hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition">
-                                    <i class="fa-regular fa-star text-sm"></i>
-                                </button>
-                            </div>
-                            <h2 id="modal-title" class="font-title font-black text-xl sm:text-2xl text-amber-300 text-glow-gold truncate">Hoàng Kim Vũ Thần</h2>
-                            
-                            <!-- Ô DANH HIỆU TÍCH HỢP -->
-                            <div class="mt-1 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500/20 via-yellow-500/10 to-transparent border-l-2 border-amber-400 text-xs font-bold text-amber-200">
-                                <i class="fa-solid fa-crown text-amber-400 text-[10px]"></i>
-                                <span id="modal-danh-hieu">Bát Nhã Thần Tướng</span>
-                            </div>
-                        </div>
+                        <button id="modal-fav-btn" class="w-9 h-9 rounded-full border border-amber-500/30 bg-slate-900 hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition">
+                            <i class="fa-regular fa-star text-lg"></i>
+                        </button>
                     </div>
 
-                    <!-- Thanh Linh Lực -->
                     <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
                         <div class="flex justify-between text-xs mb-1">
                             <span class="text-slate-400"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Linh Lực / Thần Lực:</span>
@@ -394,7 +385,7 @@
         </div>
     </div>
 
-    <!-- UPLOAD CUSTOM WEBP MODAL (Ô AVATAR & Ô DANH HIỆU) -->
+    <!-- UPLOAD CUSTOM WEBP MODAL -->
     <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="relative w-full max-w-lg bg-slate-950 border border-amber-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(223,172,66,0.3)]">
             <button id="btn-close-upload" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -407,10 +398,10 @@
             <p class="text-xs text-slate-400 mb-4">Tải lên hình ảnh WebP động hoặc GIF của bạn.</p>
 
             <form id="upload-form" class="space-y-4">
-                <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-5 text-center bg-slate-900/50 hover:bg-amber-500/5 cursor-pointer transition">
+                <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-6 text-center bg-slate-900/50 hover:bg-amber-500/5 cursor-pointer transition">
                     <input type="file" id="file-input" accept="image/webp, image/gif, image/png" class="hidden">
                     <div id="upload-preview-container" class="hidden mb-3">
-                        <img id="upload-preview-img" src="" class="max-h-32 mx-auto object-contain rounded-lg border border-amber-500/30">
+                        <img id="upload-preview-img" src="" class="max-h-36 mx-auto object-contain rounded-lg border border-amber-500/30">
                     </div>
                     <i id="upload-icon" class="fa-solid fa-cloud-arrow-up text-3xl text-amber-400 mb-2"></i>
                     <p class="text-xs text-amber-200 font-medium">Kéo thả file `.webp` hoặc `.gif` vào đây</p>
@@ -420,16 +411,8 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[11px] text-amber-300 mb-1">Tên Linh Tướng *</label>
-                        <input type="text" id="input-name" required placeholder="Ví dụ: Vương Lâm" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                        <input type="text" id="input-name" required placeholder="Ví dụ: Ma Thần Vực Thẫm" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
                     </div>
-                    <div>
-                        <!-- Ô DANH HIỆU -->
-                        <label class="block text-[11px] text-amber-300 mb-1">Ô Danh Hiệu *</label>
-                        <input type="text" id="input-danh-hieu" required placeholder="Ví dụ: Sát Lục Tịch Mịch" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[11px] text-amber-300 mb-1">Thuộc Tính (Hệ) *</label>
                         <select id="input-element" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
@@ -441,11 +424,6 @@
                             <option value="Thần">Thần (Divine)</option>
                             <option value="Ma">Ma (Demon)</option>
                         </select>
-                    </div>
-                    <div>
-                        <!-- Ô AVATAR LINK / AVATAR FILE -->
-                        <label class="block text-[11px] text-amber-300 mb-1">Ô Avatar (Link / Tên Tệp)</label>
-                        <input type="text" id="input-avatar" placeholder="Tự lấy theo ảnh hoặc điền link ảnh..." class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
                     </div>
                 </div>
 
@@ -485,7 +463,7 @@
         </div>
 
         <button id="btn-exit-cinematic" class="absolute top-5 right-5 z-30 px-4 py-2 rounded-full border border-amber-500/40 bg-black/60 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-2 backdrop-blur-md transition">
-            <i class="fa-solid fa-compress"></i> Thoát Điện
+            <i class="fa-solid fa-compress"></i> Thoát Điện Điện
         </button>
 
         <div class="relative z-10 flex flex-col items-center justify-center p-4">
@@ -500,206 +478,79 @@
 
     <script>
         /* ==========================================================================
-           1. DATASET & STATE VỚI ĐẦY ĐỦ TÊN FILE WEBP, Ô DANH HIỆU & Ô AVATAR
+           1. INITIAL DATASET & STATE (TẤT CẢ FILE ĐÃ ĐƯỢC TRÍCH XUẤT TỪ ẢNH)
            ========================================================================== */
 
-        // Helper tạo ảnh SVG giả lập khi file webp không tồn tại cục bộ
+        // Function tạo ảnh SVG giả lập cực chuẩn khi file chưa có trong thư mục
         function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480">
-                <defs>
-                    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/>
-                        <stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/>
-                    </radialGradient>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                <rect width="100%" height="100%" fill="#080a10" rx="16"/>
-                <circle cx="200" cy="220" r="150" fill="url(#bgGlow)" />
-                <circle cx="200" cy="220" r="130" stroke="${colorHex}" stroke-width="2" stroke-dasharray="10 5" fill="none" opacity="0.6"/>
-                <g transform="translate(200, 220)" filter="url(#glow)">
-                    <text x="0" y="25" font-family="sans-serif" font-size="75" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName}</text>
-                </g>
-                <text x="200" y="410" font-family="sans-serif" font-size="22" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text>
-            </svg>`;
-            return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/><stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="100%" height="100%" fill="#080a10"/><circle cx="200" cy="220" r="150" fill="url(#bgGlow)" /><circle cx="200" cy="220" r="130" stroke="${colorHex}" stroke-width="2" stroke-dasharray="10 5" fill="none" opacity="0.6"/><g transform="translate(200, 220)" filter="url(#glow)"><text x="0" y="20" font-family="sans-serif" font-size="70" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName}</text></g><text x="200" y="400" font-family="sans-serif" font-size="20" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text></svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
-        // MẢNG LINH TƯỚNG TỔNG HỢP ĐẦY ĐỦ TỪ DANH SÁCH ẢNH WEBP
+        // Danh sách Khung Avatar & Danh Hiệu
+        const avatarFrames = ["khung-vip-1.webp", "moc-vip-2.webp", "nap-3000k.webp"];
+        const titleBadges = ["thien-ha-de-nhat-tong.webp", "vo-song-chi-tong.webp", "thien-menh-ky-tai.webp", "thich-thi-nap.webp", "thien-dien-linh-duc-1.webp"];
+        let currentFrameIdx = 0;
+
+        function toggleAvatarFrame() {
+            currentFrameIdx = (currentFrameIdx + 1) % avatarFrames.length;
+            const frameEl = document.getElementById('header-avatar-frame');
+            frameEl.src = avatarFrames[currentFrameIdx];
+            showToast(`Chuyển sang ${avatarFrames[currentFrameIdx].replace('.webp','')}`);
+        }
+
+        // ĐẦY ĐỦ TẤT CẢ LINH TƯỚNG / PHÁP BẢO TỪ CÁC HÌNH ẢNH BẠN TẢI LÊN
         const defaultCharacters = [
-            {
-                id: 1,
-                name: "Vương Lâm",
-                danhHieu: "Sát Lục Tịch Mịch",
-                element: "Ma",
-                grade: "Thượng Cổ Ma Cấp",
-                power: 99900000,
-                image: "vuong-lam.webp",
-                avatar: "vuong-lam.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Vương Lâm", "💀"),
-                skill: "Tịch Mịch Thần Thông - Sát Lục Khái Nhuệ, diệt tận vạn thần.",
-                lore: "Chí tôn Ma Đạo vượt qua sinh tử giới hạn, chưởng khống quy luật Tịch Mịch.",
-                isFavorite: true
-            },
-            {
-                id: 2,
-                name: "Ngộ Không Đấu Chiến",
-                danhHieu: "Tề Thiên Đại Thánh",
-                element: "Kim",
-                grade: "Thái Cổ Thần Cấp",
-                power: 100000000,
-                image: "ngo-khong-dau-chien-thang-phat.webp",
-                avatar: "ngo-khong-dau-chien-thang-phat.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Ngộ Không", "🐒"),
-                skill: "Như Ý Kim Cung - Nhất bổng định càn khôn, san bằng cửu thiên.",
-                lore: "Đấu Chiến Thắng Phật trấn áp tam giới, thân thể kim cang bất hoại.",
-                isFavorite: true
-            },
-            {
-                id: 3,
-                name: "Tử Hà Tiên Tử",
-                danhHieu: "Bàn Tơ Đại Thánh",
-                element: "Thủy",
-                grade: "Thần Cấp",
-                power: 96500000,
-                image: "tu-ha-tien-tu.webp",
-                avatar: "tu-ha-tien-tu.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Tử Hà Tiên Tử", "❄"),
-                skill: "Tử Thanh Linh Kiếm - Kiếm khí hóa trần, duyên định tam sinh.",
-                lore: "Nguồn gốc từ ngọn đèn Bàn Tơ, mang tình duyên vạn năm bất diệt.",
-                isFavorite: true
-            },
-            {
-                id: 4,
-                name: "Thiên Thủ Như Lai",
-                danhHieu: "Vạn Phật Triều Tông",
-                element: "Thần",
-                grade: "Chí Tôn Phật Cấp",
-                power: 100000000,
-                image: "thien-thu-nhu-lai.webp",
-                avatar: "thien-thu-nhu-lai.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Như Lai", "☸️"),
-                skill: "Cửu Thiên Phật Chưởng - Độ hóa chúng sinh, trấn áp ma thần.",
-                lore: "Tối cao Vạn Phật Tôn Trực, pháp lực vô biên chiếu sáng ba nghìn đại thiên thế giới.",
-                isFavorite: false
-            },
-            {
-                id: 5,
-                name: "Ngọc Hoàng Đại Đế",
-                danhHieu: "Chí Tôn Tam Giới",
-                element: "Thần",
-                grade: "Đế Cấp Tối Cao",
-                power: 99800000,
-                image: "ngoc-hoang-dai-de-limited.webp",
-                avatar: "ngoc-hoang-dai-de-limited.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#f39c12", "Ngọc Hoàng", "👑"),
-                skill: "Càn Khôn Thiên Lệnh - Vô lượng thần uy, ngự trị thiên đình.",
-                lore: "Chủ nhân Linh Tiêu Bảo Điện, điều khiển luật trời tam giới.",
-                isFavorite: false
-            },
-            {
-                id: 6,
-                name: "Thái Tử Na Tra",
-                danhHieu: "Tam Nhạn Hội Hải",
-                element: "Hỏa",
-                grade: "Thượng Cổ Thần Cấp",
-                power: 98200000,
-                image: "thai-tu-na-tra-limited.webp",
-                avatar: "thai-tu-na-tra-limited.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Na Tra", "🔥"),
-                skill: "Phong Hỏa Luân Độn - Hỏa Tiêm Thương quấy đảo ngũ hành.",
-                lore: "Linh Châu Tử chuyển thế, mang 3 đầu 6 tay đánh nát long cung.",
-                isFavorite: true
-            },
-            {
-                id: 7,
-                name: "Thủy Long Thánh Mẫu",
-                danhHieu: "Chủ Cảnh Băng Thủy",
-                element: "Thủy",
-                grade: "Thần Cấp",
-                power: 95400000,
-                image: "thuy-long-thanh-mau.webp",
-                avatar: "thuy-long-thanh-mau.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thủy Long", "🌊"),
-                skill: "Cửu Tầng Thủy Triều - Triệu hồi Thủy Long cuồng phong diệt thế.",
-                lore: "Trấn giữ đại dương viễn cổ, chưởng quản vạn dòng nước thiên hạ.",
-                isFavorite: false
-            },
-            {
-                id: 8,
-                name: "Thông Thiên Giáo Chủ",
-                danhHieu: "Trụ Quốc Kiếm Tổ",
-                element: "Kim",
-                grade: "Chí Tôn Thần Cấp",
-                power: 99990000,
-                image: "thong-thien-giao-chu-limited.webp",
-                avatar: "thong-thien-giao-chu-limited.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Thông Thiên", "⚔️"),
-                skill: "Trảm Tiên Kiếm Trận - Nhất khí hóa tam thanh, diệt diệu tiên ma.",
-                lore: "Giáo chủ Bích Du Cung, chưởng khống Trảm Tiên Tứ Kiếm vang danh.",
-                isFavorite: false
-            },
-            {
-                id: 9,
-                name: "Thái Cổ Thanh Long",
-                danhHieu: "Đông Phương Thần Thú",
-                element: "Mộc",
-                grade: "Thái Cổ Thần Thú",
-                power: 97800000,
-                image: "thai-co-thanh-long.webp",
-                avatar: "thai-co-thanh-long.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thanh Long", "🐉"),
-                skill: "Ất Mộc Vạn Tượng - Sinh cơ tràn ngập, cuồng long giáng thế.",
-                lore: "Thủ hộ linh thú đứng đầu Tứ Phường, tượng trưng cho sinh khí vạn vật.",
-                isFavorite: false
-            },
-            {
-                id: 10,
-                name: "Nữ Đế Võ Tắc Thiên",
-                danhHieu: "Cửu Châu Nữ Hoàng",
-                element: "Thổ",
-                grade: "Đế Cấp",
-                power: 96900000,
-                image: "nu-de-vo-tac-thien.webp",
-                avatar: "nu-de-vo-tac-thien.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Võ Tắc Thiên", "👸"),
-                skill: "Vô Tự Bật Bia - Sơn hà xô lệch, đế uy trấn áp chư thần.",
-                lore: "Nữ hoàng duy nhất cai trị Cửu Châu, mang chí tôn long khí.",
-                isFavorite: false
-            },
-            {
-                id: 11,
-                name: "Ngưu Ma Vương",
-                danhHieu: "Bình Thiên Đại Thánh",
-                element: "Hỏa",
-                grade: "Thánh Cấp",
-                power: 94800000,
-                image: "nguu-ma-vuong.webp",
-                avatar: "nguu-ma-vuong.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Ngưu Ma Vương", "🐂"),
-                skill: "Bình Thiên Trấn Đất - Ma hỏa phần thiên, lực bạt sơn hề.",
-                lore: "Đứng đầu Thất Đại Thánh hoang dã, vạn ma kính sợ.",
-                isFavorite: false
-            },
-            {
-                id: 12,
-                name: "Xích Thố Ma Thần",
-                danhHieu: "Thần Ký Ma Thú",
-                element: "Hỏa",
-                grade: "Thượng Cổ Linh Thú",
-                power: 91200000,
-                image: "xich-tho-ma.webp",
-                avatar: "xich-tho-ma.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Xích Thố Mã", "🐎"),
-                skill: "Liệt Diệm Đạp Hư - Sấm sét chạy ngang thiên không.",
-                lore: "Thần thú cưỡi của vô song chiến thần, di chuyển ngàn dặm trong chớp mắt.",
-                isFavorite: false
-            }
+            { id: 1, name: "Chúc Nữ Tiên Tử", element: "Thủy", grade: "Thần Cấp", power: 98500000, image: "chuc-nu.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Chúc Nữ Tiên Tử", "❄️"), skill: "Cửu Thiên Băng Tằm - Dệt mây thành thương, tuyết phủ vạn dặm.", lore: "Tối cao Thủy Thần cai quản dải Ngân Hà thanh khiết bất diệt.", isFavorite: true },
+            { id: 2, name: "Khương Lập Thần Nữ", element: "Mộc", grade: "Thượng Cổ Thần Cấp", power: 99800000, image: "khuong-lap.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Khương Lập Thần Nữ", "🌿"), skill: "Mộc Linh Tự Nhiên - Triệu hồi Vạn Khí Linh Thạch bảo hộ.", lore: "Thánh nữ Thần Giới mang sinh cơ vô tận của vạn vật.", isFavorite: true },
+            { id: 3, name: "Vương Lâm Ma Đế", element: "Thần", grade: "Thượng Cổ Chí Tôn", power: 100000000, image: "vuong-lam.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Vương Lâm Ma Đế", "👁️"), skill: "Thần Đồ Diệt Tiên - Nhất niệm hoá ma, định đoạt sinh tử.", lore: "Truyền thuyết Ma Đầu quét sạch tam giới, chấn động thiên hạ.", isFavorite: true },
+            { id: 4, name: "Ngộ Không Đấu Chiến Thắng Phật", element: "Kim", grade: "Thần Phật Cấp", power: 99900000, image: "ngo-khong-dau-chien-thang-phat.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Đấu Chiến Thắng Phật", "🐒"), skill: "Như Ý Kim Cô Bang - Phá tan 33 tầng trời, trấn áp yêu ma.", lore: "Chiến thần Đấu Chiến Thắng Phật bất hoại bất diệt.", isFavorite: true },
+            { id: 5, name: "Tề Thiên Đại Thánh Ngộ Không", element: "Hỏa", grade: "Thánh Tôn Cấp", power: 98700000, image: "ngo-khong-nang-cap.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Tề Thiên Đại Thánh", "🔥"), skill: "Hỏa Nhãn Kim Tinh - Nhìn thấu vạn ma trùng điệp.", lore: "Đại Thánh uy phong trấn giữ Hoa Quả Sơn.", isFavorite: false },
+            { id: 6, name: "Tần Vũ Chí Tôn", element: "Thần", grade: "Tinh Cầu Tôn Cấp", power: 100000000, image: "tan-vu.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Tần Vũ Chí Tôn", "⚡"), skill: "Tinh Chấn Hư Không - Sức mạnh sáng tạo thế giới thần bí.", lore: "Tối cao thống lĩnh cai quản Thần Giới không gian.", isFavorite: true },
+            { id: 7, name: "Tần Vũ (Thần Tôn Nâng Cấp)", element: "Thần", grade: "Thần Tôn Cấp", power: 100000000, image: "tan-vu-nang-capp.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Tần Vũ Thần Tôn", "🌌"), skill: "Thần Lực Tinh Không - Diệt ma chỉ bằng một ánh nhìn.", lore: "Trạng thái đỉnh phong bộc phát tối cao linh khí.", isFavorite: false },
+            { id: 8, name: "Thông Thiên Giáo Chủ", element: "Ma", grade: "Thái Cổ Thần Cấp", power: 100000000, image: "thong-thien-giao-chu-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Thông Thiên Giáo Chủ", "🗡️"), skill: "Trúc Tiên Kiếm Trận - Đệ nhất trận pháp sát phạt viễn cổ.", lore: "Giáo chủ Bích Du Cung nắm giữ Trúc Tiên Tứ Kiếm.", isFavorite: true },
+            { id: 9, name: "Như Lai Phật Tổ", element: "Thần", grade: "Đại La Chí Tôn", power: 100000000, image: "nhu-lai.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Như Lai Phật Tổ", "☸️"), skill: "Phật Quang Phổ Chiếu - Trấn áp 5 ngọn núi Ngũ Hành.", lore: "Tối cao vô thượng cai quản Tây Phương Cực Lạc.", isFavorite: false },
+            { id: 10, name: "Thiên Thủ Như Lai", element: "Thần", grade: "Thần Cấp", power: 99400000, image: "thien-thu-nhu-lai.webp", fallbackImage: createXianxiaSvgPlaceholder("#f39c12", "Thiên Thủ Như Lai", "🖐️"), skill: "Vạn Thủ Ấn Pháp - Thi triển ngàn chưởng pháp độ hoá tam giới.", lore: "Biểu tượng thần uy hộ pháp từ Tây Thiên.", isFavorite: false },
+            { id: 11, name: "Ngọc Hoàng Đại Đế", element: "Thần", grade: "Đế Cấp", power: 99500000, image: "ngoc-hoang-dai-de-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Ngọc Hoàng Đại Đế", "👑"), skill: "Cửu Long Trảm Ma - Triệu hồi cửu long trấn giữ Thiên Đình.", lore: "Chủ nhân Thiên Đình cai quản muôn loài tam giới.", isFavorite: false },
+            { id: 12, name: "Ngưu Ma Vương", element: "Thổ", grade: "Ma Vương Cấp", power: 92000000, image: "nguu-ma-vuong.webp", fallbackImage: createXianxiaSvgPlaceholder("#8d6e63", "Ngưu Ma Vương", "🐂"), skill: "Hỗn Thiên Phá Địa - Búa thần xé rách đồi núi.", lore: "Đại anh huynh Kết Nghĩa Hoa Quả Sơn uy chấn ma giới.", isFavorite: false },
+            { id: 13, name: "Nữ Đế Võ Tắc Thiên", element: "Kim", grade: "Đế Cấp", power: 95500000, image: "nu-de-vo-tac-thien.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Nữ Đế Võ Tắc Thiên", "👸"), skill: "Phượng Hoàng Lăng Thiên - Uy lực xưng bá thiên hạ.", lore: "Nữ vương ngự trị hoàng triều uy phong.", isFavorite: false },
+            { id: 14, name: "Hồng Hài Nhi", element: "Hỏa", grade: "Thánh Cấp", power: 90000000, image: "hong-hai-nhi.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Hồng Hài Nhi", "🔥"), skill: "Tam Muội Chân Hỏa - Thiêu rụi thần tiên yêu ma.", lore: "Mộc Thương Vương cai quản Động Hỏa Vân.", isFavorite: false },
+            { id: 15, name: "Phong Thần Na Tra", element: "Hỏa", grade: "Thần Cấp", power: 96500000, image: "phong-than-natra.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Phong Thần Na Tra", "🛞"), skill: "Phong Hỏa Luân - Đạp bánh xe lửa du ngoạn tứ phương.", lore: "Tam Thái Tử Na Tra trừ ma diệt tà.", isFavorite: false },
+            { id: 16, name: "Thái Tử Na Tra (Limited)", element: "Thần", grade: "Thượng Cổ Thần Cấp", power: 98100000, image: "thai-tu-na-tra-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Thái Tử Na Tra", "⚡"), skill: "Hỗn Thiên Dải Lụa - Quấn chết ma thần viễn cổ.", lore: "Hình thái giới hạn tích tụ thần lực thiên địa.", isFavorite: true },
+            { id: 17, name: "Kiếm Tiên Lý Bạch", element: "Kim", grade: "Thánh Cấp", power: 96800000, image: "kiem-tien-ly-bach-1.webp", fallbackImage: createXianxiaSvgPlaceholder("#f39c12", "Kiếm Tiên Lý Bạch", "🗡️"), skill: "Thanh Liên Kiếm Trận - Múa kiếm trăng sao cuồng say.", lore: "Thi tiên trần gian đắc đạo thành kiếm tiên phong lưu.", isFavorite: false },
+            { id: 18, name: "Thái Cổ Thanh Long", element: "Mộc", grade: "Thái Cổ Thần Thú", power: 97500000, image: "thai-co-thanh-long.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thái Cổ Thanh Long", "🐉"), skill: "Thanh Long Hống Thiên - Tiếng gầm xé toạc linh không.", lore: "Thần thú trấn giữ phương Đông từ thời khai thiên.", isFavorite: true },
+            { id: 19, name: "Lạc Thần Tiên Tử", element: "Thủy", grade: "Thần Cấp", power: 94500000, image: "lac-than.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Lạc Thần Tiên Tử", "🌊"), skill: "Sóng Nước Lạc Thủy - Rải hoa tuyết xua tan vạn oán khí.", lore: "Tiên nữ dòng sông Lạc Thủy đẹp nghiêng nước nghiêng thành.", isFavorite: false },
+            { id: 20, name: "Ly Hỏa Vương", element: "Hỏa", grade: "Thần Cấp", power: 95800000, image: "ly-hoa-vuong.png", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Ly Hỏa Vương", "🔥"), skill: "Cửu Ly Thần Hỏa - Lửa thiêu cháy cõi hư vô.", lore: "Chủ nhân ngọn núi Ly Hỏa rực cháy ngàn năm.", isFavorite: false },
+            { id: 21, name: "Mạc Vũ Thần Quân", element: "Mộc", grade: "Thần Cấp", power: 93800000, image: "mac-vu-than-quan.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Mạc Vũ Thần Quân", "🛡️"), skill: "Mộc Trận Hộ Thể - Khiên gỗ linh khí bất diệt.", lore: "Tướng quân trấn giữ biên giới Linh Giới.", isFavorite: false },
+            { id: 22, name: "Mị Nguyệt Yêu Hồ", element: "Ma", grade: "Thượng Cổ Yêu Cấp", power: 94800000, image: "mi-nguyet-yeu-ho.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Mị Nguyệt Yêu Hồ", "🦊"), skill: "Cửu Vĩ Mê Hồn - Mê hoặc tam giới bằng thần thái nguyệt hoa.", lore: "Cửu vĩ thiên hồ luyện thành yêu tiên ngàn năm.", isFavorite: true },
+            { id: 23, name: "Tử Đồ Nam", element: "Ma", grade: "Thánh Cấp", power: 96200000, image: "tu-do-nam.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Tử Đồ Nam", "🔮"), skill: "Ma Ma Quyết - Chiếm đoạt linh lực vạn ma.", lore: "Ma hoàng danh tiếng lẫy lừng thế giới Tiên N逆.", isFavorite: false },
+            { id: 24, name: "Tử Hà Tiên Tử", element: "Thần", grade: "Thần Cấp", power: 95100000, image: "tu-ha-tien-tu.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Tử Hà Tiên Tử", "✨"), skill: "Tử Khí Đông Lai - Mây mây tím vây quanh nâng bước tiên.", lore: "Nàng tiên giữ đèn dầu tại Bàn Tơ Động.", isFavorite: true },
+            { id: 25, name: "Tiên Nữ Tử Hà (Limited)", element: "Thần", grade: "Thượng Cổ Thần Cấp", power: 97800000, image: "tien-nu-tu-ha-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Tiên Nữ Tử Hà", "🌟"), skill: "Nguyện Cầu Nguyệt Quang - Phục hồi toàn bộ linh lực tiên hữu.", lore: "Tuyệt phẩm Tử Hà hình thái giới hạn.", isFavorite: false },
+            { id: 26, name: "Tiểu Bạch Long", element: "Thủy", grade: "Thần Cấp", power: 91500000, image: "tieu-bach-long.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Tiểu Bạch Long", "🐉"), skill: "Bạch Long Băng Kiếm - Rồng trắng biến hóa thành kiếm thần.", lore: "Tam Thái Tử Tây Hải Tam Lang hóa ngựa bạch du long.", isFavorite: false },
+            { id: 27, name: "Tiểu Hỏa Lân", element: "Hỏa", grade: "Thần Thú Cấp", power: 88500000, image: "tieu-hoa-lan.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Tiểu Hỏa Lân", "🔥"), skill: "Lân Hỏa Phún Trụ - Phun lửa đỏ rực thiêu đốt kẻ thù.", lore: "Kỳ lân lửa thu nhỏ đáng yêu nhưng đầy mãnh lực.", isFavorite: false },
+            { id: 28, name: "Tinh Diệu Độc Giác Thú", element: "Kim", grade: "Thần Thú Cấp", power: 89900000, image: "tinh-dieu-doc-giac-thu.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Độc Giác Thú", "🦄"), skill: "Tinh Quang Sừng Thần - Đâm thủng mọi lớp phòng thủ.", lore: "Ngựa một sừng lấp lánh ánh sao thần thoại.", isFavorite: false },
+            { id: 29, name: "Tinh Linh Tiên Tử", element: "Mộc", grade: "Tiên Cấp", power: 87500000, image: "tinh-linh.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Tinh Linh Tiên Tử", "🧚"), skill: "Vũ Điệu Hoa Tiên - Ban chữa lành cho muôn loài.", lore: "Tiên tử ngụ trong rừng trúc linh thiêng.", isFavorite: false },
+            { id: 30, name: "Thanh Diệm Linh Hồ", element: "Hỏa", grade: "Thần Thú Cấp", power: 93200000, image: "thanh-diem-linh-ho.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Thanh Diệm Linh Hồ", "🦊"), skill: "Hỏa Hồ Đoạt Mệnh - Ngọn lửa xanh thiêu đốt linh hồn.", lore: "Cáo lửa xanh chín đuôi quý hiếm.", isFavorite: false },
+            { id: 31, name: "Thanh Xà Tiểu Thanh", element: "Thủy", grade: "Yêu Tiên Cấp", power: 92400000, image: "thanh-xa-tieu-thanh.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thanh Xà Tiểu Thanh", "🐍"), skill: "Thanh Xà Cuồng Phong - Bão táp dâng trào đánh tan ma chướng.", lore: "Muội muội của Bạch Xà linh diệu thủy thần.", isFavorite: false },
+            { id: 32, name: "Thủy Long Thánh Mẫu", element: "Thủy", grade: "Thần Cấp", power: 97100000, image: "thuy-long-thanh-mau.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Thủy Long Thánh Mẫu", "🌊"), skill: "Thủy Long Trấn Hải - Triệu hồi biển cả nuốt chửng vạn vật.", lore: "Thánh mẫu cai quản vùng biển sâu thẳm.", isFavorite: false },
+            { id: 33, name: "Thôn Thôn Thần Thú", element: "Thổ", grade: "Thần Thú Viễn Cổ", power: 96000000, image: "thon-thon.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Thôn Thôn Thần Thú", "🐶"), skill: "Thôn Thiên Phệ Địa - Nuốt chửng toàn bộ đòn đánh ma pháp.", lore: "Thần thú đồng hành cùng Chu Nguyên chấn động thiên hạ.", isFavorite: true },
+            { id: 34, name: "Thiên Hỷ Thần Nữ", element: "Thần", grade: "Thần Cấp", power: 93500000, image: "thien-hi-than-nu.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Thiên Hỷ Thần Nữ", "🌸"), skill: "Hỷ Môn Giáng Lâm - Ban phước lành hộ thể.", lore: "Nữ thần mang lại may mắn và điềm lành Tiên Giới.", isFavorite: false },
+            { id: 35, name: "Thiên Xà Thiếu Chủ", element: "Ma", grade: "Thánh Cấp", power: 91800000, image: "thien-xa-thieu-chu.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Thiên Xà Thiếu Chủ", "🐍"), skill: "Xà Độc Trảm - Độc ma thấm vào xương tủy.", lore: "Thiếu chủ Thiên Xà Phủ mưu trí thâm trầm.", isFavorite: false },
+            { id: 36, name: "Thiết Phiến Công Chúa", element: "Hỏa", grade: "Thánh Cấp", power: 92800000, image: "thiet-phien-cong-chua-nang-cap.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Thiết Phiến Công Chúa", "🪭"), skill: "Ba Tiêu Thần Phiến - Quạt một cái dập tắt Hỏa Diệm Sơn.", lore: "Nương tử Ngưu Ma Vương sở hữu Ba Tiêu Phiến.", isFavorite: false },
+            { id: 37, name: "Quang Minh Chi Tử", element: "Kim", grade: "Thần Cấp", power: 95000000, image: "quang-minh-chi-tu.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Quang Minh Chi Tử", "☀️️"), skill: "Quang Minh Thánh Kiếm - Ánh sáng soi rọi bóng đêm ma quái.", lore: "Đại diện cho sức mạnh quang minh thánh khiết.", isFavorite: false },
+            { id: 38, name: "Tân Niên Vệ Thần 2026", element: "Thần", grade: "Thánh Cấp Special", power: 96900000, image: "tan-nien-ve-than.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Tân Niên Vệ Thần", "🧧"), skill: "Pháo Hoa Nghênh Xuân - Bão năng lượng xua đuổi xui xẻo.", lore: "Vị thần bảo hộ mùa xuân năm 2026 tràn đầy may mắn.", isFavorite: false },
+            { id: 39, name: "Thần Tài 2026", element: "Kim", grade: "Thần Cấp Special", power: 98800000, image: "than-tai-2026.webp", fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Thần Tài 2026", "💰"), skill: "Chiêu Tài Tiến Bảo - Rơi mưa thỏi vàng đè bẹp đối thủ.", lore: "Thần Tài mang lại cát tường tài lộc cho vạn tiên hữu.", isFavorite: true },
+            { id: 40, name: "Thạch Tích Ma Viêm Dực", element: "Hỏa", grade: "Pháp Bảo Cấp", power: 89000000, image: "tich-diet-ma-viem-duc.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Tịch Diệt Ma Viêm Dực", "🪽"), skill: "Viêm Dực Oanh Kích - Đôi cánh lửa quét sạch ma trận.", lore: "Cánh lửa ngàn năm luyện từ ma hỏa thượng cổ.", isFavorite: false },
+
+            /* DỰ TRỮ CÁC PHÁP BẢO & KIẾM TRẬN ĐƯỢC LÊN DANH SÁCH */
+            { id: 41, name: "Thất Tinh Kiếm Trận", element: "Kim", grade: "Thần Cấp Trận Pháp", power: 96000000, image: "that-tinh-kiem-tran.webp", fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Thất Tinh Kiếm Trận", "⚔️"), skill: "Thất Tinh Trảm Pháo - 7 thanh kiếm ánh sao đồng loạt xuất kích.", lore: "Kiếm trận đỉnh cao vây hãm thượng cổ ma thần.", isFavorite: true },
+            { id: 42, name: "Tu La Kiếm", element: "Ma", grade: "Thượng Cổ Ma Binh", power: 97200000, image: "tu-la-kiem.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Tu La Kiếm", "🗡️"), skill: "Tu La Trảm Mệnh - Kiếm khí đẫm máu sát phạt ma cõi.", lore: "Thần kiếm luyện bằng máu huyết Tu La tộc.", isFavorite: false },
+            { id: 43, name: "Xích Dương Thần Kiếm", element: "Hỏa", grade: "Thần Binh Cấp", power: 94100000, image: "xich-duong-than-kiem.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Xích Dương Thần Kiếm", "🗡️"), skill: "Thái Dương Kiếm Mông - Chém tan màn đêm lạnh giá.", lore: "Thần kiếm đúc từ lõi ngọn núi lửa vạn năm.", isFavorite: false },
+            { id: 44, name: "Huyết Sát Ma Kỳ", element: "Ma", grade: "Ma Bảo Cấp", power: 93000000, image: "huyet-sat-ma-ky.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Huyết Sát Ma Kỳ", "🚩"), skill: "Huyết Sát Triệu Hồ - Triệu hồi hàng vạn âm hồn sát khí.", lore: "Cờ ma luyện từ oán khí ngàn đời.", isFavorite: false },
+            { id: 45, name: "Hỗn Nguyên Côn", element: "Thổ", grade: "Thần Binh Viễn Cổ", power: 92500000, image: "hon-nguyen-con.webp", fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Hỗn Nguyên Côn", "🥢"), skill: "Hỗn Nguyên Kích Địa - Làm chấn động gãy vụn lòng đất.", lore: "Thần côn đúc bằng thiên thạch ngoài hành tinh.", isFavorite: false },
+            { id: 46, name: "Thập Ức Tôn Hồn Phiên", element: "Ma", grade: "Thái Cổ Ma Bảo", power: 99600000, image: "thap-uc-ton-hon-phien-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#9d4edd", "Thập Ức Tôn Hồn Phiên", "🏁"), skill: "Vạn Hồn Triều Bái - Phóng thích 10 tỷ oan hồn nuốt chửng đối thủ.", lore: "Tuyệt phẩm Ma Bảo danh tiếng của Vương Lâm.", isFavorite: true },
+            { id: 47, name: "Thiên Lý Giang Sơn Đồ", element: "Mộc", grade: "Thần Cấp Bảo Vật", power: 98000000, image: "thien-ly-giang-son-do-limited.webp", fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Thiên Lý Giang Sơn Đồ", "📜"), skill: "Thu Nhập Sơn Hà - Nhốt ma thần vào bức tranh thiên nhiên.", lore: "Bức tranh cuộn chứa đựng cả khoảng không gian thiên địa.", isFavorite: false },
+            { id: 48, name: "Xích Thố Mã", element: "Hỏa", grade: "Thần Thú Cưỡi", power: 86000000, image: "xich-tho-ma.webp", fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Xích Thố Mã", "🐎"), skill: "Xích Thố Phi Sương - Chạy nhanh như chớp vượt muôn dặm.", lore: "Thần mã lửa cưỡi của các vị tướng huyền thoại.", isFavorite: false }
         ];
 
         // State Store
@@ -888,7 +739,6 @@
             let filtered = characters.filter(c => {
                 const matchElement = currentFilter === "Toàn Bộ" || c.element === currentFilter;
                 const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                    (c.danhHieu && c.danhHieu.toLowerCase().includes(searchQuery.toLowerCase())) ||
                                     c.skill.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                     c.grade.toLowerCase().includes(searchQuery.toLowerCase());
                 const matchFav = !showFavoritesOnly || c.isFavorite;
@@ -909,10 +759,8 @@
 
             grid.innerHTML = filtered.map(char => {
                 const badgeStyle = getElementBadgeStyle(char.element);
-                const avatarUrl = char.avatar || char.image;
                 return `
                     <div onclick="openInspectModal(${char.id})" class="xianxia-card rounded-2xl p-4 relative group cursor-pointer overflow-hidden flex flex-col justify-between">
-                        <!-- Top Bar: Hệ Badge + Favorite Button -->
                         <div class="flex justify-between items-center mb-2 z-10">
                             <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold">
                                 Hệ ${char.element}
@@ -922,7 +770,6 @@
                             </button>
                         </div>
 
-                        <!-- WebP Preview Area -->
                         <div class="relative my-2 h-52 w-full flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-slate-900/60 to-black/80 border border-slate-800 group-hover:border-amber-500/30 transition">
                             <div class="absolute w-28 h-28 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition"></div>
                             <div class="absolute w-40 h-40 opacity-20 group-hover:opacity-40 transition animate-spin-slow">
@@ -932,29 +779,18 @@
                                 </svg>
                             </div>
 
+                            <!-- Ảnh WebP Động Linh Tướng -->
                             <img src="${char.image}" 
                                  onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
                                  alt="${char.name}" 
                                  class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
                         </div>
 
-                        <!-- Card Info với Ô AVATAR & Ô DANH HIỆU -->
                         <div class="z-10 mt-2">
-                            <div class="flex items-center gap-2.5">
-                                <!-- Ô AVATAR TRÊN THẺ BÀI -->
-                                <div class="w-10 h-10 rounded-full border border-amber-400/80 p-0.5 avatar-frame-gold overflow-hidden flex-shrink-0 bg-slate-900">
-                                    <img src="${avatarUrl}" onerror="this.onerror=null; this.src='${char.fallbackImage}'" class="w-full h-full object-cover rounded-full">
-                                </div>
-                                <div class="overflow-hidden flex-1">
-                                    <h3 class="font-title font-bold text-sm text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
-                                    <!-- Ô DANH HIỆU HIỂN THỊ -->
-                                    <p class="text-[10px] text-amber-400/90 font-medium truncate flex items-center gap-1">
-                                        <i class="fa-solid fa-crown text-[9px]"></i>
-                                        <span>${char.danhHieu || 'Chí Tôn Linh Tướng'}</span>
-                                    </p>
-                                </div>
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
                             </div>
-
+                            <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
                             <div class="mt-2.5">
                                 <div class="flex justify-between text-[10px] text-slate-400 mb-1">
                                     <span>Linh Lực:</span>
@@ -967,7 +803,7 @@
                         </div>
 
                         <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
-                            <span>Xem chi tiết linh tướng</span>
+                            <span>Chi tiết linh tướng</span>
                             <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
@@ -1001,16 +837,11 @@
 
             document.getElementById('modal-id').textContent = `ID: #${String(char.id).padStart(4, '0')}`;
             document.getElementById('modal-title').textContent = char.name;
-            document.getElementById('modal-danh-hieu').textContent = char.danhHieu || 'Chí Tôn Linh Tướng';
+            document.getElementById('modal-subtitle').textContent = `${char.grade} • Linh Giới Trấn Điện`;
             
-            // Cập nhật WebP Động & Avatar
             const imgEl = document.getElementById('modal-image');
-            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
             imgEl.src = char.image;
-
-            const avatarEl = document.getElementById('modal-avatar');
-            avatarEl.onerror = () => { avatarEl.src = char.fallbackImage; };
-            avatarEl.src = char.avatar || char.image;
+            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
 
             document.getElementById('modal-element-badge').textContent = `Hệ ${char.element}`;
             document.getElementById('modal-grade-badge').textContent = char.grade;
@@ -1019,10 +850,10 @@
             document.getElementById('modal-lore').textContent = char.lore;
 
             const favBtn = document.getElementById('modal-fav-btn');
-            favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>`;
+            favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
             favBtn.onclick = () => {
                 toggleFavorite(char.id);
-                favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>`;
+                favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
             };
 
             resetFxControls();
@@ -1146,9 +977,7 @@
             e.preventDefault();
             
             const name = document.getElementById('input-name').value;
-            const danhHieu = document.getElementById('input-danh-hieu').value;
             const element = document.getElementById('input-element').value;
-            const customAvatar = document.getElementById('input-avatar').value;
             const grade = document.getElementById('input-grade').value;
             const power = parseInt(document.getElementById('input-power').value) || 50000000;
             const skill = document.getElementById('input-skill').value || "Bá Chủ Thần Thông";
@@ -1156,12 +985,10 @@
             const newChar = {
                 id: Date.now(),
                 name: name,
-                danhHieu: danhHieu,
                 element: element,
                 grade: grade,
                 power: power,
                 image: uploadedImageDataUrl || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
-                avatar: customAvatar || uploadedImageDataUrl || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
                 fallbackImage: createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
                 skill: skill,
                 lore: "Linh tướng mới nạp vào Linh Giới Bảo Lục bởi Tiên Hữu.",
@@ -1172,7 +999,7 @@
             renderGallery();
 
             uploadModal.classList.add('hidden');
-            showToast(`Đã thêm linh tướng ${name} (${danhHieu})!`);
+            showToast(`Đã thêm ${name} vào bảo lục!`);
 
             document.getElementById('upload-form').reset();
             document.getElementById('upload-preview-container').classList.add('hidden');
@@ -1189,11 +1016,11 @@
             if (!selectedCharacter) return;
             
             document.getElementById('cinematic-title').textContent = selectedCharacter.name;
-            document.getElementById('cinematic-subtitle').textContent = `${selectedCharacter.danhHieu || selectedCharacter.grade} • Hệ ${selectedCharacter.element}`;
+            document.getElementById('cinematic-subtitle').textContent = `${selectedCharacter.grade} • Hệ ${selectedCharacter.element}`;
             
             const imgEl = document.getElementById('cinematic-image');
-            imgEl.onerror = () => { imgEl.src = selectedCharacter.fallbackImage; };
             imgEl.src = selectedCharacter.image;
+            imgEl.onerror = () => { imgEl.src = selectedCharacter.fallbackImage; };
 
             cinematicModal.classList.remove('hidden');
         });
@@ -1204,7 +1031,7 @@
 
         document.getElementById('btn-copy-link').addEventListener('click', () => {
             if (selectedCharacter) {
-                const text = `${selectedCharacter.name} - [${selectedCharacter.danhHieu}] (${selectedCharacter.grade})`;
+                const text = `${selectedCharacter.name} - ${selectedCharacter.grade}`;
                 navigator.clipboard.writeText(text).then(() => {
                     showToast(`Đã sao chép: ${text}`);
                 }).catch(() => {
