@@ -76,24 +76,24 @@
             text-shadow: 0 0 12px rgba(230, 57, 70, 0.8), 0 0 25px rgba(230, 57, 70, 0.5);
         }
 
-        /* Giao diện xuyên thấu Siêu Trong Suốt (Glassmorphism) */
+        /* Giao diện xuyên thấu Siêu Trong Suốt (Glassmorphism Xuyên Thấu) */
         .glass-panel {
-            background: rgba(8, 11, 18, 0.28);
+            background: rgba(10, 13, 22, 0.45);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(223, 172, 66, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(223, 172, 66, 0.35);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
 
         .glass-panel-dark {
-            background: rgba(6, 8, 14, 0.35) !important;
-            backdrop-filter: blur(8px) !important;
-            -webkit-backdrop-filter: blur(8px) !important;
+            background: rgba(6, 8, 14, 0.38) !important;
+            backdrop-filter: blur(6px) !important;
+            -webkit-backdrop-filter: blur(6px) !important;
             border: 1px solid rgba(223, 172, 66, 0.3);
         }
 
         .xianxia-card {
-            background: rgba(15, 20, 32, 0.38);
+            background: rgba(15, 20, 32, 0.42);
             border: 1px solid rgba(223, 172, 66, 0.25);
             backdrop-filter: blur(4px);
             transition: all 0.2s ease;
@@ -105,7 +105,7 @@
             background: rgba(25, 32, 50, 0.55);
         }
 
-        /* Scrollbar */
+        /* Scrollbar xịn */
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -131,17 +131,6 @@
             color: #fbe29d;
             font-size: 13px;
         }
-
-        .gear-slot {
-            background: rgba(10, 15, 26, 0.6);
-            border: 1px solid rgba(223, 172, 66, 0.4);
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-        .gear-slot:hover {
-            border-color: rgba(251, 226, 157, 0.9);
-            box-shadow: 0 0 10px rgba(223, 172, 66, 0.3);
-        }
     </style>
 </head>
 <body class="relative overflow-hidden">
@@ -152,75 +141,73 @@
     <!-- UI OVERLAY GIAO DIỆN XUYÊN THẤU (HUD) -->
     <div id="ui-container" class="relative z-10 pointer-events-none w-full h-full flex flex-col justify-between p-2 sm:p-4">
 
-        <!-- TOP BAR: KHUNG AVATAR THU NHỎ TRONG SUỐT & TÍCH HỢP NÚT BẰNG & THANH MÁU BOSS -->
+        <!-- TOP BAR: KHUNG AVATAR TÍCH HỢP 3 NÚT ĐIỀU KHIỂN & THANH MÁU BOSS -->
         <div class="flex items-start justify-between gap-2 w-full">
             
-            <!-- KHUNG AVATAR THU NHỎ TÍCH HỢP TẤT CẢ NÚT DỄ NHÌN TRONG SUỐT -->
-            <div class="glass-panel pointer-events-auto rounded-2xl p-2 flex flex-col gap-1.5 border border-amber-500/35 max-w-[280px] sm:max-w-xs transition hover:border-amber-400/80">
+            <!-- KHUNG AVATAR + STATS LINH TƯỚNG + 3 NÚT TÍCH HỢP NẰM TRONG CÙNG 1 KHUNG -->
+            <div class="glass-panel pointer-events-auto rounded-2xl p-2.5 sm:p-3 flex flex-col gap-2 border border-amber-500/40 max-w-sm sm:max-w-md transition hover:border-amber-400">
                 
-                <div class="flex items-center gap-2">
-                    <!-- Khung Avatar Thu Nhỏ -->
-                    <div class="relative w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center">
-                        <img id="hud-equipped-frame" src="khung-vip-1.webp" onerror="this.onerror=null; this.src=createSvgFallback('#dfac42','Khung');" class="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none drop-shadow-[0_0_6px_rgba(223,172,66,0.8)]" alt="Khung">
-                        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden flex items-center justify-center bg-black/60 border border-amber-500/40 relative z-10">
-                            <img id="hud-equipped-character" src="dau-chien-thang-phat.webp" onerror="this.onerror=null; this.src=createSvgFallback('#3a86ff','Tướng');" class="w-full h-full object-contain scale-110" alt="Tướng">
+                <div class="flex items-center gap-3">
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center">
+                        <!-- Khung Avatar -->
+                        <img id="hud-equipped-frame" src="khung-vip-1.webp" onerror="this.onerror=null; this.src='nap-3000k.webp';" class="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none drop-shadow-[0_0_8px_rgba(223,172,66,0.8)]" alt="Khung">
+                        <!-- Linh Tướng Avatar -->
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden flex items-center justify-center bg-black/80 border border-amber-500/50 relative z-10">
+                            <img id="hud-equipped-character" src="dau-chien-thang-phat.webp" onerror="this.onerror=null; this.src='chuc-nu.webp';" class="w-full h-full object-contain scale-110" alt="Tướng">
                         </div>
                     </div>
 
                     <div class="flex flex-col flex-1 min-w-0">
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <h2 id="hud-character-name" class="font-title font-bold text-xs text-amber-200 text-glow-gold truncate">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <h2 id="hud-character-name" class="font-title font-bold text-xs sm:text-sm text-amber-200 text-glow-gold truncate">
                                 Đấu Chiến Thắng Phật
                             </h2>
-                            <span id="hud-frame-name" class="text-[8px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">
+                            <span id="hud-frame-name" class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">
                                 VIP Chí Tôn
                             </span>
                         </div>
 
                         <!-- Thanh Máu & Năng Lượng -->
-                        <div class="w-full space-y-0.5 mt-0.5">
-                            <div class="w-full bg-slate-950/70 rounded-full h-2 border border-red-500/40 relative overflow-hidden">
+                        <div class="w-full space-y-1 mt-1">
+                            <!-- HP -->
+                            <div class="w-full bg-slate-900/80 rounded-full h-2.5 border border-red-500/40 relative overflow-hidden">
                                 <div id="player-hp-bar" class="bg-gradient-to-r from-red-600 to-rose-400 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
-                                <span id="player-hp-text" class="absolute inset-0 flex items-center justify-center text-[7px] font-bold text-white drop-shadow">1000 / 1000</span>
+                                <span id="player-hp-text" class="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-white drop-shadow">1000 / 1000</span>
                             </div>
-                            <div class="w-full bg-slate-950/70 rounded-full h-1 border border-cyan-500/40 relative overflow-hidden">
+                            <!-- MP -->
+                            <div class="w-full bg-slate-900/80 rounded-full h-1.5 border border-cyan-500/40 relative overflow-hidden">
                                 <div id="player-mp-bar" class="bg-gradient-to-r from-cyan-600 to-blue-400 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
                             </div>
                         </div>
 
                         <!-- Danh Hiệu -->
-                        <div id="hud-titles-container" class="flex items-center gap-1 mt-0.5 overflow-x-auto max-w-[150px] scrollbar-none">
+                        <div id="hud-titles-container" class="flex items-center gap-1 mt-1 overflow-x-auto max-w-[180px] sm:max-w-xs scrollbar-none">
                         </div>
                     </div>
                 </div>
 
-                <!-- NÚT MỞ BẢNG TRANG BỊ & NÚT ĐIỀU KHIỂN -->
-                <div class="grid grid-cols-4 gap-1 pt-1.5 border-t border-amber-500/20">
-                    <button onclick="toggleGearModal()" class="px-1 py-1 rounded-lg border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/30 text-amber-300 text-[9px] sm:text-[10px] font-bold flex items-center justify-center gap-0.5 transition" title="Xem Trang Bị">
-                        <i class="fa-solid fa-shirt text-amber-400"></i>
-                        <span>Đồ Đạc</span>
-                    </button>
-
-                    <button id="btn-toggle-menu" onclick="toggleMenuDrawer()" class="px-1 py-1 rounded-lg border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/30 text-amber-300 text-[9px] sm:text-[10px] font-bold flex items-center justify-center gap-0.5 transition">
+                <!-- 3 NÚT NẰM TRONG KHUNG AVATAR -->
+                <div class="grid grid-cols-3 gap-1.5 pt-2 border-t border-amber-500/20">
+                    <button id="btn-toggle-menu" onclick="toggleMenuDrawer()" class="px-2 py-1.5 rounded-lg border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/30 text-amber-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
                         <i class="fa-solid fa-scroll text-amber-400"></i>
                         <span>Bảo Lục</span>
                     </button>
 
-                    <button id="btn-spawn-boss" onclick="triggerBossSpawn()" class="px-1 py-1 rounded-lg border border-red-500/50 bg-red-500/10 hover:bg-red-500/30 text-red-300 text-[9px] sm:text-[10px] font-bold flex items-center justify-center gap-0.5 transition">
+                    <button id="btn-spawn-boss" onclick="triggerBossSpawn()" class="px-2 py-1.5 rounded-lg border border-red-500/50 bg-red-500/10 hover:bg-red-500/30 text-red-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
                         <i class="fa-solid fa-dragon text-red-400"></i>
-                        <span>Tháp</span>
+                        <span>Boss</span>
                     </button>
 
-                    <button id="btn-audio-toggle" class="px-1 py-1 rounded-lg border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/30 text-cyan-300 text-[9px] sm:text-[10px] font-bold flex items-center justify-center gap-0.5 transition">
+                    <button id="btn-audio-toggle" class="px-2 py-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/30 text-cyan-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
                         <i class="fa-solid fa-music text-cyan-400" id="audio-icon"></i>
-                        <span>Âm</span>
+                        <span>Âm Thanh</span>
                     </button>
                 </div>
 
             </div>
 
             <!-- BOSS HP BAR (Ở GIỮA - HIỂN THỊ KHI BOSS XUẤT HIỆN) -->
-            <div id="boss-hud" class="glass-panel pointer-events-auto rounded-xl px-3 py-1.5 flex flex-col items-center justify-center min-w-[220px] sm:min-w-[340px] border border-red-500/50 hidden animate-pulse">
+            <div id="boss-hud" class="glass-panel pointer-events-auto rounded-xl px-4 py-2 flex flex-col items-center justify-center min-w-[240px] sm:min-w-[360px] border border-red-500/50 hidden animate-pulse">
                 <div class="flex items-center justify-between w-full mb-1">
                     <span class="text-xs font-title font-black text-red-400 text-glow-crimson flex items-center gap-1.5">
                         <i class="fa-solid fa-skull text-red-500"></i>
@@ -228,7 +215,7 @@
                     </span>
                     <span id="boss-hp-text" class="text-[10px] text-red-200 font-bold">35000 / 35000</span>
                 </div>
-                <div class="w-full bg-slate-950 rounded-full h-2.5 border border-red-600/60 relative overflow-hidden">
+                <div class="w-full bg-slate-950 rounded-full h-3 border border-red-600/60 relative overflow-hidden">
                     <div id="boss-hp-bar" class="bg-gradient-to-r from-red-700 via-rose-600 to-amber-500 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
                 </div>
             </div>
@@ -236,7 +223,7 @@
         </div>
 
         <!-- THÔNG BÁO CHIẾN TRƯỜNG -->
-        <div id="combat-announcer" class="absolute top-20 left-1/2 -translate-x-1/2 pointer-events-none text-center hidden">
+        <div id="combat-announcer" class="absolute top-24 left-1/2 -translate-x-1/2 pointer-events-none text-center hidden">
             <h1 id="announcer-text" class="font-title font-black text-xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-red-500 to-yellow-200 text-glow-gold tracking-widest uppercase">
                 YÊU MA TRIỆU HỒI!
             </h1>
@@ -245,13 +232,8 @@
         <!-- BOTTOM BAR: THANH KỸ NĂNG & TIẾN TRÌNH -->
         <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-2 pb-1">
             
-            <!-- Bảng đếm Yêu Ma & Tháp Vô Hạn -->
+            <!-- Bảng đếm Yêu Ma -->
             <div class="glass-panel pointer-events-auto px-3 py-1.5 rounded-xl text-xs text-amber-200 border border-amber-500/30 flex items-center gap-3">
-                <div class="flex items-center gap-1.5">
-                    <i class="fa-solid fa-dungeon text-amber-400"></i>
-                    <span>Tháp Vô Hạn: <b id="tower-floor-text" class="text-amber-300 font-bold">Tầng 1</b></span>
-                </div>
-                <div class="h-3 w-px bg-amber-500/30"></div>
                 <div class="flex items-center gap-1.5">
                     <i class="fa-solid fa-ghost text-purple-400"></i>
                     <span>Trảm Yêu: <b id="kill-count" class="text-amber-400 font-bold">0</b></span>
@@ -259,13 +241,14 @@
                 <div class="h-3 w-px bg-amber-500/30"></div>
                 <div class="flex items-center gap-1.5">
                     <i class="fa-solid fa-shield-halved text-cyan-400"></i>
-                    <span>Cấp: <b id="player-level" class="text-cyan-300 font-bold">Cấp 1</b></span>
+                    <span>Cấp Độ: <b id="player-level" class="text-cyan-300 font-bold">Linh Tướng Cấp 1</b></span>
                 </div>
             </div>
 
             <!-- THANH KỸ NĂNG CHIẾN ĐẤU GIỮA MÀN HÌNH DƯỚI -->
             <div class="glass-panel pointer-events-auto rounded-2xl p-1.5 sm:p-2 flex items-center gap-2 sm:gap-3 border border-amber-500/50 shadow-[0_0_20px_rgba(223,172,66,0.2)]">
                 
+                <!-- Skill 1 -->
                 <button onclick="castSkill(1)" id="skill-btn-1" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-amber-500/60 hover:border-amber-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
                     <i class="fa-solid fa-burst text-amber-400 text-base group-hover:scale-110 transition"></i>
                     <span class="text-[8px] text-amber-200 font-bold mt-0.5 truncate max-w-full">Vạn Kiếm</span>
@@ -273,6 +256,7 @@
                     <div id="cd-1" class="cd-overlay hidden">0</div>
                 </button>
 
+                <!-- Skill 2 -->
                 <button onclick="castSkill(2)" id="skill-btn-2" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-amber-500/60 hover:border-amber-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
                     <i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-base group-hover:scale-110 transition"></i>
                     <span class="text-[8px] text-amber-200 font-bold mt-0.5 truncate max-w-full">Đả Cẩu Bổng</span>
@@ -280,6 +264,7 @@
                     <div id="cd-2" class="cd-overlay hidden">0</div>
                 </button>
 
+                <!-- Skill 3 -->
                 <button onclick="castSkill(3)" id="skill-btn-3" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-cyan-500/60 hover:border-cyan-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
                     <i class="fa-solid fa-shield-cat text-cyan-400 text-base group-hover:scale-110 transition"></i>
                     <span class="text-[8px] text-cyan-200 font-bold mt-0.5 truncate max-w-full">Linh Thể</span>
@@ -287,6 +272,7 @@
                     <div id="cd-3" class="cd-overlay hidden">0</div>
                 </button>
 
+                <!-- Đánh Thường -->
                 <button onclick="castSkill(0)" id="skill-btn-0" class="relative group w-13 h-13 sm:w-15 sm:h-15 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-500 border-2 border-amber-300 hover:scale-105 flex flex-col items-center justify-center p-1 transition shadow-lg">
                     <i class="fa-solid fa-hand-fist text-slate-950 text-lg group-hover:rotate-12 transition"></i>
                     <span class="text-[9px] text-slate-950 font-black mt-0.5">Tấn Công</span>
@@ -294,96 +280,10 @@
                 </button>
             </div>
 
+            <!-- Hướng dẫn điều khiển ngắn -->
             <div class="hidden md:flex text-[10px] text-slate-300 glass-panel px-3 py-1.5 rounded-xl border border-slate-700/50 items-center gap-2">
                 <i class="fa-solid fa-hand-pointer text-amber-400"></i>
-                <span>Di chuyển: <b class="text-amber-300">Kéo màn hình / WASD</b> | 3 Linh Tướng tự xoay quanh nhân vật</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL KHUNG TRANG BỊ NHÂN VẬT SOI RÕ MÓN ĐỒ -->
-    <div id="gear-modal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-3 overflow-y-auto">
-        <div class="relative w-full max-w-3xl glass-panel-dark border border-amber-500/50 rounded-2xl p-4 sm:p-5 shadow-2xl flex flex-col gap-4">
-            <button onclick="toggleGearModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white z-20">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <div class="flex items-center gap-2 border-b border-amber-500/30 pb-2">
-                <i class="fa-solid fa-shield-halved text-amber-400 text-xl"></i>
-                <h3 class="font-title font-bold text-base text-amber-300 text-glow-gold">Giao Diện Trang Bị Nhập Vai</h3>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                <!-- Cột Trái: Vũ Khí & Thú Cưỡi -->
-                <div class="flex flex-col gap-2">
-                    <div class="gear-slot p-2 flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-black/50 border border-amber-500/40 p-1 flex items-center justify-center">
-                            <img id="gear-left-weapon-img" src="vu-khi-tay-trai.webp" onerror="this.onerror=null; this.src=createSvgFallback('#e63946','Kiếm Trái');" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">Tay Trái (Vũ Khí)</span>
-                            <span id="gear-left-weapon-name" class="font-bold text-xs text-amber-300">Trảm Ma Thần Kiếm</span>
-                        </div>
-                    </div>
-
-                    <div class="gear-slot p-2 flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-black/50 border border-amber-500/40 p-1 flex items-center justify-center">
-                            <img id="gear-mount-img" src="thu-cuoi-xich-long.webp" onerror="this.onerror=null; this.src=createSvgFallback('#2a9d8f','Cổ Long');" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">Thú Cưỡi Dưới Chân</span>
-                            <span id="gear-mount-name" class="font-bold text-xs text-amber-300">Thái Cổ Long Cứu</span>
-                        </div>
-                    </div>
-
-                    <div class="gear-slot p-2 flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-black/50 border border-amber-500/40 p-1 flex items-center justify-center">
-                            <img id="gear-wings-img" src="canh-de-vuong.webp" onerror="this.onerror=null; this.src=createSvgFallback('#9d4edd','Cánh');" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">Thần Cánh Sau Lưng</span>
-                            <span id="gear-wings-name" class="font-bold text-xs text-amber-300">Cửu Thiên Đê Vương Cánh</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cột Giữa: Preview Nhân Vật Full Trang Bị -->
-                <div class="flex flex-col items-center justify-center bg-slate-950/60 border border-amber-500/30 rounded-2xl p-4 relative min-h-[220px]">
-                    <div class="relative w-40 h-40 flex items-center justify-center">
-                        <!-- Cánh -->
-                        <img id="preview-wings" src="canh-de-vuong.webp" onerror="this.onerror=null; this.src=createSvgFallback('#9d4edd','Cánh');" class="absolute w-36 h-36 object-contain z-0 opacity-80 animate-pulse">
-                        <!-- Thú Cưỡi -->
-                        <img id="preview-mount" src="thu-cuoi-xich-long.webp" onerror="this.onerror=null; this.src=createSvgFallback('#2a9d8f','Thú');" class="absolute bottom-0 w-32 h-20 object-contain z-0">
-                        <!-- Nhân vật -->
-                        <img id="preview-char" src="dau-chien-thang-phat.webp" onerror="this.onerror=null; this.src=createSvgFallback('#dfac42','Tướng');" class="relative z-10 w-24 h-24 object-contain">
-                        <!-- Vũ Khí Tay Trái -->
-                        <img id="preview-lweapon" src="vu-khi-tay-trai.webp" onerror="this.onerror=null; this.src=createSvgFallback('#e63946','Kiếm');" class="absolute left-0 z-20 w-10 h-10 object-contain">
-                        <!-- Vũ Khí Tay Phải -->
-                        <img id="preview-rweapon" src="vu-khi-tay-phai.webp" onerror="this.onerror=null; this.src=createSvgFallback('#3a86ff','Thương');" class="absolute right-0 z-20 w-10 h-10 object-contain">
-                    </div>
-                    <span id="preview-name-tag" class="mt-2 font-title font-bold text-xs text-amber-300 text-glow-gold">Đấu Chiến Thắng Phật</span>
-                </div>
-
-                <!-- Cột Phải: Tay Phải & 3 Linh Tướng Xuất Trận -->
-                <div class="flex flex-col gap-2">
-                    <div class="gear-slot p-2 flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-lg bg-black/50 border border-amber-500/40 p-1 flex items-center justify-center">
-                            <img id="gear-right-weapon-img" src="vu-khi-tay-phai.webp" onerror="this.onerror=null; this.src=createSvgFallback('#3a86ff','Thương Phải');" class="max-h-full max-w-full object-contain">
-                        </div>
-                        <div>
-                            <span class="text-[10px] text-slate-400 block">Tay Phải (Vũ Khí)</span>
-                            <span id="gear-right-weapon-name" class="font-bold text-xs text-amber-300">Cửu Thiên Long Thương</span>
-                        </div>
-                    </div>
-
-                    <!-- 3 Linh Tướng Xuất Trận -->
-                    <div class="gear-slot p-2">
-                        <span class="text-[10px] text-slate-400 block mb-1">3 Linh Tướng Xuất Trận (Bay Xoay Quanh)</span>
-                        <div id="gear-spirits-list" class="grid grid-cols-3 gap-1">
-                            <!-- JS render 3 Linh Tướng -->
-                        </div>
-                    </div>
-                </div>
+                <span>Di chuyển: <b class="text-amber-300">Chạm & Kéo thả màn hình / WASD</b> | Phím tắt: <b class="text-amber-300">1, 2, 3, Space</b></span>
             </div>
         </div>
     </div>
@@ -391,6 +291,7 @@
     <!-- DRAWER MENU BẢO LỤC (XUYÊN THẤU TRONG SUỐT HOÀN TOÀN) -->
     <div id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-xl glass-panel-dark transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-4 sm:p-5 overflow-y-auto">
         <div>
+            <!-- Drawer Header -->
             <div class="flex items-center justify-between border-b border-amber-500/30 pb-3 mb-3">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-scroll text-amber-400 text-lg"></i>
@@ -401,37 +302,36 @@
                 </button>
             </div>
 
-            <!-- TAB LỌC LOẠI ITEM -->
-            <div class="grid grid-cols-4 gap-1.5 mb-3">
-                <button onclick="setMainCategory('character')" id="tab-btn-character" class="py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 transition">
+            <!-- 3 TAB LỌC -->
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <button onclick="setMainCategory('character')" id="tab-btn-character" class="py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-xs flex items-center justify-center gap-1 transition">
                     <i class="fa-solid fa-user-ninja"></i>
-                    <span>Tướng</span>
+                    <span>Linh Tướng</span>
                 </button>
-                <button onclick="setMainCategory('weapon')" id="tab-btn-weapon" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
-                    <i class="fa-solid fa-wand-magic"></i>
-                    <span>Vũ Khí</span>
+                <button onclick="setMainCategory('title')" id="tab-btn-title" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
+                    <i class="fa-solid fa-medal text-amber-400"></i>
+                    <span>Danh Hiệu</span>
                 </button>
-                <button onclick="setMainCategory('mount')" id="tab-btn-mount" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
-                    <i class="fa-solid fa-horse"></i>
-                    <span>Thú Cưỡi</span>
-                </button>
-                <button onclick="setMainCategory('wings')" id="tab-btn-wings" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
-                    <i class="fa-solid fa-feather-pointed"></i>
-                    <span>Thần Cánh</span>
+                <button onclick="setMainCategory('frame')" id="tab-btn-frame" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
+                    <i class="fa-solid fa-circle-dot text-amber-400"></i>
+                    <span>Khung Avatar</span>
                 </button>
             </div>
 
+            <!-- Thanh lọc Hệ Linh Tướng -->
             <div id="element-filter-bar" class="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none mb-2"></div>
 
+            <!-- GALLERY GRID (XUYÊN THẤU) -->
             <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1"></div>
         </div>
 
+        <!-- Drawer Footer -->
         <div class="pt-3 border-t border-amber-500/20 flex items-center justify-between mt-3">
             <button id="btn-open-upload" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-plus-circle"></i>
                 <span>Thêm File WebP Mới</span>
             </button>
-            <span class="text-[10px] text-slate-300">Linh Giới WebP Engine</span>
+            <span class="text-[10px] text-slate-300">Nhìn xuyên qua menu</span>
         </div>
     </div>
 
@@ -442,6 +342,7 @@
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
+            <!-- Xem trước -->
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center bg-slate-900/60 border border-amber-500/30 rounded-xl p-3 relative overflow-hidden">
                 <div class="relative w-36 h-36 flex items-center justify-center">
                     <img id="inspect-img" src="" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_12px_rgba(223,172,66,0.6)]" alt="Soi Tướng">
@@ -450,10 +351,11 @@
                 <span id="inspect-grade" class="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-200 border border-amber-500/40 font-semibold mt-1">---</span>
             </div>
 
+            <!-- Chỉnh Aura -->
             <div class="w-full md:w-1/2 flex flex-col justify-between space-y-2">
                 <h4 class="font-title font-bold text-amber-400 text-xs border-b border-amber-500/30 pb-1 flex items-center gap-1.5">
                     <i class="fa-solid fa-sliders text-amber-500"></i>
-                    <span>Tùy Chỉnh Aura WebP</span>
+                    <span>Tùy Chỉnh Aura</span>
                 </h4>
 
                 <div class="space-y-1.5 text-[11px]">
@@ -489,7 +391,7 @@
             <h3 class="font-title font-bold text-base text-amber-300 mb-1 text-glow-gold flex items-center gap-2">
                 <i class="fa-solid fa-file-arrow-up"></i> Tải Lên WebP Mới
             </h3>
-            <p class="text-xs text-slate-400 mb-2">Thêm Linh Tướng, Vũ Khí, Cánh, Thú Cưỡi vào Bảo Lục.</p>
+            <p class="text-xs text-slate-400 mb-2">Thêm Linh Tướng hoặc Trang Bị vào Bảo Lục.</p>
 
             <form id="upload-form" class="space-y-2.5">
                 <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-3 text-center bg-slate-900/40 cursor-pointer transition">
@@ -504,15 +406,13 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-[10px] text-amber-300 mb-0.5">Tên Vật Phẩm *</label>
-                        <input type="text" id="input-name" required placeholder="Tên vật phẩm..." class="w-full bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                        <input type="text" id="input-name" required placeholder="Tên linh tướng..." class="w-full bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
                         <label class="block text-[10px] text-amber-300 mb-0.5">Loại *</label>
                         <select id="input-type" class="w-full bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
                             <option value="character">Linh Tướng</option>
-                            <option value="weapon">Vũ Khí</option>
-                            <option value="mount">Thú Cưỡi</option>
-                            <option value="wings">Thần Cánh</option>
+                            <option value="title">Danh Hiệu</option>
                             <option value="frame">Khung Avatar</option>
                         </select>
                     </div>
@@ -520,7 +420,7 @@
 
                 <div class="pt-2 flex justify-end gap-2">
                     <button type="button" id="btn-cancel-upload" class="px-3 py-1 rounded border border-slate-700 bg-slate-900 text-xs text-slate-300">Hủy</button>
-                    <button type="submit" class="px-4 py-1 rounded bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-xs">Lưu Item</button>
+                    <button type="submit" class="px-4 py-1 rounded bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-xs">Lưu</button>
                 </div>
             </form>
         </div>
@@ -532,7 +432,7 @@
     <!-- JAVASCRIPT GAME ENGINE & UI CORE -->
     <script>
         /* ==========================================================================
-           1. DATABASE & THỦ THUẬT FALLBACK SVG
+           1. CƠ SỞ DỮ LIỆU BẢO LỤC (DATABASE)
            ========================================================================== */
 
         function createSvgFallback(colorHex, nameText) {
@@ -541,7 +441,6 @@
         }
 
         const database = [
-            // Linh Tướng
             { id: 101, name: "Đấu Chiến Thắng Phật", type: "character", element: "Kim", grade: "Thần Phật Cấp", image: "dau-chien-thang-phat.webp" },
             { id: 102, name: "Chúc Nữ Tiên Tử", type: "character", element: "Thủy", grade: "Thần Cấp", image: "chuc-nu.webp" },
             { id: 103, name: "Bạch Trạch Thần Thú", type: "character", element: "Thần", grade: "Thượng Cổ Thần Thú", image: "bach-trach-1.webp" },
@@ -551,52 +450,27 @@
             { id: 107, name: "Cửu U Sát Thần", type: "character", element: "Ma", grade: "Thái Cổ Ma Cấp", image: "cuu-u-sat-than.webp" },
             { id: 108, name: "Bích Hải Cửu Đầu Xà", type: "character", element: "Thủy", grade: "Yêu Vương Cấp", image: "bich-hai-cuu-dau-xa.webp" },
 
-            // Vũ Khí
-            { id: 401, name: "Trảm Ma Thần Kiếm (Tay Trái)", type: "weapon", hand: "left", grade: "Thượng Cổ Thần Binh", image: "vu-khi-tay-trai.webp" },
-            { id: 402, name: "Cửu Thiên Long Thương (Tay Phải)", type: "weapon", hand: "right", grade: "Chí Tôn Binh", image: "vu-khi-tay-phai.webp" },
-
-            // Thú Cưỡi
-            { id: 501, name: "Thái Cổ Long Cứu", type: "mount", grade: "Thái Cổ Thần Cứu", image: "thu-cuoi-xich-long.webp" },
-
-            // Thần Cánh
-            { id: 601, name: "Cửu Thiên Đế Vương Cánh", type: "wings", grade: "Thần Cánh Chí Tôn", image: "canh-de-vuong.webp" },
-
-            // Danh Hiệu & Khung
             { id: 201, name: "Thiên Hạ Đệ Nhất Tông", type: "title", grade: "Bá Chủ", image: "thien-ha-de-nhat-tong.webp" },
-            { id: 301, name: "Khung VIP 1 Hoàng Kim", type: "frame", grade: "Khung VIP", image: "khung-vip-1.webp" }
-        ];
+            { id: 202, name: "Có Chút Danh Tiếng", type: "title", grade: "Danh Hiệu Cửu Phẩm", image: "co-chut-danh-tieng.webp" },
+            { id: 203, name: "Vô Song Chi Tông", type: "title", grade: "Chí Tôn", image: "vo-song-chi-tong.webp" },
+            { id: 204, name: "Thích Thì Nạp", type: "title", grade: "Danh Hiệu VIP", image: "thich-thi-nap.webp" },
 
-        // 5 BOSS SIÊU TO WEBP
-        const giantBosses = [
-            { id: 'b1', name: "MA HOÀNG CỬU U - YÊU TÔN", image: "boss-ma-hoang.webp", color: "#e63946", size: 90 },
-            { id: 'b2', name: "THÁI CỔ LONG VƯƠNG", image: "boss-long-vuong.webp", color: "#dfac42", size: 100 },
-            { id: 'b3', name: "BẠCH HỔ YÊU TÔN CỔ ĐẠI", image: "boss-bach-ho.webp", color: "#3a86ff", size: 85 },
-            { id: 'b4', name: "CHU TƯỚC TƯỚC THẦN HOẢ", image: "boss-chu-tuoc.webp", color: "#f39c12", size: 95 },
-            { id: 'b5', name: "HUYỀN VŨ MA ĐẾ THÁI CỔ", image: "boss-huyen-vu.webp", color: "#2a9d8f", size: 110 }
+            { id: 301, name: "Khung VIP 1 Hoàng Kim", type: "frame", grade: "Khung VIP", image: "khung-vip-1.webp" },
+            { id: 302, name: "Mốc VIP 2 Hào Quang", type: "frame", grade: "Khung VIP", image: "moc-vip-2.webp" },
+            { id: 303, name: "Khung Nạp 3000K Thần Uy", type: "frame", grade: "Khung Limited", image: "nap-3000k.webp" }
         ];
 
         let auraConfigs = {};
         let currentCategory = "character"; 
         let currentElementFilter = "Toàn Bộ";
 
-        // TRANG BỊ HIỆN TẠI
         let equippedCharacter = database[0];
         let equippedFrame = database.find(i => i.type === 'frame') || database[database.length - 1];
         let equippedTitles = [database.find(i => i.id === 201)].filter(Boolean);
-        
-        let equippedLeftWeapon = database.find(i => i.id === 401);
-        let equippedRightWeapon = database.find(i => i.id === 402);
-        let equippedMount = database.find(i => i.id === 501);
-        let equippedWings = database.find(i => i.id === 601);
-
-        // 3 LINH TƯỚNG RA TRẬN CHẠY XOAY VÒNG
-        let equippedSpirits = [database[0], database[1], database[2]].filter(Boolean);
-
         let inspectingItem = null;
-        let towerFloor = 1;
 
         /* ==========================================================================
-           2. CANVAS RPG GAME ENGINE & CANVAS RENDERING
+           2. CANVAS RPG GAME ENGINE & CAMERA
            ========================================================================== */
 
         const canvas = document.getElementById('game-canvas');
@@ -627,7 +501,7 @@
             x: WORLD_WIDTH / 2,
             y: WORLD_HEIGHT / 2,
             radius: 30,
-            speed: 5.8,
+            speed: 5.5,
             hp: 1000,
             maxHp: 1000,
             mp: 200,
@@ -637,8 +511,7 @@
             kills: 0,
             facingAngle: 0,
             shieldActive: false,
-            shieldTimer: 0,
-            animTimer: 0
+            shieldTimer: 0
         };
 
         const camera = { x: 0, y: 0 };
@@ -649,7 +522,7 @@
         let damageTexts = [];
 
         /* ==========================================================================
-           3. ĐIỀU KHIỂN DRAG MOVEMENT & KEYBOARD
+           3. ĐIỀU KHIỂN KÉO THẢ MÀN HÌNH (DRAG TO MOVE) & BÀN PHÍM
            ========================================================================== */
         
         let isDragging = false;
@@ -697,6 +570,7 @@
         window.addEventListener('touchmove', handlePointerMove, { passive: true });
         window.addEventListener('touchend', handlePointerUp);
 
+        // Phím WASD
         const keys = {};
         window.addEventListener('keydown', (e) => {
             keys[e.code] = true;
@@ -711,7 +585,7 @@
         const skillMaxCD = { 1: 6, 2: 4, 3: 8, 0: 0.3 };
 
         /* ==========================================================================
-           4. SKILL & COMBAT
+           4. CHIẾN ĐẤU & KỸ NĂNG
            ========================================================================== */
 
         function castSkill(skillId) {
@@ -730,7 +604,7 @@
                         vx: Math.cos(angle) * 12,
                         vy: Math.sin(angle) * 12,
                         life: 25,
-                        damage: 160,
+                        damage: 150,
                         radius: 18,
                         color: '#fbe29d'
                     });
@@ -751,7 +625,7 @@
                         speed: 14,
                         delay: i * 2,
                         life: 80,
-                        damage: 420,
+                        damage: 380,
                         angle: angle,
                         color: '#dfac42'
                     });
@@ -767,26 +641,30 @@
                     x: player.x,
                     y: player.y,
                     currentRadius: 20,
-                    maxRadius: 230,
+                    maxRadius: 220,
                     expansionSpeed: 10,
                     life: 22,
-                    damage: 550,
+                    damage: 520,
                     color: '#f39c12'
                 });
 
                 monsters.forEach(m => {
                     const dx = m.x - player.x;
                     const dy = m.y - player.y;
-                    if (dx * dx + dy * dy < 240 * 240) {
-                        takeDamageMonster(m, 550, true);
+                    const distSq = dx * dx + dy * dy;
+                    if (distSq < 230 * 230) {
+                        const dist = Math.sqrt(distSq) || 1;
+                        m.x += (dx / dist) * 110;
+                        m.y += (dy / dist) * 110;
+                        takeDamageMonster(m, 520, true);
                     }
                 });
 
                 if (boss) {
                     const dx = boss.x - player.x;
                     const dy = boss.y - player.y;
-                    if (dx * dx + dy * dy < 260 * 260) {
-                        takeDamageBoss(550, true);
+                    if (dx * dx + dy * dy < 250 * 250) {
+                        takeDamageBoss(520, true);
                     }
                 }
             }
@@ -799,43 +677,108 @@
             }
         }
 
+        function castMonsterSkill(m) {
+            playSynthSound('monster_attack');
+            const angle = Math.atan2(player.y - m.y, player.x - m.x);
+            for (let i = -1; i <= 1; i++) {
+                const spreadAngle = angle + (i * 0.3);
+                skillEffects.push({
+                    type: 'wolf_spike',
+                    x: m.x,
+                    y: m.y,
+                    vx: Math.cos(spreadAngle) * 7,
+                    vy: Math.sin(spreadAngle) * 7,
+                    life: 45,
+                    damage: 45,
+                    radius: 12,
+                    color: '#9d4edd'
+                });
+            }
+        }
+
+        function castBossDragonPalms() {
+            if (!boss) return;
+            playSynthSound('dragon_roar');
+            triggerAnnouncer("BOSS: GIÁNG LONG THẬP BÁT CHƯỞNG!");
+
+            for (let i = 0; i < 16; i++) {
+                const angle = (Math.PI * 2 / 16) * i;
+                skillEffects.push({
+                    type: 'dragon_palm',
+                    x: boss.x,
+                    y: boss.y,
+                    vx: Math.cos(angle) * 8.5,
+                    vy: Math.sin(angle) * 8.5,
+                    life: 100,
+                    damage: 85,
+                    radius: 20,
+                    angle: angle,
+                    color: '#e63946'
+                });
+            }
+        }
+
         /* ==========================================================================
-           5. THÁP VÔ HẠN & 5 BOSS WEBP SIÊU TO
+           5. YÊU MA & BOSS
            ========================================================================== */
+
+        const monsterTypes = [
+            { name: "Yêu Lang Cửu U", color: "#9d4edd", hp: 350, speed: 2.8, radius: 24 },
+            { name: "Cửu Đầu Xà Ma", color: "#2a9d8f", hp: 500, speed: 2.2, radius: 28 },
+            { name: "Huyết Ma Quỷ", color: "#e63946", hp: 420, speed: 3.2, radius: 22 }
+        ];
+
+        function spawnMonstersWave() {
+            if (monsters.length >= 28) return;
+
+            for (let i = 0; i < 3; i++) {
+                const spawnAngle = Math.random() * Math.PI * 2;
+                const spawnDist = 600 + Math.random() * 250;
+                const type = monsterTypes[Math.floor(Math.random() * monsterTypes.length)];
+
+                monsters.push({
+                    id: Math.random(),
+                    name: type.name,
+                    x: Math.max(100, Math.min(WORLD_WIDTH - 100, player.x + Math.cos(spawnAngle) * spawnDist)),
+                    y: Math.max(100, Math.min(WORLD_HEIGHT - 100, player.y + Math.sin(spawnAngle) * spawnDist)),
+                    hp: type.hp,
+                    maxHp: type.hp,
+                    speed: type.speed,
+                    radius: type.radius,
+                    color: type.color,
+                    skillTimer: Math.random() * 60
+                });
+            }
+        }
 
         function triggerBossSpawn() {
             if (boss) {
-                showToast("Boss Đã Có Mặt Trên Chiến Trường!");
+                showToast("Boss Ma Hoàng Đã Có Mặt!");
                 return;
             }
 
             playSynthSound('dragon_roar');
-
-            // Lấy ngẫu nhiên 1 trong 5 Boss Siêu To WebP
-            const bossTemplate = giantBosses[(towerFloor - 1) % giantBosses.length];
-            const hpMultiplier = Math.pow(1.25, towerFloor - 1);
+            triggerAnnouncer("MA HOÀNG GIÁNG LÂM!");
 
             boss = {
-                name: `[TẦNG ${towerFloor}] ${bossTemplate.name}`,
+                name: "MA HOÀNG CỬU U - YÊU TÔN",
                 x: player.x + (Math.random() > 0.5 ? 400 : -400),
                 y: player.y + (Math.random() > 0.5 ? 400 : -400),
-                hp: Math.round(30000 * hpMultiplier),
-                maxHp: Math.round(30000 * hpMultiplier),
-                radius: bossTemplate.size,
-                speed: 1.8 + Math.min(1.5, towerFloor * 0.1),
-                color: bossTemplate.color,
-                image: bossTemplate.image,
+                hp: 35000,
+                maxHp: 35000,
+                radius: 60,
+                speed: 2.0,
+                color: "#e63946",
                 skillTimer: 0
             };
 
-            triggerAnnouncer(`XUẤT HIỆN: ${bossTemplate.name}!`);
             document.getElementById('boss-hud').classList.remove('hidden');
             document.getElementById('boss-name-text').textContent = boss.name;
             updateBossHUD();
         }
 
         /* ==========================================================================
-           6. MAIN GAME LOOP
+           6. OPTIMIZED GAME LOOP (FIX LAG MAP HIỆU NĂNG)
            ========================================================================== */
 
         let lastTime = performance.now();
@@ -852,9 +795,7 @@
         }
 
         function updateGame(dt) {
-            player.animTimer += dt;
-
-            // Skill Cooldowns
+            // Update Cooldowns
             for (let key in skillCooldowns) {
                 if (skillCooldowns[key] > 0) {
                     skillCooldowns[key] -= dt;
@@ -871,7 +812,7 @@
                 }
             }
 
-            // Movement
+            // Xử lý di chuyển (Kéo thả Màn hình + Bàn phím)
             let dx = dragVector.x;
             let dy = dragVector.y;
 
@@ -890,7 +831,7 @@
                 player.y = Math.max(50, Math.min(WORLD_HEIGHT - 50, player.y));
             }
 
-            // Camera
+            // Camera cuộn
             camera.x = player.x - canvas.width / 2;
             camera.y = player.y - canvas.height / 2;
 
@@ -901,58 +842,62 @@
 
             if (player.mp < player.maxMp) player.mp = Math.min(player.maxMp, player.mp + 0.3);
 
-            // Quái thường
-            if (Math.random() < 0.03) {
-                if (monsters.length < 25) {
-                    const angle = Math.random() * Math.PI * 2;
-                    monsters.push({
-                        id: Math.random(),
-                        x: player.x + Math.cos(angle) * 650,
-                        y: player.y + Math.sin(angle) * 650,
-                        hp: 400 + towerFloor * 50,
-                        maxHp: 400 + towerFloor * 50,
-                        radius: 26,
-                        color: "#9d4edd",
-                        speed: 2.5
-                    });
-                }
-            }
+            if (Math.random() < 0.035) spawnMonstersWave();
 
+            // AI Monsters
             monsters.forEach(m => {
                 const mdx = player.x - m.x;
                 const mdy = player.y - m.y;
                 const distSq = mdx * mdx + mdy * mdy;
-                if (distSq > 20 * 20) {
+
+                if (distSq > 25 * 25) {
                     const dist = Math.sqrt(distSq);
                     m.x += (mdx / dist) * m.speed;
                     m.y += (mdy / dist) * m.speed;
                 }
+
+                m.skillTimer++;
+                if (m.skillTimer >= 140 && distSq < 450 * 450) {
+                    m.skillTimer = 0;
+                    castMonsterSkill(m);
+                }
+
                 if (distSq < (player.radius + m.radius) * (player.radius + m.radius)) {
-                    damagePlayer(6);
+                    damagePlayer(7);
                 }
             });
 
-            // Boss AI
+            // AI Boss
             if (boss) {
                 const bdx = player.x - boss.x;
                 const bdy = player.y - boss.y;
                 const bdistSq = bdx * bdx + bdy * bdy;
+
                 if (bdistSq > 40 * 40) {
                     const bdist = Math.sqrt(bdistSq);
                     boss.x += (bdx / bdist) * boss.speed;
                     boss.y += (bdy / bdist) * boss.speed;
                 }
+
+                boss.skillTimer++;
+                if (boss.skillTimer >= 170) {
+                    boss.skillTimer = 0;
+                    castBossDragonPalms();
+                }
+
                 if (bdistSq < (player.radius + boss.radius) * (player.radius + boss.radius)) {
-                    damagePlayer(18);
+                    damagePlayer(20);
                 }
             }
 
-            // Skill Effects Update
+            // Skill Effects
             skillEffects.forEach(ef => {
                 ef.life--;
+
                 if (ef.type === 'slash_wave') {
                     ef.x += ef.vx;
                     ef.y += ef.vy;
+
                     monsters.forEach(m => {
                         const dx = m.x - ef.x, dy = m.y - ef.y;
                         if (dx * dx + dy * dy < (m.radius + ef.radius) * (m.radius + ef.radius)) {
@@ -965,15 +910,19 @@
                             takeDamageBoss(ef.damage, false);
                         }
                     }
-                } else if (ef.type === 'flying_sword') {
+                }
+                else if (ef.type === 'flying_sword') {
                     if (ef.delay > 0) {
                         ef.delay--;
                     } else {
-                        let target = boss || monsters[0];
+                        let target = boss;
+                        if (!target && monsters.length > 0) target = monsters[0];
+
                         if (target) {
                             const angle = Math.atan2(target.y - ef.y, target.x - ef.x);
                             ef.x += Math.cos(angle) * ef.speed;
                             ef.y += Math.sin(angle) * ef.speed;
+
                             const dx = target.x - ef.x, dy = target.y - ef.y;
                             if (dx * dx + dy * dy < (target.radius + 15) * (target.radius + 15)) {
                                 if (target === boss) takeDamageBoss(ef.damage, true);
@@ -986,6 +935,18 @@
                         }
                     }
                 }
+                else if (ef.type === 'dog_staff_wave') {
+                    ef.currentRadius += ef.expansionSpeed;
+                }
+                else if (ef.type === 'wolf_spike' || ef.type === 'dragon_palm') {
+                    ef.x += ef.vx;
+                    ef.y += ef.vy;
+                    const dx = player.x - ef.x, dy = player.y - ef.y;
+                    if (dx * dx + dy * dy < (player.radius + ef.radius) * (player.radius + ef.radius)) {
+                        damagePlayer(ef.damage);
+                        ef.life = 0;
+                    }
+                }
             });
 
             skillEffects = skillEffects.filter(ef => ef.life > 0);
@@ -996,7 +957,7 @@
             });
             damageTexts = damageTexts.filter(dt => dt.alpha > 0);
 
-            // Update HUD UI
+            // Cập nhật DOM tối ưu
             const hpPct = Math.max(0, (player.hp / player.maxHp) * 100);
             if (hpPct !== lastHpPct) {
                 lastHpPct = hpPct;
@@ -1016,16 +977,17 @@
             }
         }
 
-        /* DAMAGE & TOWER LOGIC */
+        /* DAMAGE LOGIC */
         function damagePlayer(amount) {
             if (player.shieldActive) amount = amount * 0.2;
             player.hp -= amount;
             playSynthSound('player_hit');
-            spawnDamageText(player.x, player.y - 35, `-${Math.ceil(amount)}`, '#e63946');
+
+            spawnDamageText(player.x, player.y - 30, `-${Math.ceil(amount)}`, '#e63946');
 
             if (player.hp <= 0) {
                 player.hp = player.maxHp;
-                showToast("Trùng Sinh! Hồi Phục Sinh Lực!");
+                showToast("Linh Tướng Trùng Sinh! Hồi Phục Linh Lực!");
             }
         }
 
@@ -1035,14 +997,14 @@
 
             if (m.hp <= 0) {
                 player.kills++;
-                player.exp += 60;
+                player.exp += 50;
                 if (player.exp >= player.level * 200) {
                     player.level++;
                     player.exp = 0;
                     player.maxHp += 150;
                     player.hp = player.maxHp;
-                    document.getElementById('player-level').textContent = `Cấp ${player.level}`;
-                    showToast(`Thăng Cấp ${player.level}!`);
+                    document.getElementById('player-level').textContent = `Linh Tướng Cấp ${player.level}`;
+                    showToast(`Thăng Cấp! Đạt Linh Tướng Cấp ${player.level}`);
                 }
                 monsters = monsters.filter(item => item.id !== m.id);
             }
@@ -1052,14 +1014,12 @@
             if (!boss) return;
             boss.hp -= amount;
             updateBossHUD();
-            spawnDamageText(boss.x + (Math.random()*30-15), boss.y - 50, `${Math.ceil(amount)}`, isCrit ? '#ffd700' : '#ff4d4d', true);
+            spawnDamageText(boss.x + (Math.random()*30-15), boss.y - 45, `${Math.ceil(amount)}`, isCrit ? '#ffd700' : '#ff4d4d', true);
 
             if (boss.hp <= 0) {
-                triggerAnnouncer(`VƯỢT THÁP TẦNG ${towerFloor} THÀNH CÔNG!`);
-                showToast(`Tiêu Diệt Boss! Tiến Lên Tháp Tầng ${towerFloor + 1}!`);
-                towerFloor++;
-                document.getElementById('tower-floor-text').textContent = `Tầng ${towerFloor}`;
-                player.kills += 20;
+                triggerAnnouncer("TRẢM BOSS THÀNH CÔNG!");
+                showToast("Đã Tiêu Diệt Boss Ma Hoàng!");
+                player.kills += 10;
                 boss = null;
                 document.getElementById('boss-hud').classList.add('hidden');
             }
@@ -1084,7 +1044,7 @@
         }
 
         /* ==========================================================================
-           7. DRAW GAME CANVAS (CÁNH, THÚ CƯỠI, VŨ KHÍ, 3 LINH TƯỚNG XOAY VÒNG)
+           7. RENDER HỌA ĐỒ MAP (OPTIMIZED NO FILTER CANVAS)
            ========================================================================== */
 
         function renderGame() {
@@ -1093,22 +1053,22 @@
             ctx.save();
             ctx.translate(-camera.x, -camera.y);
 
-            // Map
+            // 1. VẼ MAP NỀN TRẬN PHÁP (TỐI ƯU CỰC MƯỢT)
             drawBattlefieldMap();
 
-            // Skill Effects
+            // 2. SKILL EFFECTS
             drawSkillEffects();
 
-            // Monsters
+            // 3. YÊU MA
             monsters.forEach(m => drawMonster(m));
 
-            // Giant Boss WebP
+            // 4. BOSS
             if (boss) drawBoss(boss);
 
-            // Player Full Gear & 3 Orbiting Spirits
-            drawPlayerAndSpirits();
+            // 5. LINH TƯỚNG
+            drawPlayer();
 
-            // Damage Text
+            // 6. DAMAGE TEXTS
             damageTexts.forEach(dt => {
                 ctx.save();
                 ctx.globalAlpha = dt.alpha;
@@ -1131,6 +1091,7 @@
             const startY = Math.floor(camera.y / gridSize) * gridSize;
             const endY = startY + canvas.height + gridSize;
 
+            // Gom đường kẻ vào 1 Path để giảm bớt stroke call (Gỡ lag)
             ctx.beginPath();
             for (let x = startX; x < endX; x += gridSize) {
                 ctx.moveTo(x, startY);
@@ -1141,42 +1102,31 @@
                 ctx.lineTo(endX, y);
             }
             ctx.stroke();
+
+            // Vòng Trận Pháp Cửu Cung Trung Tâm
+            ctx.save();
+            ctx.translate(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
+            ctx.strokeStyle = 'rgba(223, 172, 66, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, 0, 380, 0, Math.PI * 2);
+            ctx.arc(0, 0, 180, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
         }
 
-        /* VẼ NHÂN VẬT & CÁNH + THÚ CƯỠI + SONG KHÍ + 3 LINH TƯỚNG XOAY VÒNG */
-        function drawPlayerAndSpirits() {
-            const hoverY = Math.sin(player.animTimer * 4) * 4;
-
+        /* VẼ LINH TƯỚNG */
+        function drawPlayer() {
             ctx.save();
-            ctx.translate(player.x, player.y + hoverY);
+            ctx.translate(player.x, player.y);
 
-            // 1. DƯỚI CHÂN: THÚ CƯỠI WEBP
-            if (equippedMount) {
-                const mImg = getSpriteImage(equippedMount.image);
-                if (mImg && mImg.complete && mImg.naturalWidth > 0) {
-                    ctx.drawImage(mImg, -45, -15, 90, 60);
-                }
-            }
-
-            // 2. SAU LƯNG: THẦN CÁNH WEBP (ĐẬP CÁNH DỘNG)
-            if (equippedWings) {
-                const wImg = getSpriteImage(equippedWings.image);
-                if (wImg && wImg.complete && wImg.naturalWidth > 0) {
-                    const wingScale = 1 + Math.sin(player.animTimer * 6) * 0.06;
-                    ctx.save();
-                    ctx.scale(wingScale, wingScale);
-                    ctx.drawImage(wImg, -60, -65, 120, 100);
-                    ctx.restore();
-                }
-            }
-
-            // 3. AURA VÒNG TRÒN DƯỚI CHÂN
-            const grad = ctx.createRadialGradient(0, 0, 8, 0, 0, player.radius + 20);
-            grad.addColorStop(0, 'rgba(223, 172, 66, 0.45)');
+            // Aura Dưới Chân
+            const grad = ctx.createRadialGradient(0, 0, 8, 0, 0, player.radius + 18);
+            grad.addColorStop(0, 'rgba(223, 172, 66, 0.5)');
             grad.addColorStop(1, 'rgba(223, 172, 66, 0)');
             ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.arc(0, 0, player.radius + 20, 0, Math.PI * 2);
+            ctx.arc(0, 0, player.radius + 18, 0, Math.PI * 2);
             ctx.fill();
 
             // Khiên Linh Thể
@@ -1184,14 +1134,14 @@
                 ctx.strokeStyle = '#3a86ff';
                 ctx.lineWidth = 3;
                 ctx.beginPath();
-                ctx.arc(0, 0, player.radius + 15, 0, Math.PI * 2);
+                ctx.arc(0, 0, player.radius + 10, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
-            // 4. THÂN NHÂN VẬT CHÍNH WEBP
-            const charImg = getSpriteImage(equippedCharacter.image);
-            if (charImg && charImg.complete && charImg.naturalWidth > 0) {
-                ctx.drawImage(charImg, -player.radius - 8, -player.radius - 12, (player.radius + 8) * 2, (player.radius + 12) * 2);
+            // Sprite Linh Tướng
+            const img = getSpriteImage(equippedCharacter.image);
+            if (img && img.complete && img.naturalWidth > 0) {
+                ctx.drawImage(img, -player.radius - 10, -player.radius - 15, (player.radius + 10) * 2, (player.radius + 15) * 2);
             } else {
                 ctx.fillStyle = '#dfac42';
                 ctx.beginPath();
@@ -1199,66 +1149,13 @@
                 ctx.fill();
             }
 
-            // 5. TAY TRÁI & TAY PHẢI: VŨ KHÍ WEBP
-            if (equippedLeftWeapon) {
-                const lwImg = getSpriteImage(equippedLeftWeapon.image);
-                if (lwImg && lwImg.complete && lwImg.naturalWidth > 0) {
-                    ctx.drawImage(lwImg, -player.radius - 22, -15, 28, 28);
-                }
-            }
-            if (equippedRightWeapon) {
-                const rwImg = getSpriteImage(equippedRightWeapon.image);
-                if (rwImg && rwImg.complete && rwImg.naturalWidth > 0) {
-                    ctx.drawImage(rwImg, player.radius - 4, -15, 28, 28);
-                }
-            }
-
             // Tên Trên Đầu
             ctx.font = "bold 11px 'Cinzel', sans-serif";
             ctx.fillStyle = "#fbe29d";
             ctx.textAlign = "center";
-            ctx.fillText(equippedCharacter.name, 0, -player.radius - 30);
+            ctx.fillText(equippedCharacter.name, 0, -player.radius - 18);
 
             ctx.restore();
-
-            // 6. 3 LINH TƯỚNG RA TRẬN CHẠY XOAY VÒNG QUANH NHÂN VẬT
-            if (equippedSpirits.length > 0) {
-                const orbitRadius = 75;
-                const orbitSpeed = player.animTimer * 2;
-
-                equippedSpirits.forEach((sp, idx) => {
-                    const angle = orbitSpeed + (idx * (Math.PI * 2 / equippedSpirits.length));
-                    const sx = player.x + Math.cos(angle) * orbitRadius;
-                    const sy = player.y + Math.sin(angle) * orbitRadius + Math.sin(player.animTimer * 5 + idx) * 3;
-
-                    ctx.save();
-                    ctx.translate(sx, sy);
-
-                    // Aura Linh Tướng Vòng Xoay
-                    ctx.fillStyle = 'rgba(58, 134, 255, 0.35)';
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 18, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    const spImg = getSpriteImage(sp.image);
-                    if (spImg && spImg.complete && spImg.naturalWidth > 0) {
-                        ctx.drawImage(spImg, -16, -16, 32, 32);
-                    } else {
-                        ctx.fillStyle = '#3a86ff';
-                        ctx.beginPath();
-                        ctx.arc(0, 0, 14, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-
-                    // Tên Linh Tướng Nhỏ
-                    ctx.font = "9px 'Plus Jakarta Sans', sans-serif";
-                    ctx.fillStyle = "#a5f3fc";
-                    ctx.textAlign = "center";
-                    ctx.fillText(sp.name, 0, -20);
-
-                    ctx.restore();
-                });
-            }
         }
 
         function drawMonster(m) {
@@ -1271,7 +1168,12 @@
             ctx.arc(0, 0, m.radius, 0, Math.PI * 2);
             ctx.fill();
 
-            // Thanh Máu
+            ctx.fillStyle = "#12051f";
+            ctx.beginPath();
+            ctx.arc(0, 0, m.radius * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Thanh Máu Quái
             ctx.fillStyle = 'rgba(0,0,0,0.6)';
             ctx.fillRect(-18, -m.radius - 10, 36, 4);
             ctx.fillStyle = '#e63946';
@@ -1281,34 +1183,30 @@
         }
 
         function drawBoss(b) {
-            const bossHover = Math.sin(player.animTimer * 3) * 6;
             ctx.save();
-            ctx.translate(b.x, b.y + bossHover);
+            ctx.translate(b.x, b.y);
 
-            // Aura Ma Quang Siêu To
-            const grad = ctx.createRadialGradient(0, 0, 20, 0, 0, b.radius + 40);
-            grad.addColorStop(0, 'rgba(230, 57, 70, 0.65)');
+            const grad = ctx.createRadialGradient(0, 0, 15, 0, 0, b.radius + 30);
+            grad.addColorStop(0, 'rgba(230, 57, 70, 0.7)');
             grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             ctx.fillStyle = grad;
             ctx.beginPath();
-            ctx.arc(0, 0, b.radius + 40, 0, Math.PI * 2);
+            ctx.arc(0, 0, b.radius + 30, 0, Math.PI * 2);
             ctx.fill();
 
-            // Render Boss WebP Động
-            const bImg = getSpriteImage(b.image);
-            if (bImg && bImg.complete && bImg.naturalWidth > 0) {
-                ctx.drawImage(bImg, -b.radius, -b.radius, b.radius * 2, b.radius * 2);
-            } else {
-                ctx.fillStyle = b.color;
-                ctx.beginPath();
-                ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            ctx.fillStyle = '#7209b7';
+            ctx.beginPath();
+            ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#e63946';
+            ctx.lineWidth = 4;
+            ctx.stroke();
 
             ctx.font = "bold 13px 'Cinzel', sans-serif";
             ctx.fillStyle = "#ff4d4d";
             ctx.textAlign = "center";
-            ctx.fillText(b.name, 0, -b.radius - 15);
+            ctx.fillText(b.name, 0, -b.radius - 12);
 
             ctx.restore();
         }
@@ -1316,12 +1214,14 @@
         function drawSkillEffects() {
             skillEffects.forEach(ef => {
                 ctx.save();
+
                 if (ef.type === 'slash_wave') {
                     ctx.fillStyle = ef.color;
                     ctx.beginPath();
                     ctx.arc(ef.x, ef.y, ef.radius, 0, Math.PI * 2);
                     ctx.fill();
-                } else if (ef.type === 'flying_sword') {
+                }
+                else if (ef.type === 'flying_sword') {
                     if (ef.delay <= 0) {
                         ctx.translate(ef.x, ef.y);
                         ctx.rotate(ef.angle + Math.PI / 2);
@@ -1333,59 +1233,28 @@
                         ctx.closePath();
                         ctx.fill();
                     }
-                } else if (ef.type === 'dog_staff_wave') {
+                }
+                else if (ef.type === 'dog_staff_wave') {
                     ctx.strokeStyle = ef.color;
                     ctx.lineWidth = 5;
                     ctx.beginPath();
                     ctx.arc(ef.x, ef.y, ef.currentRadius, 0, Math.PI * 2);
                     ctx.stroke();
                 }
+                else if (ef.type === 'wolf_spike' || ef.type === 'dragon_palm') {
+                    ctx.fillStyle = ef.color;
+                    ctx.beginPath();
+                    ctx.arc(ef.x, ef.y, ef.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
                 ctx.restore();
             });
         }
 
         /* ==========================================================================
-           8. KHUNG TRANG BỊ & MENU BẢO LỤC JS HANDLER
+           8. MENU & AUDIO SYNTHESIZER
            ========================================================================== */
-
-        function toggleGearModal() {
-            const modal = document.getElementById('gear-modal');
-            modal.classList.toggle('hidden');
-            if (!modal.classList.contains('hidden')) {
-                renderGearModalUI();
-            }
-        }
-
-        function renderGearModalUI() {
-            document.getElementById('gear-left-weapon-name').textContent = equippedLeftWeapon ? equippedLeftWeapon.name : 'Chưa đeo';
-            if (equippedLeftWeapon) document.getElementById('gear-left-weapon-img').src = equippedLeftWeapon.image;
-
-            document.getElementById('gear-right-weapon-name').textContent = equippedRightWeapon ? equippedRightWeapon.name : 'Chưa đeo';
-            if (equippedRightWeapon) document.getElementById('gear-right-weapon-img').src = equippedRightWeapon.image;
-
-            document.getElementById('gear-mount-name').textContent = equippedMount ? equippedMount.name : 'Chưa cưỡi';
-            if (equippedMount) document.getElementById('gear-mount-img').src = equippedMount.image;
-
-            document.getElementById('gear-wings-name').textContent = equippedWings ? equippedWings.name : 'Chưa trang bị';
-            if (equippedWings) document.getElementById('gear-wings-img').src = equippedWings.image;
-
-            // Preview Trung Tâm
-            if (equippedCharacter) document.getElementById('preview-char').src = equippedCharacter.image;
-            if (equippedLeftWeapon) document.getElementById('preview-lweapon').src = equippedLeftWeapon.image;
-            if (equippedRightWeapon) document.getElementById('preview-rweapon').src = equippedRightWeapon.image;
-            if (equippedMount) document.getElementById('preview-mount').src = equippedMount.image;
-            if (equippedWings) document.getElementById('preview-wings').src = equippedWings.image;
-            document.getElementById('preview-name-tag').textContent = equippedCharacter ? equippedCharacter.name : '';
-
-            // 3 Linh Tướng
-            const listEl = document.getElementById('gear-spirits-list');
-            listEl.innerHTML = equippedSpirits.map((sp, i) => `
-                <div class="flex flex-col items-center bg-black/40 p-1 rounded border border-cyan-500/30">
-                    <img src="${sp.image}" onerror="this.onerror=null; this.src=createSvgFallback('#3a86ff','Tướng');" class="w-8 h-8 object-contain">
-                    <span class="text-[8px] text-cyan-200 truncate w-full text-center mt-0.5">${sp.name}</span>
-                </div>
-            `).join('');
-        }
 
         function toggleMenuDrawer() {
             const drawer = document.getElementById('menu-drawer');
@@ -1402,13 +1271,13 @@
 
         function setMainCategory(cat) {
             currentCategory = cat;
-            ['character', 'weapon', 'mount', 'wings'].forEach(c => {
+            ['character', 'title', 'frame'].forEach(c => {
                 const btn = document.getElementById(`tab-btn-${c}`);
                 if (btn) {
                     if (c === cat) {
-                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 transition";
+                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-xs flex items-center justify-center gap-1 transition";
                     } else {
-                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-[10px] sm:text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition";
+                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition";
                     }
                 }
             });
@@ -1433,10 +1302,10 @@
 
             const titlesContainer = document.getElementById('hud-titles-container');
             if (equippedTitles.length === 0) {
-                titlesContainer.innerHTML = `<span class="text-[8px] text-slate-400 italic">Chưa đeo danh hiệu</span>`;
+                titlesContainer.innerHTML = `<span class="text-[9px] text-slate-400 italic">Chưa đeo danh hiệu</span>`;
             } else {
                 titlesContainer.innerHTML = equippedTitles.map(t => `
-                    <img src="${t.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#e63946', t.name)}'" class="h-4 object-contain drop-shadow" title="${t.name}">
+                    <img src="${t.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#e63946', t.name)}'" class="h-4.5 object-contain drop-shadow" title="${t.name}">
                 `).join('');
             }
         }
@@ -1447,25 +1316,15 @@
 
             if (item.type === 'character') {
                 equippedCharacter = item;
-                // Cập nhật 3 Linh Tướng xoay vòng nếu chưa có
-                if (!equippedSpirits.some(s => s.id === item.id)) {
-                    equippedSpirits.shift();
-                    equippedSpirits.push(item);
-                }
-                showToast(`Đã xuất trận Linh Tướng: ${item.name}`);
-            } else if (item.type === 'weapon') {
-                if (item.hand === 'left') equippedLeftWeapon = item;
-                else equippedRightWeapon = item;
-                showToast(`Đã trang bị Vũ Khí: ${item.name}`);
-            } else if (item.type === 'mount') {
-                equippedMount = item;
-                showToast(`Đã cưỡi: ${item.name}`);
-            } else if (item.type === 'wings') {
-                equippedWings = item;
-                showToast(`Đã mang Thần Cánh: ${item.name}`);
+                showToast(`Đã đổi Linh Tướng: ${item.name}`);
             } else if (item.type === 'frame') {
                 equippedFrame = item;
                 showToast(`Đã đổi Khung Avatar: ${item.name}`);
+            } else if (item.type === 'title') {
+                if (!equippedTitles.some(t => t.id === item.id)) {
+                    equippedTitles.push(item);
+                    showToast(`Đã đeo Danh Hiệu: ${item.name}`);
+                }
             }
 
             renderHeaderEquipped();
@@ -1508,17 +1367,16 @@
             grid.innerHTML = filtered.map(item => {
                 let isEquipped = false;
                 if (item.type === 'character') isEquipped = equippedCharacter && equippedCharacter.id === item.id;
-                if (item.type === 'weapon') isEquipped = (equippedLeftWeapon && equippedLeftWeapon.id === item.id) || (equippedRightWeapon && equippedRightWeapon.id === item.id);
-                if (item.type === 'mount') isEquipped = equippedMount && equippedMount.id === item.id;
-                if (item.type === 'wings') isEquipped = equippedWings && equippedWings.id === item.id;
+                if (item.type === 'frame') isEquipped = equippedFrame && equippedFrame.id === item.id;
+                if (item.type === 'title') isEquipped = equippedTitles.some(t => t.id === item.id);
 
                 return `
                     <div class="xianxia-card rounded-xl p-2.5 relative flex flex-col justify-between">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">
-                                ${item.grade || 'Cao Cấp'}
+                                ${item.grade || 'Tiên Giới'}
                             </span>
-                            ${isEquipped ? `<span class="text-[9px] text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Đang Dùng</span>` : ''}
+                            ${isEquipped ? `<span class="text-[9px] text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Đang Đeo</span>` : ''}
                         </div>
 
                         <div class="relative my-1 h-24 w-full flex items-center justify-center overflow-hidden rounded bg-slate-900/40 cursor-pointer" onclick="openInspectModal(${item.id})">
@@ -1530,8 +1388,11 @@
                         </div>
 
                         <div class="mt-2 flex items-center gap-1">
+                            ${item.type === 'character' ? `
+                                <button onclick="openInspectModal(${item.id})" class="px-2 py-1 rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 text-[10px] font-bold">Soi</button>
+                            ` : ''}
                             <button onclick="equipItem(${item.id})" class="flex-1 py-1 rounded bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-[10px]">
-                                ${isEquipped ? 'Đã Trang Bị' : '+ Đeo Món Này'}
+                                ${isEquipped ? 'Đã Trang Bị' : '+ Đeo'}
                             </button>
                         </div>
                     </div>
@@ -1539,7 +1400,7 @@
             }).join('');
         }
 
-        /* SOI TƯỚNG MODAL */
+        /* SOI TƯỚNG */
         function openInspectModal(id) {
             const item = database.find(i => i.id === id);
             if (!item) return;
@@ -1595,7 +1456,7 @@
                 brightness: parseInt(document.getElementById('slider-brightness').value),
                 saturate: parseInt(document.getElementById('slider-saturate').value)
             };
-            showToast(`Đã lưu hiệu ứng Aura cho [${inspectingItem.name}]!`);
+            showToast(`Lưu Aura cho [${inspectingItem.name}] thành công!`);
             closeInspectModal();
         }
 
@@ -1635,6 +1496,14 @@
                 gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
                 osc.start(now);
                 osc.stop(now + 0.25);
+            } else if (type === 'staff_hit') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.exponentialRampToValueAtTime(40, now + 0.2);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
             } else if (type === 'dragon_roar') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(90, now);
@@ -1658,7 +1527,7 @@
             }
         });
 
-        /* UPLOAD HANDLER */
+        /* UPLOAD WEBP HANDLER */
         const uploadModal = document.getElementById('upload-modal');
         const fileInput = document.getElementById('file-input');
         const dropZone = document.getElementById('drop-zone');
@@ -1693,14 +1562,14 @@
                 name: name,
                 type: type,
                 element: "Thần",
-                grade: "Tự Tải Up",
+                grade: "Mới Nạp",
                 image: uploadedDataUrl || createSvgFallback('#dfac42', name)
             };
 
             database.unshift(newItem);
             uploadModal.classList.add('hidden');
             setMainCategory(type);
-            showToast(`Đã thêm thành công: ${name}`);
+            showToast(`Thêm thành công: ${name}`);
         });
 
         function showToast(msg) {
