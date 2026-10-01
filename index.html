@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Linh Giới Bảo Lục - Trảm Yêu Trừ Ma 2D RPG</title>
+    <title>Linh Giới Bảo Lục - Bộ Sưu Tập WebP Động Tiên Hiệp</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -21,7 +21,7 @@
                     colors: {
                         xianxia: {
                             bg: '#06070a',
-                            card: 'rgba(13, 15, 23, 0.45)',
+                            card: '#0d0f17',
                             gold: '#dfac42',
                             goldLight: '#fbe29d',
                             crimson: '#e63946',
@@ -39,445 +39,602 @@
         }
     </script>
     <style>
-        * {
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #040508;
+        /* Custom Xianxia Styling */
+        body {
+            background-color: #06070a;
             color: #e2e8f0;
+            overflow-x: hidden;
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        #game-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            cursor: grab;
-            touch-action: none;
-        }
-        #game-canvas:active {
-            cursor: grabbing;
-        }
-
+        /* Glowing text effect */
         .text-glow-gold {
-            text-shadow: 0 0 12px rgba(223, 172, 66, 0.8), 0 0 25px rgba(223, 172, 66, 0.4);
+            text-shadow: 0 0 12px rgba(223, 172, 66, 0.6), 0 0 25px rgba(223, 172, 66, 0.3);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 12px rgba(58, 134, 255, 0.6), 0 0 25px rgba(58, 134, 255, 0.3);
         }
         .text-glow-crimson {
-            text-shadow: 0 0 12px rgba(230, 57, 70, 0.8), 0 0 25px rgba(230, 57, 70, 0.5);
+            text-shadow: 0 0 12px rgba(230, 57, 70, 0.6), 0 0 25px rgba(230, 57, 70, 0.3);
         }
 
-        /* Giao diện xuyên thấu Siêu Trong Suốt (Glassmorphism Xuyên Thấu) */
-        .glass-panel {
-            background: rgba(10, 13, 22, 0.45);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(223, 172, 66, 0.35);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        /* Magic Circle Animations */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spinReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        @keyframes floatMagic {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 15px rgba(223,172,66,0.4)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 30px rgba(223,172,66,0.8)); }
         }
 
-        .glass-panel-dark {
-            background: rgba(6, 8, 14, 0.38) !important;
-            backdrop-filter: blur(6px) !important;
-            -webkit-backdrop-filter: blur(6px) !important;
-            border: 1px solid rgba(223, 172, 66, 0.3);
+        .animate-spin-slow {
+            animation: spinSlow var(--spin-duration, 25s) linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spinReverse var(--spin-duration, 20s) linear infinite;
+        }
+        .animate-float {
+            animation: floatMagic 5s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
         }
 
+        /* Glassmorphism Cards */
         .xianxia-card {
-            background: rgba(15, 20, 32, 0.42);
-            border: 1px solid rgba(223, 172, 66, 0.25);
-            backdrop-filter: blur(4px);
-            transition: all 0.2s ease;
+            background: linear-gradient(135deg, rgba(18, 22, 34, 0.85) 0%, rgba(9, 11, 18, 0.95) 100%);
+            border: 1px solid rgba(223, 172, 66, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .xianxia-card:hover {
-            border-color: rgba(223, 172, 66, 0.8);
-            transform: translateY(-2px);
-            background: rgba(25, 32, 50, 0.55);
+            border-color: rgba(223, 172, 66, 0.7);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px -10px rgba(223, 172, 66, 0.35);
         }
 
-        /* Scrollbar xịn */
+        /* Scrollbar Styling */
         ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(6, 7, 10, 0.2);
+            background: #06070a;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(223, 172, 66, 0.5);
+            background: rgba(223, 172, 66, 0.3);
             border-radius: 4px;
         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(223, 172, 66, 0.7);
+        }
 
-        /* Cooldown Overlay */
-        .cd-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #fbe29d;
-            font-size: 13px;
+        /* Custom Range Slider */
+        input[type="range"] {
+            accent-color: #dfac42;
         }
     </style>
 </head>
-<body class="relative overflow-hidden">
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-amber-500 selection:text-black">
 
-    <!-- CANVAS MAP GAME TOÀN MÀN HÌNH -->
-    <canvas id="game-canvas"></canvas>
+    <!-- Background Canvas for Floating Xianxia Particles -->
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-80"></canvas>
 
-    <!-- UI OVERLAY GIAO DIỆN XUYÊN THẤU (HUD) -->
-    <div id="ui-container" class="relative z-10 pointer-events-none w-full h-full flex flex-col justify-between p-2 sm:p-4">
+    <!-- Global Background Magic Circle Graphic -->
+    <div class="fixed inset-0 pointer-events-none z-0 flex items-center justify-center opacity-10 overflow-hidden">
+        <svg class="w-[800px] h-[800px] sm:w-[1200px] sm:h-[1200px] animate-spin-slow text-amber-500" viewBox="0 0 500 500" fill="none">
+            <circle cx="250" cy="250" r="230" stroke="currentColor" stroke-width="1.5" stroke-dasharray="12 6" />
+            <circle cx="250" cy="250" r="200" stroke="currentColor" stroke-width="2" />
+            <polygon points="250,50 423,350 76,350" stroke="currentColor" stroke-width="1" fill="none" />
+            <polygon points="250,450 76,150 423,150" stroke="currentColor" stroke-width="1" fill="none" />
+            <circle cx="250" cy="250" r="140" stroke="currentColor" stroke-width="1.5" />
+            <circle cx="250" cy="250" r="80" stroke="currentColor" stroke-dasharray="4 4" stroke-width="2" />
+        </svg>
+    </div>
 
-        <!-- TOP BAR: KHUNG AVATAR TÍCH HỢP 3 NÚT ĐIỀU KHIỂN & THANH MÁU BOSS -->
-        <div class="flex items-start justify-between gap-2 w-full">
-            
-            <!-- KHUNG AVATAR + STATS LINH TƯỚNG + 3 NÚT TÍCH HỢP NẰM TRONG CÙNG 1 KHUNG -->
-            <div class="glass-panel pointer-events-auto rounded-2xl p-2.5 sm:p-3 flex flex-col gap-2 border border-amber-500/40 max-w-sm sm:max-w-md transition hover:border-amber-400">
+    <!-- MAIN APP WRAPPER -->
+    <div class="relative z-10 flex-1 flex flex-col">
+
+        <!-- HEADER / NAVIGATION -->
+        <header class="sticky top-0 z-40 border-b border-amber-500/20 bg-black/80 backdrop-blur-md px-4 py-3 sm:px-8">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 
+                <!-- Logo & Title -->
                 <div class="flex items-center gap-3">
-                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center">
-                        <!-- Khung Avatar -->
-                        <img id="hud-equipped-frame" src="khung-vip-1.webp" onerror="this.onerror=null; this.src='nap-3000k.webp';" class="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none drop-shadow-[0_0_8px_rgba(223,172,66,0.8)]" alt="Khung">
-                        <!-- Linh Tướng Avatar -->
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden flex items-center justify-center bg-black/80 border border-amber-500/50 relative z-10">
-                            <img id="hud-equipped-character" src="dau-chien-thang-phat.webp" onerror="this.onerror=null; this.src='chuc-nu.webp';" class="w-full h-full object-contain scale-110" alt="Tướng">
-                        </div>
+                    <div class="w-10 h-10 rounded-full border-2 border-amber-500/70 flex items-center justify-center bg-amber-500/10 shadow-[0_0_15px_rgba(223,172,66,0.3)] animate-pulse">
+                        <i class="fa-solid font-bold text-amber-400 text-lg">☯</i>
                     </div>
-
-                    <div class="flex flex-col flex-1 min-w-0">
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <h2 id="hud-character-name" class="font-title font-bold text-xs sm:text-sm text-amber-200 text-glow-gold truncate">
-                                Đấu Chiến Thắng Phật
-                            </h2>
-                            <span id="hud-frame-name" class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">
-                                VIP Chí Tôn
-                            </span>
-                        </div>
-
-                        <!-- Thanh Máu & Năng Lượng -->
-                        <div class="w-full space-y-1 mt-1">
-                            <!-- HP -->
-                            <div class="w-full bg-slate-900/80 rounded-full h-2.5 border border-red-500/40 relative overflow-hidden">
-                                <div id="player-hp-bar" class="bg-gradient-to-r from-red-600 to-rose-400 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
-                                <span id="player-hp-text" class="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-white drop-shadow">1000 / 1000</span>
-                            </div>
-                            <!-- MP -->
-                            <div class="w-full bg-slate-900/80 rounded-full h-1.5 border border-cyan-500/40 relative overflow-hidden">
-                                <div id="player-mp-bar" class="bg-gradient-to-r from-cyan-600 to-blue-400 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Danh Hiệu -->
-                        <div id="hud-titles-container" class="flex items-center gap-1 mt-1 overflow-x-auto max-w-[180px] sm:max-w-xs scrollbar-none">
-                        </div>
+                    <div>
+                        <h1 class="font-title font-black text-xl sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 text-glow-gold tracking-wider">
+                            LINH GIỚI BẢO LỤC
+                        </h1>
+                        <p class="text-xs text-amber-200/60 font-medium">Bộ Sưu Tập WebP Động Tiên Hiệp & Huyền Huyễn</p>
                     </div>
                 </div>
 
-                <!-- 3 NÚT NẰM TRONG KHUNG AVATAR -->
-                <div class="grid grid-cols-3 gap-1.5 pt-2 border-t border-amber-500/20">
-                    <button id="btn-toggle-menu" onclick="toggleMenuDrawer()" class="px-2 py-1.5 rounded-lg border border-amber-500/50 bg-amber-500/10 hover:bg-amber-500/30 text-amber-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
-                        <i class="fa-solid fa-scroll text-amber-400"></i>
-                        <span>Bảo Lục</span>
+                <!-- Action Controls -->
+                <div class="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
+                    <!-- Search Bar -->
+                    <div class="relative flex-1 sm:w-64 md:w-48 lg:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-amber-500/60"></i>
+                        <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+                    </div>
+
+                    <!-- Audio Ambient Sound Toggle -->
+                    <button id="btn-audio-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition" title="Bật/Tắt Nhạc Nền Tiên Cảnh">
+                        <i class="fa-solid fa-music text-amber-400" id="audio-icon"></i>
+                        <span class="hidden sm:inline">Linh Âm</span>
                     </button>
 
-                    <button id="btn-spawn-boss" onclick="triggerBossSpawn()" class="px-2 py-1.5 rounded-lg border border-red-500/50 bg-red-500/10 hover:bg-red-500/30 text-red-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
-                        <i class="fa-solid fa-dragon text-red-400"></i>
-                        <span>Boss</span>
+                    <!-- Favorites Filter Toggle -->
+                    <button id="btn-favorites-toggle" class="px-3 py-1.5 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 transition" title="Xem Nhân Vật Yêu Thích">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span class="hidden sm:inline" id="fav-btn-label">Yêu Thích</span>
                     </button>
 
-                    <button id="btn-audio-toggle" class="px-2 py-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/30 text-cyan-300 text-[10px] sm:text-xs font-bold flex items-center justify-center gap-1 transition">
-                        <i class="fa-solid fa-music text-cyan-400" id="audio-icon"></i>
-                        <span>Âm Thanh</span>
+                    <!-- Add Custom WebP Button -->
+                    <button id="btn-open-upload" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(223,172,66,0.4)] transition transform active:scale-95">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Thêm WebP</span>
                     </button>
-                </div>
-
-            </div>
-
-            <!-- BOSS HP BAR (Ở GIỮA - HIỂN THỊ KHI BOSS XUẤT HIỆN) -->
-            <div id="boss-hud" class="glass-panel pointer-events-auto rounded-xl px-4 py-2 flex flex-col items-center justify-center min-w-[240px] sm:min-w-[360px] border border-red-500/50 hidden animate-pulse">
-                <div class="flex items-center justify-between w-full mb-1">
-                    <span class="text-xs font-title font-black text-red-400 text-glow-crimson flex items-center gap-1.5">
-                        <i class="fa-solid fa-skull text-red-500"></i>
-                        <span id="boss-name-text">MA HOÀNG CỬU U</span>
-                    </span>
-                    <span id="boss-hp-text" class="text-[10px] text-red-200 font-bold">35000 / 35000</span>
-                </div>
-                <div class="w-full bg-slate-950 rounded-full h-3 border border-red-600/60 relative overflow-hidden">
-                    <div id="boss-hp-bar" class="bg-gradient-to-r from-red-700 via-rose-600 to-amber-500 h-full rounded-full transition-all duration-150" style="width: 100%;"></div>
                 </div>
             </div>
+        </header>
 
+        <!-- ELEMENT FILTER TABS -->
+        <section class="max-w-7xl mx-auto w-full px-4 pt-6 pb-2">
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="filter-container"></div>
+        </section>
+
+        <!-- GALLERY GRID DISPLAY SECTION -->
+        <main class="max-w-7xl mx-auto w-full px-4 py-4 flex-1">
+            <div class="flex justify-between items-center mb-4 px-1">
+                <div class="text-xs text-amber-300/70">
+                    Hiển thị <span id="character-count" class="text-amber-400 font-bold">0</span> linh tướng
+                </div>
+                <div class="text-xs text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-amber-500/70"></i>
+                    <span>Nhấn vào thẻ để mở Trấn Điện Soi Tướng</span>
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6"></div>
+
+            <!-- Empty State Container -->
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+                <i class="fa-solid fa-ghost text-5xl text-amber-500/20 mb-4 animate-bounce"></i>
+                <h3 class="font-title text-lg text-amber-300/80 mb-1">Không Tìm Thấy Linh Tướng</h3>
+                <p class="text-xs text-slate-500 max-w-sm">Không có dữ liệu phù hợp với hệ hoặc từ khóa tìm kiếm của bạn.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-amber-500/20 bg-black/90 py-4 px-4 text-center text-xs text-amber-200/50">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>☯ Linh Giới Bảo Lục &copy; 2026 - Huyền Huyễn Động Thái WebP Showcase</div>
+            <div class="flex gap-4">
+                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Hỗ trợ định dạng: .webp, .gif, .png')"><i class="fa-solid fa-file-image"></i> WebP V2</span>
+                <span class="hover:text-amber-400 cursor-pointer" onclick="showToast('Được tối ưu cho di động & màn hình H5')"><i class="fa-solid fa-mobile-screen"></i> Mobile H5</span>
+            </div>
         </div>
+    </footer>
 
-        <!-- THÔNG BÁO CHIẾN TRƯỜNG -->
-        <div id="combat-announcer" class="absolute top-24 left-1/2 -translate-x-1/2 pointer-events-none text-center hidden">
-            <h1 id="announcer-text" class="font-title font-black text-xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-red-500 to-yellow-200 text-glow-gold tracking-widest uppercase">
-                YÊU MA TRIỆU HỒI!
-            </h1>
-        </div>
-
-        <!-- BOTTOM BAR: THANH KỸ NĂNG & TIẾN TRÌNH -->
-        <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-2 pb-1">
+    <!-- CHARACTER INSPECT / SHOWCASE MODAL -->
+    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="relative w-full max-w-5xl bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(223,172,66,0.25)] flex flex-col lg:flex-row my-auto max-h-[92vh]">
             
-            <!-- Bảng đếm Yêu Ma -->
-            <div class="glass-panel pointer-events-auto px-3 py-1.5 rounded-xl text-xs text-amber-200 border border-amber-500/30 flex items-center gap-3">
-                <div class="flex items-center gap-1.5">
-                    <i class="fa-solid fa-ghost text-purple-400"></i>
-                    <span>Trảm Yêu: <b id="kill-count" class="text-amber-400 font-bold">0</b></span>
-                </div>
-                <div class="h-3 w-px bg-amber-500/30"></div>
-                <div class="flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-halved text-cyan-400"></i>
-                    <span>Cấp Độ: <b id="player-level" class="text-cyan-300 font-bold">Linh Tướng Cấp 1</b></span>
-                </div>
-            </div>
-
-            <!-- THANH KỸ NĂNG CHIẾN ĐẤU GIỮA MÀN HÌNH DƯỚI -->
-            <div class="glass-panel pointer-events-auto rounded-2xl p-1.5 sm:p-2 flex items-center gap-2 sm:gap-3 border border-amber-500/50 shadow-[0_0_20px_rgba(223,172,66,0.2)]">
-                
-                <!-- Skill 1 -->
-                <button onclick="castSkill(1)" id="skill-btn-1" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-amber-500/60 hover:border-amber-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
-                    <i class="fa-solid fa-burst text-amber-400 text-base group-hover:scale-110 transition"></i>
-                    <span class="text-[8px] text-amber-200 font-bold mt-0.5 truncate max-w-full">Vạn Kiếm</span>
-                    <span class="absolute top-0.5 left-1 text-[8px] bg-black/60 px-1 rounded text-amber-300 font-mono">1</span>
-                    <div id="cd-1" class="cd-overlay hidden">0</div>
-                </button>
-
-                <!-- Skill 2 -->
-                <button onclick="castSkill(2)" id="skill-btn-2" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-amber-500/60 hover:border-amber-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
-                    <i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-base group-hover:scale-110 transition"></i>
-                    <span class="text-[8px] text-amber-200 font-bold mt-0.5 truncate max-w-full">Đả Cẩu Bổng</span>
-                    <span class="absolute top-0.5 left-1 text-[8px] bg-black/60 px-1 rounded text-amber-300 font-mono">2</span>
-                    <div id="cd-2" class="cd-overlay hidden">0</div>
-                </button>
-
-                <!-- Skill 3 -->
-                <button onclick="castSkill(3)" id="skill-btn-3" class="relative group w-11 h-11 sm:w-13 sm:h-13 rounded-xl bg-slate-900/90 border border-cyan-500/60 hover:border-cyan-300 flex flex-col items-center justify-center p-1 transition overflow-hidden">
-                    <i class="fa-solid fa-shield-cat text-cyan-400 text-base group-hover:scale-110 transition"></i>
-                    <span class="text-[8px] text-cyan-200 font-bold mt-0.5 truncate max-w-full">Linh Thể</span>
-                    <span class="absolute top-0.5 left-1 text-[8px] bg-black/60 px-1 rounded text-cyan-300 font-mono">3</span>
-                    <div id="cd-3" class="cd-overlay hidden">0</div>
-                </button>
-
-                <!-- Đánh Thường -->
-                <button onclick="castSkill(0)" id="skill-btn-0" class="relative group w-13 h-13 sm:w-15 sm:h-15 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-500 border-2 border-amber-300 hover:scale-105 flex flex-col items-center justify-center p-1 transition shadow-lg">
-                    <i class="fa-solid fa-hand-fist text-slate-950 text-lg group-hover:rotate-12 transition"></i>
-                    <span class="text-[9px] text-slate-950 font-black mt-0.5">Tấn Công</span>
-                    <span class="absolute top-0.5 left-1 text-[7px] bg-black/40 text-amber-200 px-1 rounded font-mono">SPACE</span>
-                </button>
-            </div>
-
-            <!-- Hướng dẫn điều khiển ngắn -->
-            <div class="hidden md:flex text-[10px] text-slate-300 glass-panel px-3 py-1.5 rounded-xl border border-slate-700/50 items-center gap-2">
-                <i class="fa-solid fa-hand-pointer text-amber-400"></i>
-                <span>Di chuyển: <b class="text-amber-300">Chạm & Kéo thả màn hình / WASD</b> | Phím tắt: <b class="text-amber-300">1, 2, 3, Space</b></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- DRAWER MENU BẢO LỤC (XUYÊN THẤU TRONG SUỐT HOÀN TOÀN) -->
-    <div id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-xl glass-panel-dark transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-4 sm:p-5 overflow-y-auto">
-        <div>
-            <!-- Drawer Header -->
-            <div class="flex items-center justify-between border-b border-amber-500/30 pb-3 mb-3">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-scroll text-amber-400 text-lg"></i>
-                    <h2 class="font-title font-bold text-base text-amber-300 text-glow-gold">Linh Giới Bảo Lục</h2>
-                </div>
-                <button onclick="toggleMenuDrawer()" class="text-slate-400 hover:text-white p-1">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <!-- 3 TAB LỌC -->
-            <div class="grid grid-cols-3 gap-2 mb-3">
-                <button onclick="setMainCategory('character')" id="tab-btn-character" class="py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-xs flex items-center justify-center gap-1 transition">
-                    <i class="fa-solid fa-user-ninja"></i>
-                    <span>Linh Tướng</span>
-                </button>
-                <button onclick="setMainCategory('title')" id="tab-btn-title" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
-                    <i class="fa-solid fa-medal text-amber-400"></i>
-                    <span>Danh Hiệu</span>
-                </button>
-                <button onclick="setMainCategory('frame')" id="tab-btn-frame" class="py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition">
-                    <i class="fa-solid fa-circle-dot text-amber-400"></i>
-                    <span>Khung Avatar</span>
-                </button>
-            </div>
-
-            <!-- Thanh lọc Hệ Linh Tướng -->
-            <div id="element-filter-bar" class="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none mb-2"></div>
-
-            <!-- GALLERY GRID (XUYÊN THẤU) -->
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1"></div>
-        </div>
-
-        <!-- Drawer Footer -->
-        <div class="pt-3 border-t border-amber-500/20 flex items-center justify-between mt-3">
-            <button id="btn-open-upload" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md">
-                <i class="fa-solid fa-plus-circle"></i>
-                <span>Thêm File WebP Mới</span>
+            <!-- Close Button -->
+            <button id="btn-close-modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900/80 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-base"></i>
             </button>
-            <span class="text-[10px] text-slate-300">Nhìn xuyên qua menu</span>
+
+            <!-- LEFT SIDE -->
+            <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[350px] lg:min-h-[500px]">
+                <div id="modal-magic-circle" class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] pointer-events-none opacity-40 transition-all duration-300">
+                    <svg class="w-full h-full animate-spin-slow" viewBox="0 0 400 400" fill="none">
+                        <circle cx="200" cy="200" r="190" stroke="url(#modal-grad)" stroke-width="2" stroke-dasharray="10 5" />
+                        <circle cx="200" cy="200" r="160" stroke="url(#modal-grad)" stroke-width="1.5" />
+                        <polygon points="200,40 338,280 62,280" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
+                        <polygon points="200,360 62,120 338,120" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
+                        <circle cx="200" cy="200" r="100" stroke="url(#modal-grad)" stroke-width="1.5" stroke-dasharray="8 4" />
+                        <defs>
+                            <linearGradient id="modal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#dfac42" />
+                                <stop offset="50%" stop-color="#3a86ff" />
+                                <stop offset="100%" stop-color="#e63946" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="relative z-10 w-full h-full flex items-center justify-center">
+                    <img id="modal-image" src="" alt="Linh Tướng WebP" class="max-h-[300px] sm:max-h-[400px] w-auto object-contain transition-transform duration-200 animate-float" style="filter: drop-shadow(0 0 20px rgba(223, 172, 66, 0.6));">
+                </div>
+
+                <div class="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-300 font-bold" id="modal-element-badge">Hệ Kim</span>
+                        <span class="text-slate-500">|</span>
+                        <span class="text-yellow-400" id="modal-grade-badge">Thần Cấp</span>
+                    </div>
+                    <button id="btn-modal-fullscreen" class="text-amber-300 hover:text-white flex items-center gap-1 font-medium bg-amber-500/20 px-2.5 py-1 rounded-lg border border-amber-500/30 transition">
+                        <i class="fa-solid fa-expand"></i> Toàn Màn Hình
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="lg:w-1/2 p-6 flex flex-col justify-between overflow-y-auto bg-slate-950 border-t lg:border-t-0 lg:border-l border-amber-500/20">
+                <div>
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                        <div>
+                            <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
+                            <h2 id="modal-title" class="font-title font-black text-2xl text-amber-300 text-glow-gold">Hoàng Kim Vũ Thần</h2>
+                            <p id="modal-subtitle" class="text-xs text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Bát Nhã Thần Tướng</p>
+                        </div>
+                        <button id="modal-fav-btn" class="w-9 h-9 rounded-full border border-amber-500/30 bg-slate-900 hover:bg-amber-500/20 text-amber-400 flex items-center justify-center transition">
+                            <i class="fa-regular fa-star text-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-4 bg-slate-900/80 p-3 rounded-xl border border-amber-500/20">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-slate-400"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Linh Lực / Thần Lực:</span>
+                            <span id="modal-power-val" class="font-bold text-amber-400">98,500,000</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-amber-500/30">
+                            <div id="modal-power-bar" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mb-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Kỹ Năng Bá Chủ:
+                            </h4>
+                            <p id="modal-skill" class="text-xs text-slate-300 bg-slate-900/50 p-2.5 rounded-lg border border-slate-800 leading-relaxed"></p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-scroll text-amber-400"></i> Truyền Thuyết Bá Lục:
+                            </h4>
+                            <p id="modal-lore" class="text-xs text-slate-400 bg-slate-900/30 p-2.5 rounded-lg border border-slate-900 leading-relaxed max-h-24 overflow-y-auto"></p>
+                        </div>
+                    </div>
+
+                    <!-- LIVE VISUAL FX TUNING CONTROLS -->
+                    <div class="bg-slate-900/90 border border-amber-500/30 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between border-b border-amber-500/20 pb-2">
+                            <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-sliders"></i> Chỉnh Hiệu Ứng Hào Quang
+                            </span>
+                            <button id="btn-reset-fx" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">Khôi Phục</button>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tỉ Lệ Zoom:</span>
+                                    <span id="val-scale" class="text-amber-400">1.0x</span>
+                                </div>
+                                <input id="slider-scale" type="range" min="0.5" max="1.8" step="0.05" value="1" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Độ Sáng Hào Quang:</span>
+                                    <span id="val-glow" class="text-amber-400">20px</span>
+                                </div>
+                                <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Tốc Độ Pháp Trận:</span>
+                                    <span id="val-spin" class="text-amber-400">25s</span>
+                                </div>
+                                <input id="slider-spin" type="range" min="2" max="50" step="2" value="25" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-slate-400 mb-1">
+                                    <span>Đổi Màu Aura (Hue):</span>
+                                    <span id="val-hue" class="text-amber-400">0°</span>
+                                </div>
+                                <input id="slider-hue" type="range" min="0" max="360" step="10" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end gap-2">
+                    <button id="btn-copy-link" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-share-nodes"></i> Sao Chép Tên
+                    </button>
+                    <button id="btn-play-sound-fx" class="px-4 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-bell"></i> Phát Thần Âm
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL SOI TƯỚNG FULL -->
-    <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="relative w-full max-w-lg glass-panel-dark border border-amber-500/50 rounded-2xl p-4 shadow-2xl flex flex-col md:flex-row gap-4">
-            <button onclick="closeInspectModal()" class="absolute top-2.5 right-2.5 text-slate-400 hover:text-white z-20">
+    <!-- UPLOAD CUSTOM WEBP MODAL -->
+    <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="relative w-full max-w-lg bg-slate-950 border border-amber-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(223,172,66,0.3)]">
+            <button id="btn-close-upload" class="absolute top-4 right-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
-            <!-- Xem trước -->
-            <div class="w-full md:w-1/2 flex flex-col items-center justify-center bg-slate-900/60 border border-amber-500/30 rounded-xl p-3 relative overflow-hidden">
-                <div class="relative w-36 h-36 flex items-center justify-center">
-                    <img id="inspect-img" src="" class="max-h-full max-w-full object-contain filter drop-shadow-[0_0_12px_rgba(223,172,66,0.6)]" alt="Soi Tướng">
-                </div>
-                <h3 id="inspect-title-name" class="font-title font-bold text-sm text-amber-300 text-glow-gold mt-2 text-center">---</h3>
-                <span id="inspect-grade" class="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-200 border border-amber-500/40 font-semibold mt-1">---</span>
-            </div>
-
-            <!-- Chỉnh Aura -->
-            <div class="w-full md:w-1/2 flex flex-col justify-between space-y-2">
-                <h4 class="font-title font-bold text-amber-400 text-xs border-b border-amber-500/30 pb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-sliders text-amber-500"></i>
-                    <span>Tùy Chỉnh Aura</span>
-                </h4>
-
-                <div class="space-y-1.5 text-[11px]">
-                    <div>
-                        <div class="flex justify-between text-slate-300 mb-0.5"><span>Xoay Màu (Hue)</span><span id="val-hue" class="text-amber-400 font-bold">0°</span></div>
-                        <input type="range" id="slider-hue" min="0" max="360" value="0" class="w-full h-1 accent-amber-400 bg-slate-800 rounded cursor-pointer">
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-slate-300 mb-0.5"><span>Độ Sáng</span><span id="val-brightness" class="text-amber-400 font-bold">100%</span></div>
-                        <input type="range" id="slider-brightness" min="50" max="200" value="100" class="w-full h-1 accent-amber-400 bg-slate-800 rounded cursor-pointer">
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-slate-300 mb-0.5"><span>Bão Hòa</span><span id="val-saturate" class="text-amber-400 font-bold">100%</span></div>
-                        <input type="range" id="slider-saturate" min="0" max="300" value="100" class="w-full h-1 accent-amber-400 bg-slate-800 rounded cursor-pointer">
-                    </div>
-                </div>
-
-                <div class="pt-2 border-t border-slate-800 flex gap-2">
-                    <button onclick="resetAuraSettings()" class="w-1/3 py-1 rounded-xl border border-slate-700 bg-slate-900/80 text-slate-300 text-xs">Đặt Lại</button>
-                    <button onclick="saveAuraForCurrentCharacter()" class="w-2/3 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-xs shadow">Lưu Tướng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL UPLOAD WEBP -->
-    <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="relative w-full max-w-md glass-panel-dark border border-amber-500/40 rounded-2xl p-4 shadow-2xl">
-            <button id="btn-close-upload" class="absolute top-2.5 right-2.5 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <h3 class="font-title font-bold text-base text-amber-300 mb-1 text-glow-gold flex items-center gap-2">
-                <i class="fa-solid fa-file-arrow-up"></i> Tải Lên WebP Mới
+            <h3 class="font-title font-bold text-xl text-amber-300 mb-1 text-glow-gold flex items-center gap-2">
+                <i class="fa-solid fa-file-arrow-up"></i> Nạp WebP / GIF Linh Tướng Mới
             </h3>
-            <p class="text-xs text-slate-400 mb-2">Thêm Linh Tướng hoặc Trang Bị vào Bảo Lục.</p>
+            <p class="text-xs text-slate-400 mb-4">Tải lên hình ảnh WebP động hoặc GIF của bạn.</p>
 
-            <form id="upload-form" class="space-y-2.5">
-                <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-3 text-center bg-slate-900/40 cursor-pointer transition">
+            <form id="upload-form" class="space-y-4">
+                <div id="drop-zone" class="border-2 border-dashed border-amber-500/40 hover:border-amber-400 rounded-xl p-6 text-center bg-slate-900/50 hover:bg-amber-500/5 cursor-pointer transition">
                     <input type="file" id="file-input" accept="image/webp, image/gif, image/png" class="hidden">
-                    <div id="upload-preview-container" class="hidden mb-1">
-                        <img id="upload-preview-img" src="" class="max-h-24 mx-auto object-contain rounded border border-amber-500/30">
+                    <div id="upload-preview-container" class="hidden mb-3">
+                        <img id="upload-preview-img" src="" class="max-h-36 mx-auto object-contain rounded-lg border border-amber-500/30">
                     </div>
-                    <i id="upload-icon" class="fa-solid fa-cloud-arrow-up text-xl text-amber-400 mb-1"></i>
-                    <p class="text-xs text-amber-200">Chọn file từ thiết bị</p>
+                    <i id="upload-icon" class="fa-solid fa-cloud-arrow-up text-3xl text-amber-400 mb-2"></i>
+                    <p class="text-xs text-amber-200 font-medium">Kéo thả file `.webp` hoặc `.gif` vào đây</p>
+                    <p class="text-[10px] text-slate-500 mt-1">Hoặc bấm để chọn tệp từ thiết bị</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[10px] text-amber-300 mb-0.5">Tên Vật Phẩm *</label>
-                        <input type="text" id="input-name" required placeholder="Tên linh tướng..." class="w-full bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                        <label class="block text-[11px] text-amber-300 mb-1">Tên Linh Tướng *</label>
+                        <input type="text" id="input-name" required placeholder="Ví dụ: Ma Thần Vực Thẫm" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
-                        <label class="block text-[10px] text-amber-300 mb-0.5">Loại *</label>
-                        <select id="input-type" class="w-full bg-slate-900 border border-amber-500/30 rounded px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
-                            <option value="character">Linh Tướng</option>
-                            <option value="title">Danh Hiệu</option>
-                            <option value="frame">Khung Avatar</option>
+                        <label class="block text-[11px] text-amber-300 mb-1">Thuộc Tính (Hệ) *</label>
+                        <select id="input-element" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                            <option value="Kim">Kim (Metal)</option>
+                            <option value="Mộc">Mộc (Wood)</option>
+                            <option value="Thủy">Thủy (Water)</option>
+                            <option value="Hỏa">Hỏa (Fire)</option>
+                            <option value="Thổ">Thổ (Earth)</option>
+                            <option value="Thần">Thần (Divine)</option>
+                            <option value="Ma">Ma (Demon)</option>
                         </select>
                     </div>
                 </div>
 
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Phẩm Cấp</label>
+                        <input type="text" id="input-grade" value="Thượng Cổ Thần Cấp" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-amber-300 mb-1">Thần Lực / Linh Lực</label>
+                        <input type="number" id="input-power" value="99000000" class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-amber-300 mb-1">Kỹ Năng Bá Chủ</label>
+                    <input type="text" id="input-skill" placeholder="Mô tả kỹ năng đặc trưng..." class="w-full bg-slate-900 border border-amber-500/30 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                </div>
+
                 <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" id="btn-cancel-upload" class="px-3 py-1 rounded border border-slate-700 bg-slate-900 text-xs text-slate-300">Hủy</button>
-                    <button type="submit" class="px-4 py-1 rounded bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-xs">Lưu</button>
+                    <button type="button" id="btn-cancel-upload" class="px-4 py-2 rounded-lg border border-slate-700 bg-slate-900 text-xs text-slate-300 hover:bg-slate-800">Hủy</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-xs shadow-lg">Lưu Linh Tướng</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATIONS -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-1.5 pointer-events-none"></div>
+    <!-- CINEMATIC / FULLSCREEN SHOWCASE OVERLAY -->
+    <div id="cinematic-modal" class="fixed inset-0 z-50 hidden bg-black flex flex-col items-center justify-center overflow-hidden">
+        <div class="absolute w-[600px] h-[600px] sm:w-[900px] sm:h-[900px] pointer-events-none opacity-30 animate-spin-slow">
+            <svg class="w-full h-full text-amber-500" viewBox="0 0 500 500" fill="none">
+                <circle cx="250" cy="250" r="240" stroke="currentColor" stroke-width="2" stroke-dasharray="8 6" />
+                <circle cx="250" cy="250" r="180" stroke="currentColor" stroke-width="1.5" />
+                <polygon points="250,30 440,360 60,360" stroke="currentColor" stroke-width="1" />
+                <polygon points="250,470 60,140 440,140" stroke="currentColor" stroke-width="1" />
+            </svg>
+        </div>
 
-    <!-- JAVASCRIPT GAME ENGINE & UI CORE -->
+        <button id="btn-exit-cinematic" class="absolute top-5 right-5 z-30 px-4 py-2 rounded-full border border-amber-500/40 bg-black/60 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-2 backdrop-blur-md transition">
+            <i class="fa-solid fa-compress"></i> Thoát Điện Điện
+        </button>
+
+        <div class="relative z-10 flex flex-col items-center justify-center p-4">
+            <img id="cinematic-image" src="" class="max-h-[70vh] sm:max-h-[80vh] w-auto object-contain animate-float" style="filter: drop-shadow(0 0 35px rgba(223, 172, 66, 0.8));">
+            <h2 id="cinematic-title" class="font-title font-black text-3xl sm:text-5xl text-amber-300 text-glow-gold mt-6 tracking-widest text-center"></h2>
+            <p id="cinematic-subtitle" class="text-xs sm:text-sm text-amber-200/70 tracking-widest uppercase mt-2"></p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
     <script>
         /* ==========================================================================
-           1. CƠ SỞ DỮ LIỆU BẢO LỤC (DATABASE)
+           1. INITIAL DATASET & STATE
            ========================================================================== */
 
-        function createSvgFallback(colorHex, nameText) {
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="100%" height="100%" fill="#080a10"/><circle cx="100" cy="100" r="75" fill="${colorHex}" opacity="0.25"/><text x="100" y="105" font-family="sans-serif" font-size="14" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text></svg>`;
+        // Function tạo ảnh SVG giả lập cực chuẩn
+        function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/><stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="100%" height="100%" fill="#080a10"/><circle cx="200" cy="220" r="150" fill="url(#bgGlow)" /><circle cx="200" cy="220" r="130" stroke="${colorHex}" stroke-width="2" stroke-dasharray="10 5" fill="none" opacity="0.6"/><g transform="translate(200, 220)" filter="url(#glow)"><text x="0" y="20" font-family="sans-serif" font-size="70" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName}</text></g><text x="200" y="400" font-family="sans-serif" font-size="20" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text></svg>`;
             return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
         }
 
-        const database = [
-            { id: 101, name: "Đấu Chiến Thắng Phật", type: "character", element: "Kim", grade: "Thần Phật Cấp", image: "dau-chien-thang-phat.webp" },
-            { id: 102, name: "Chúc Nữ Tiên Tử", type: "character", element: "Thủy", grade: "Thần Cấp", image: "chuc-nu.webp" },
-            { id: 103, name: "Bạch Trạch Thần Thú", type: "character", element: "Thần", grade: "Thượng Cổ Thần Thú", image: "bach-trach-1.webp" },
-            { id: 104, name: "Bạch Vô Thường Limited", type: "character", element: "Ma", grade: "Chí Tôn Limited", image: "bach-vo-thuong-limited.webp" },
-            { id: 105, name: "Bất Tử Điểu", type: "character", element: "Hỏa", grade: "Thượng Cổ Thần Thú", image: "bat-tu-dieu.webp" },
-            { id: 106, name: "Bích Hải Lôi Tôn", type: "character", element: "Kim", grade: "Thần Cấp Tướng", image: "bich-hai-loi-ton.webp" },
-            { id: 107, name: "Cửu U Sát Thần", type: "character", element: "Ma", grade: "Thái Cổ Ma Cấp", image: "cuu-u-sat-than.webp" },
-            { id: 108, name: "Bích Hải Cửu Đầu Xà", type: "character", element: "Thủy", grade: "Yêu Vương Cấp", image: "bich-hai-cuu-dau-xa.webp" },
-
-            { id: 201, name: "Thiên Hạ Đệ Nhất Tông", type: "title", grade: "Bá Chủ", image: "thien-ha-de-nhat-tong.webp" },
-            { id: 202, name: "Có Chút Danh Tiếng", type: "title", grade: "Danh Hiệu Cửu Phẩm", image: "co-chut-danh-tieng.webp" },
-            { id: 203, name: "Vô Song Chi Tông", type: "title", grade: "Chí Tôn", image: "vo-song-chi-tong.webp" },
-            { id: 204, name: "Thích Thì Nạp", type: "title", grade: "Danh Hiệu VIP", image: "thich-thi-nap.webp" },
-
-            { id: 301, name: "Khung VIP 1 Hoàng Kim", type: "frame", grade: "Khung VIP", image: "khung-vip-1.webp" },
-            { id: 302, name: "Mốc VIP 2 Hào Quang", type: "frame", grade: "Khung VIP", image: "moc-vip-2.webp" },
-            { id: 303, name: "Khung Nạp 3000K Thần Uy", type: "frame", grade: "Khung Limited", image: "nap-3000k.webp" }
+        // Cập nhật mảng linh tướng với tên file thực tế trong repo của bạn
+        const defaultCharacters = [
+            {
+                id: 1,
+                name: "Chúc Nữ Tiên Tử",
+                element: "Thủy",
+                grade: "Thần Cấp",
+                power: 98500000,
+                image: "chuc-nu.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", "Chúc Nữ Tiên Tử", "❄️"),
+                skill: "Cửu Thiên Băng Tằm - Dệt mây thành thương, ngàn năm tuyết phủ.",
+                lore: "Tối cao Thủy Thần cai quản dải Ngân Hà, linh khí thanh khiết bất diệt.",
+                isFavorite: true
+            },
+            {
+                id: 2,
+                name: "Khương Lập Thần Nữ",
+                element: "Mộc",
+                grade: "Thượng Cổ Thần Cấp",
+                power: 99800000,
+                image: "khuong-lap.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#2a9d8f", "Khương Lập Thần Nữ", "🌿"),
+                skill: "Mộc Linh Tự Nhiên - Triệu hồi Vạn Khí Linh Thạch bảo hộ hộ thể.",
+                lore: "Thánh nữ Thần Giới, mang sức mạnh sinh cơ vô tận của vạn vật.",
+                isFavorite: true
+            },
+            {
+                id: 3,
+                name: "Bạch Trạch Cổ Thú",
+                element: "Kim",
+                grade: "Thái Cổ Thần Cấp",
+                power: 94200000,
+                image: "bach-trach-1.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Bạch Trạch Cổ Thú", "🦁"),
+                skill: "Thấu Thị Vạn Vật - Hiểu rõ điểm yếu mọi ma thần trong thiên hạ.",
+                lore: "Thượng cổ thụy thú, thông hiểu vạn vật linh khí, trấn giữ Linh Giới.",
+                isFavorite: false
+            },
+            {
+                id: 4,
+                name: "Hằng Nga Tru Tiên",
+                element: "Thần",
+                grade: "Thần Cấp",
+                power: 97600000,
+                image: "hang-nga-tru.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#ffd700", "Hằng Nga Tru Tiên", "🌙"),
+                skill: "Thái Âm Băng Sương - Trấn áp tà khí bằng ánh nguyệt quang.",
+                lore: "Tiên nữ Quảng Hàn Cung mang sức mạnh nguyệt hoa vạn năm.",
+                isFavorite: false
+            },
+            {
+                id: 5,
+                name: "Kiếm Tiên Lý Bạch",
+                element: "Kim",
+                grade: "Thánh Cấp",
+                power: 96800000,
+                image: "kiem-tien-ly-b.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#f39c12", "Kiếm Tiên Lý Bạch", "🗡️"),
+                skill: "Thanh Liên Kiếm Tán - Nhất kiếm phá vạn pháp, múa kiếm dưới trăng.",
+                lore: "Tối cao Kiếm Tiên trần thế, ngự kiếm phi hành du ngoạn tam giới.",
+                isFavorite: false
+            },
+            {
+                id: 6,
+                name: "Hào Thiên Thần Tướng",
+                element: "Hỏa",
+                grade: "Thượng Cổ Đế Cấp",
+                power: 100000000,
+                image: "hao-thien-tha.webp",
+                fallbackImage: createXianxiaSvgPlaceholder("#e63946", "Hào Thiên Thần Tướng", "🔥"),
+                skill: "Hào Thiên Thần Hỏa - Thiêu rụi hư không bằng ngọn lửa Hào Thiên.",
+                lore: "Chiến thần viễn cổ mang thân thể bất hoại cùng thần búa diệt thế.",
+                isFavorite: true
+            }
         ];
 
-        let auraConfigs = {};
-        let currentCategory = "character"; 
-        let currentElementFilter = "Toàn Bộ";
-
-        let equippedCharacter = database[0];
-        let equippedFrame = database.find(i => i.type === 'frame') || database[database.length - 1];
-        let equippedTitles = [database.find(i => i.id === 201)].filter(Boolean);
-        let inspectingItem = null;
+        // State Store
+        let characters = [...defaultCharacters];
+        let currentFilter = "Toàn Bộ";
+        let searchQuery = "";
+        let showFavoritesOnly = false;
+        let selectedCharacter = null;
+        let isAudioPlaying = false;
+        let audioCtx = null;
+        let synthOscillator = null;
 
         /* ==========================================================================
-           2. CANVAS RPG GAME ENGINE & CAMERA
+           2. WEB AUDIO API AMBIENT SYNTHESIZER
            ========================================================================== */
+        function toggleAudioAmbiance() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
 
-        const canvas = document.getElementById('game-canvas');
+            const btn = document.getElementById('btn-audio-toggle');
+            const icon = document.getElementById('audio-icon');
+
+            if (isAudioPlaying) {
+                if (synthOscillator) {
+                    synthOscillator.stop();
+                    synthOscillator = null;
+                }
+                isAudioPlaying = false;
+                btn.classList.remove('bg-amber-500', 'text-black');
+                btn.classList.add('bg-amber-500/10', 'text-amber-300');
+                icon.className = "fa-solid fa-music text-amber-400";
+                showToast("Đã tắt Linh Âm Tiên Cảnh");
+            } else {
+                audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(216, audioCtx.currentTime);
+                
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+
+                osc.connect(filter);
+                filter.connect(audioCtx.destination);
+                osc.start();
+
+                synthOscillator = osc;
+                isAudioPlaying = true;
+
+                btn.classList.add('bg-amber-500', 'text-black');
+                btn.classList.remove('bg-amber-500/10', 'text-amber-300');
+                icon.className = "fa-solid fa-volume-high text-black animate-pulse";
+                showToast("Đã bật Linh Âm Tiên Cảnh");
+            }
+        }
+
+        function playChimeSound() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            audioCtx.resume();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 1.2);
+
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.5);
+            showToast("Thượng Cổ Thần Âm Vang Vọng!");
+        }
+
+        /* ==========================================================================
+           3. BACKGROUND PARTICLE CANVAS SYSTEM
+           ========================================================================== */
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-
-        const WORLD_WIDTH = 3200;
-        const WORLD_HEIGHT = 3200;
+        let particles = [];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -486,1107 +643,417 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const spriteImageCache = {};
-        function getSpriteImage(src) {
-            if (!src) return null;
-            if (!spriteImageCache[src]) {
-                const img = new Image();
-                img.src = src;
-                spriteImageCache[src] = img;
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedY = Math.random() * 1.2 + 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.7 + 0.2;
+                this.color = Math.random() > 0.3 ? '#dfac42' : '#3a86ff';
             }
-            return spriteImageCache[src];
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
         }
 
-        const player = {
-            x: WORLD_WIDTH / 2,
-            y: WORLD_HEIGHT / 2,
-            radius: 30,
-            speed: 5.5,
-            hp: 1000,
-            maxHp: 1000,
-            mp: 200,
-            maxMp: 200,
-            level: 1,
-            exp: 0,
-            kills: 0,
-            facingAngle: 0,
-            shieldActive: false,
-            shieldTimer: 0
-        };
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
 
-        const camera = { x: 0, y: 0 };
-
-        let monsters = [];
-        let boss = null;
-        let skillEffects = [];
-        let damageTexts = [];
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
         /* ==========================================================================
-           3. ĐIỀU KHIỂN KÉO THẢ MÀN HÌNH (DRAG TO MOVE) & BÀN PHÍM
+           4. RENDER GALLERY CARDS & FILTERS
            ========================================================================== */
-        
-        let isDragging = false;
-        let dragVector = { x: 0, y: 0 };
-        let touchStartPos = { x: 0, y: 0 };
-
-        function handlePointerDown(e) {
-            if (e.target !== canvas) return;
-            isDragging = true;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            touchStartPos = { x: clientX, y: clientY };
-            dragVector = { x: 0, y: 0 };
-        }
-
-        function handlePointerMove(e) {
-            if (!isDragging) return;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            const dx = clientX - touchStartPos.x;
-            const dy = clientY - touchStartPos.y;
-            const dist = Math.hypot(dx, dy);
-
-            if (dist > 5) {
-                const maxDist = 70;
-                const clampDist = Math.min(dist, maxDist);
-                dragVector = {
-                    x: (dx / dist) * (clampDist / maxDist),
-                    y: (dy / dist) * (clampDist / maxDist)
-                };
-            }
-        }
-
-        function handlePointerUp() {
-            isDragging = false;
-            dragVector = { x: 0, y: 0 };
-        }
-
-        canvas.addEventListener('mousedown', handlePointerDown);
-        window.addEventListener('mousemove', handlePointerMove);
-        window.addEventListener('mouseup', handlePointerUp);
-
-        canvas.addEventListener('touchstart', handlePointerDown, { passive: true });
-        window.addEventListener('touchmove', handlePointerMove, { passive: true });
-        window.addEventListener('touchend', handlePointerUp);
-
-        // Phím WASD
-        const keys = {};
-        window.addEventListener('keydown', (e) => {
-            keys[e.code] = true;
-            if (e.code === 'Digit1') castSkill(1);
-            if (e.code === 'Digit2') castSkill(2);
-            if (e.code === 'Digit3') castSkill(3);
-            if (e.code === 'Space') castSkill(0);
-        });
-        window.addEventListener('keyup', (e) => { keys[e.code] = false; });
-
-        const skillCooldowns = { 1: 0, 2: 0, 3: 0, 0: 0 };
-        const skillMaxCD = { 1: 6, 2: 4, 3: 8, 0: 0.3 };
-
-        /* ==========================================================================
-           4. CHIẾN ĐẤU & KỸ NĂNG
-           ========================================================================== */
-
-        function castSkill(skillId) {
-            if (skillCooldowns[skillId] > 0) return;
-
-            if (skillId === 0) {
-                playSynthSound('strike');
-                skillCooldowns[0] = skillMaxCD[0];
-                const baseAngle = player.facingAngle;
-                for (let i = -1; i <= 1; i++) {
-                    const angle = baseAngle + (i * 0.25);
-                    skillEffects.push({
-                        type: 'slash_wave',
-                        x: player.x,
-                        y: player.y,
-                        vx: Math.cos(angle) * 12,
-                        vy: Math.sin(angle) * 12,
-                        life: 25,
-                        damage: 150,
-                        radius: 18,
-                        color: '#fbe29d'
-                    });
-                }
-            }
-            else if (skillId === 1) {
-                playSynthSound('sword_rain');
-                skillCooldowns[1] = skillMaxCD[1];
-                triggerAnnouncer("VẠN KIẾM QUY TÔNG!");
-
-                for (let i = 0; i < 28; i++) {
-                    const angle = (Math.PI * 2 / 28) * i;
-                    const spawnDist = 160 + Math.random() * 60;
-                    skillEffects.push({
-                        type: 'flying_sword',
-                        x: player.x + Math.cos(angle) * spawnDist,
-                        y: player.y + Math.sin(angle) * spawnDist,
-                        speed: 14,
-                        delay: i * 2,
-                        life: 80,
-                        damage: 380,
-                        angle: angle,
-                        color: '#dfac42'
-                    });
-                }
-            }
-            else if (skillId === 2) {
-                playSynthSound('staff_hit');
-                skillCooldowns[2] = skillMaxCD[2];
-                triggerAnnouncer("ĐẢ CẨU BỔNG!");
-
-                skillEffects.push({
-                    type: 'dog_staff_wave',
-                    x: player.x,
-                    y: player.y,
-                    currentRadius: 20,
-                    maxRadius: 220,
-                    expansionSpeed: 10,
-                    life: 22,
-                    damage: 520,
-                    color: '#f39c12'
-                });
-
-                monsters.forEach(m => {
-                    const dx = m.x - player.x;
-                    const dy = m.y - player.y;
-                    const distSq = dx * dx + dy * dy;
-                    if (distSq < 230 * 230) {
-                        const dist = Math.sqrt(distSq) || 1;
-                        m.x += (dx / dist) * 110;
-                        m.y += (dy / dist) * 110;
-                        takeDamageMonster(m, 520, true);
-                    }
-                });
-
-                if (boss) {
-                    const dx = boss.x - player.x;
-                    const dy = boss.y - player.y;
-                    if (dx * dx + dy * dy < 250 * 250) {
-                        takeDamageBoss(520, true);
-                    }
-                }
-            }
-            else if (skillId === 3) {
-                playSynthSound('shield');
-                skillCooldowns[3] = skillMaxCD[3];
-                player.shieldActive = true;
-                player.shieldTimer = 300;
-                showToast("Linh Thể Bất Hoại Kích Hoạt!");
-            }
-        }
-
-        function castMonsterSkill(m) {
-            playSynthSound('monster_attack');
-            const angle = Math.atan2(player.y - m.y, player.x - m.x);
-            for (let i = -1; i <= 1; i++) {
-                const spreadAngle = angle + (i * 0.3);
-                skillEffects.push({
-                    type: 'wolf_spike',
-                    x: m.x,
-                    y: m.y,
-                    vx: Math.cos(spreadAngle) * 7,
-                    vy: Math.sin(spreadAngle) * 7,
-                    life: 45,
-                    damage: 45,
-                    radius: 12,
-                    color: '#9d4edd'
-                });
-            }
-        }
-
-        function castBossDragonPalms() {
-            if (!boss) return;
-            playSynthSound('dragon_roar');
-            triggerAnnouncer("BOSS: GIÁNG LONG THẬP BÁT CHƯỞNG!");
-
-            for (let i = 0; i < 16; i++) {
-                const angle = (Math.PI * 2 / 16) * i;
-                skillEffects.push({
-                    type: 'dragon_palm',
-                    x: boss.x,
-                    y: boss.y,
-                    vx: Math.cos(angle) * 8.5,
-                    vy: Math.sin(angle) * 8.5,
-                    life: 100,
-                    damage: 85,
-                    radius: 20,
-                    angle: angle,
-                    color: '#e63946'
-                });
-            }
-        }
-
-        /* ==========================================================================
-           5. YÊU MA & BOSS
-           ========================================================================== */
-
-        const monsterTypes = [
-            { name: "Yêu Lang Cửu U", color: "#9d4edd", hp: 350, speed: 2.8, radius: 24 },
-            { name: "Cửu Đầu Xà Ma", color: "#2a9d8f", hp: 500, speed: 2.2, radius: 28 },
-            { name: "Huyết Ma Quỷ", color: "#e63946", hp: 420, speed: 3.2, radius: 22 }
+        const elementsList = [
+            { name: "Toàn Bộ", icon: "fa-border-all", color: "border-amber-500/50" },
+            { name: "Kim", icon: "fa-coins", color: "text-amber-400" },
+            { name: "Mộc", icon: "fa-leaf", color: "text-emerald-400" },
+            { name: "Thủy", icon: "fa-droplet", color: "text-blue-400" },
+            { name: "Hỏa", icon: "fa-fire", color: "text-red-500" },
+            { name: "Thổ", icon: "fa-mountain", color: "text-yellow-600" },
+            { name: "Thần", icon: "fa-sun", color: "text-yellow-300" },
+            { name: "Ma", icon: "fa-skull", color: "text-purple-500" }
         ];
 
-        function spawnMonstersWave() {
-            if (monsters.length >= 28) return;
-
-            for (let i = 0; i < 3; i++) {
-                const spawnAngle = Math.random() * Math.PI * 2;
-                const spawnDist = 600 + Math.random() * 250;
-                const type = monsterTypes[Math.floor(Math.random() * monsterTypes.length)];
-
-                monsters.push({
-                    id: Math.random(),
-                    name: type.name,
-                    x: Math.max(100, Math.min(WORLD_WIDTH - 100, player.x + Math.cos(spawnAngle) * spawnDist)),
-                    y: Math.max(100, Math.min(WORLD_HEIGHT - 100, player.y + Math.sin(spawnAngle) * spawnDist)),
-                    hp: type.hp,
-                    maxHp: type.hp,
-                    speed: type.speed,
-                    radius: type.radius,
-                    color: type.color,
-                    skillTimer: Math.random() * 60
-                });
-            }
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            container.innerHTML = elementsList.map(item => {
+                const isActive = currentFilter === item.name;
+                return `
+                    <button onclick="setFilter('${item.name}')" 
+                        class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition-all ${
+                            isActive 
+                            ? 'bg-amber-500 text-slate-950 shadow-[0_0_15px_rgba(223,172,66,0.5)] font-bold' 
+                            : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50 hover:bg-slate-800'
+                        }">
+                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color}"></i>
+                        <span>${item.name}</span>
+                    </button>
+                `;
+            }).join('');
         }
 
-        function triggerBossSpawn() {
-            if (boss) {
-                showToast("Boss Ma Hoàng Đã Có Mặt!");
-                return;
+        function getElementBadgeStyle(elem) {
+            switch(elem) {
+                case 'Kim': return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+                case 'Mộc': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                case 'Thủy': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+                case 'Hỏa': return 'bg-red-500/20 text-red-300 border-red-500/40';
+                case 'Thổ': return 'bg-amber-700/20 text-amber-200 border-amber-700/40';
+                case 'Thần': return 'bg-yellow-400/20 text-yellow-200 border-yellow-400/40';
+                case 'Ma': return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+                default: return 'bg-slate-800 text-slate-300 border-slate-700';
             }
-
-            playSynthSound('dragon_roar');
-            triggerAnnouncer("MA HOÀNG GIÁNG LÂM!");
-
-            boss = {
-                name: "MA HOÀNG CỬU U - YÊU TÔN",
-                x: player.x + (Math.random() > 0.5 ? 400 : -400),
-                y: player.y + (Math.random() > 0.5 ? 400 : -400),
-                hp: 35000,
-                maxHp: 35000,
-                radius: 60,
-                speed: 2.0,
-                color: "#e63946",
-                skillTimer: 0
-            };
-
-            document.getElementById('boss-hud').classList.remove('hidden');
-            document.getElementById('boss-name-text').textContent = boss.name;
-            updateBossHUD();
-        }
-
-        /* ==========================================================================
-           6. OPTIMIZED GAME LOOP (FIX LAG MAP HIỆU NĂNG)
-           ========================================================================== */
-
-        let lastTime = performance.now();
-        let lastHpPct = -1, lastMpPct = -1, lastKills = -1;
-
-        function gameLoop(now) {
-            const dt = (now - lastTime) / 1000;
-            lastTime = now;
-
-            updateGame(dt);
-            renderGame();
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        function updateGame(dt) {
-            // Update Cooldowns
-            for (let key in skillCooldowns) {
-                if (skillCooldowns[key] > 0) {
-                    skillCooldowns[key] -= dt;
-                    if (skillCooldowns[key] < 0) skillCooldowns[key] = 0;
-                    const cdElem = document.getElementById(`cd-${key}`);
-                    if (cdElem) {
-                        if (skillCooldowns[key] > 0) {
-                            cdElem.classList.remove('hidden');
-                            cdElem.textContent = skillCooldowns[key].toFixed(1);
-                        } else {
-                            cdElem.classList.add('hidden');
-                        }
-                    }
-                }
-            }
-
-            // Xử lý di chuyển (Kéo thả Màn hình + Bàn phím)
-            let dx = dragVector.x;
-            let dy = dragVector.y;
-
-            if (keys['KeyW'] || keys['ArrowUp']) dy -= 1;
-            if (keys['KeyS'] || keys['ArrowDown']) dy += 1;
-            if (keys['KeyA'] || keys['ArrowLeft']) dx -= 1;
-            if (keys['KeyD'] || keys['ArrowRight']) dx += 1;
-
-            if (dx !== 0 || dy !== 0) {
-                const len = Math.hypot(dx, dy) || 1;
-                player.x += (dx / len) * player.speed;
-                player.y += (dy / len) * player.speed;
-                player.facingAngle = Math.atan2(dy, dx);
-
-                player.x = Math.max(50, Math.min(WORLD_WIDTH - 50, player.x));
-                player.y = Math.max(50, Math.min(WORLD_HEIGHT - 50, player.y));
-            }
-
-            // Camera cuộn
-            camera.x = player.x - canvas.width / 2;
-            camera.y = player.y - canvas.height / 2;
-
-            if (player.shieldActive) {
-                player.shieldTimer--;
-                if (player.shieldTimer <= 0) player.shieldActive = false;
-            }
-
-            if (player.mp < player.maxMp) player.mp = Math.min(player.maxMp, player.mp + 0.3);
-
-            if (Math.random() < 0.035) spawnMonstersWave();
-
-            // AI Monsters
-            monsters.forEach(m => {
-                const mdx = player.x - m.x;
-                const mdy = player.y - m.y;
-                const distSq = mdx * mdx + mdy * mdy;
-
-                if (distSq > 25 * 25) {
-                    const dist = Math.sqrt(distSq);
-                    m.x += (mdx / dist) * m.speed;
-                    m.y += (mdy / dist) * m.speed;
-                }
-
-                m.skillTimer++;
-                if (m.skillTimer >= 140 && distSq < 450 * 450) {
-                    m.skillTimer = 0;
-                    castMonsterSkill(m);
-                }
-
-                if (distSq < (player.radius + m.radius) * (player.radius + m.radius)) {
-                    damagePlayer(7);
-                }
-            });
-
-            // AI Boss
-            if (boss) {
-                const bdx = player.x - boss.x;
-                const bdy = player.y - boss.y;
-                const bdistSq = bdx * bdx + bdy * bdy;
-
-                if (bdistSq > 40 * 40) {
-                    const bdist = Math.sqrt(bdistSq);
-                    boss.x += (bdx / bdist) * boss.speed;
-                    boss.y += (bdy / bdist) * boss.speed;
-                }
-
-                boss.skillTimer++;
-                if (boss.skillTimer >= 170) {
-                    boss.skillTimer = 0;
-                    castBossDragonPalms();
-                }
-
-                if (bdistSq < (player.radius + boss.radius) * (player.radius + boss.radius)) {
-                    damagePlayer(20);
-                }
-            }
-
-            // Skill Effects
-            skillEffects.forEach(ef => {
-                ef.life--;
-
-                if (ef.type === 'slash_wave') {
-                    ef.x += ef.vx;
-                    ef.y += ef.vy;
-
-                    monsters.forEach(m => {
-                        const dx = m.x - ef.x, dy = m.y - ef.y;
-                        if (dx * dx + dy * dy < (m.radius + ef.radius) * (m.radius + ef.radius)) {
-                            takeDamageMonster(m, ef.damage, false);
-                        }
-                    });
-                    if (boss) {
-                        const dx = boss.x - ef.x, dy = boss.y - ef.y;
-                        if (dx * dx + dy * dy < (boss.radius + ef.radius) * (boss.radius + ef.radius)) {
-                            takeDamageBoss(ef.damage, false);
-                        }
-                    }
-                }
-                else if (ef.type === 'flying_sword') {
-                    if (ef.delay > 0) {
-                        ef.delay--;
-                    } else {
-                        let target = boss;
-                        if (!target && monsters.length > 0) target = monsters[0];
-
-                        if (target) {
-                            const angle = Math.atan2(target.y - ef.y, target.x - ef.x);
-                            ef.x += Math.cos(angle) * ef.speed;
-                            ef.y += Math.sin(angle) * ef.speed;
-
-                            const dx = target.x - ef.x, dy = target.y - ef.y;
-                            if (dx * dx + dy * dy < (target.radius + 15) * (target.radius + 15)) {
-                                if (target === boss) takeDamageBoss(ef.damage, true);
-                                else takeDamageMonster(target, ef.damage, true);
-                                ef.life = 0;
-                            }
-                        } else {
-                            ef.x += Math.cos(ef.angle) * ef.speed;
-                            ef.y += Math.sin(ef.angle) * ef.speed;
-                        }
-                    }
-                }
-                else if (ef.type === 'dog_staff_wave') {
-                    ef.currentRadius += ef.expansionSpeed;
-                }
-                else if (ef.type === 'wolf_spike' || ef.type === 'dragon_palm') {
-                    ef.x += ef.vx;
-                    ef.y += ef.vy;
-                    const dx = player.x - ef.x, dy = player.y - ef.y;
-                    if (dx * dx + dy * dy < (player.radius + ef.radius) * (player.radius + ef.radius)) {
-                        damagePlayer(ef.damage);
-                        ef.life = 0;
-                    }
-                }
-            });
-
-            skillEffects = skillEffects.filter(ef => ef.life > 0);
-
-            damageTexts.forEach(dt => {
-                dt.y -= 1;
-                dt.alpha -= 0.025;
-            });
-            damageTexts = damageTexts.filter(dt => dt.alpha > 0);
-
-            // Cập nhật DOM tối ưu
-            const hpPct = Math.max(0, (player.hp / player.maxHp) * 100);
-            if (hpPct !== lastHpPct) {
-                lastHpPct = hpPct;
-                document.getElementById('player-hp-bar').style.width = `${hpPct}%`;
-                document.getElementById('player-hp-text').textContent = `${Math.ceil(player.hp)} / ${player.maxHp}`;
-            }
-
-            const mpPct = Math.max(0, (player.mp / player.maxMp) * 100);
-            if (mpPct !== lastMpPct) {
-                lastMpPct = mpPct;
-                document.getElementById('player-mp-bar').style.width = `${mpPct}%`;
-            }
-
-            if (player.kills !== lastKills) {
-                lastKills = player.kills;
-                document.getElementById('kill-count').textContent = player.kills;
-            }
-        }
-
-        /* DAMAGE LOGIC */
-        function damagePlayer(amount) {
-            if (player.shieldActive) amount = amount * 0.2;
-            player.hp -= amount;
-            playSynthSound('player_hit');
-
-            spawnDamageText(player.x, player.y - 30, `-${Math.ceil(amount)}`, '#e63946');
-
-            if (player.hp <= 0) {
-                player.hp = player.maxHp;
-                showToast("Linh Tướng Trùng Sinh! Hồi Phục Linh Lực!");
-            }
-        }
-
-        function takeDamageMonster(m, amount, isCrit) {
-            m.hp -= amount;
-            spawnDamageText(m.x, m.y - 20, `${Math.ceil(amount)}`, isCrit ? '#fbe29d' : '#ffffff', isCrit);
-
-            if (m.hp <= 0) {
-                player.kills++;
-                player.exp += 50;
-                if (player.exp >= player.level * 200) {
-                    player.level++;
-                    player.exp = 0;
-                    player.maxHp += 150;
-                    player.hp = player.maxHp;
-                    document.getElementById('player-level').textContent = `Linh Tướng Cấp ${player.level}`;
-                    showToast(`Thăng Cấp! Đạt Linh Tướng Cấp ${player.level}`);
-                }
-                monsters = monsters.filter(item => item.id !== m.id);
-            }
-        }
-
-        function takeDamageBoss(amount, isCrit) {
-            if (!boss) return;
-            boss.hp -= amount;
-            updateBossHUD();
-            spawnDamageText(boss.x + (Math.random()*30-15), boss.y - 45, `${Math.ceil(amount)}`, isCrit ? '#ffd700' : '#ff4d4d', true);
-
-            if (boss.hp <= 0) {
-                triggerAnnouncer("TRẢM BOSS THÀNH CÔNG!");
-                showToast("Đã Tiêu Diệt Boss Ma Hoàng!");
-                player.kills += 10;
-                boss = null;
-                document.getElementById('boss-hud').classList.add('hidden');
-            }
-        }
-
-        function updateBossHUD() {
-            if (!boss) return;
-            const pct = Math.max(0, (boss.hp / boss.maxHp) * 100);
-            document.getElementById('boss-hp-bar').style.width = `${pct}%`;
-            document.getElementById('boss-hp-text').textContent = `${Math.ceil(boss.hp)} / ${boss.maxHp}`;
-        }
-
-        function spawnDamageText(x, y, text, color, isBig = false) {
-            damageTexts.push({
-                x: x,
-                y: y,
-                text: text,
-                color: color,
-                alpha: 1.0,
-                size: isBig ? 20 : 13
-            });
-        }
-
-        /* ==========================================================================
-           7. RENDER HỌA ĐỒ MAP (OPTIMIZED NO FILTER CANVAS)
-           ========================================================================== */
-
-        function renderGame() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ctx.save();
-            ctx.translate(-camera.x, -camera.y);
-
-            // 1. VẼ MAP NỀN TRẬN PHÁP (TỐI ƯU CỰC MƯỢT)
-            drawBattlefieldMap();
-
-            // 2. SKILL EFFECTS
-            drawSkillEffects();
-
-            // 3. YÊU MA
-            monsters.forEach(m => drawMonster(m));
-
-            // 4. BOSS
-            if (boss) drawBoss(boss);
-
-            // 5. LINH TƯỚNG
-            drawPlayer();
-
-            // 6. DAMAGE TEXTS
-            damageTexts.forEach(dt => {
-                ctx.save();
-                ctx.globalAlpha = dt.alpha;
-                ctx.font = `bold ${dt.size}px 'Cinzel', sans-serif`;
-                ctx.fillStyle = dt.color;
-                ctx.fillText(dt.text, dt.x - 10, dt.y);
-                ctx.restore();
-            });
-
-            ctx.restore();
-        }
-
-        function drawBattlefieldMap() {
-            const gridSize = 140;
-            ctx.strokeStyle = 'rgba(223, 172, 66, 0.08)';
-            ctx.lineWidth = 1;
-
-            const startX = Math.floor(camera.x / gridSize) * gridSize;
-            const endX = startX + canvas.width + gridSize;
-            const startY = Math.floor(camera.y / gridSize) * gridSize;
-            const endY = startY + canvas.height + gridSize;
-
-            // Gom đường kẻ vào 1 Path để giảm bớt stroke call (Gỡ lag)
-            ctx.beginPath();
-            for (let x = startX; x < endX; x += gridSize) {
-                ctx.moveTo(x, startY);
-                ctx.lineTo(x, endY);
-            }
-            for (let y = startY; y < endY; y += gridSize) {
-                ctx.moveTo(startX, y);
-                ctx.lineTo(endX, y);
-            }
-            ctx.stroke();
-
-            // Vòng Trận Pháp Cửu Cung Trung Tâm
-            ctx.save();
-            ctx.translate(WORLD_WIDTH / 2, WORLD_HEIGHT / 2);
-            ctx.strokeStyle = 'rgba(223, 172, 66, 0.2)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(0, 0, 380, 0, Math.PI * 2);
-            ctx.arc(0, 0, 180, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.restore();
-        }
-
-        /* VẼ LINH TƯỚNG */
-        function drawPlayer() {
-            ctx.save();
-            ctx.translate(player.x, player.y);
-
-            // Aura Dưới Chân
-            const grad = ctx.createRadialGradient(0, 0, 8, 0, 0, player.radius + 18);
-            grad.addColorStop(0, 'rgba(223, 172, 66, 0.5)');
-            grad.addColorStop(1, 'rgba(223, 172, 66, 0)');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(0, 0, player.radius + 18, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Khiên Linh Thể
-            if (player.shieldActive) {
-                ctx.strokeStyle = '#3a86ff';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.arc(0, 0, player.radius + 10, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-
-            // Sprite Linh Tướng
-            const img = getSpriteImage(equippedCharacter.image);
-            if (img && img.complete && img.naturalWidth > 0) {
-                ctx.drawImage(img, -player.radius - 10, -player.radius - 15, (player.radius + 10) * 2, (player.radius + 15) * 2);
-            } else {
-                ctx.fillStyle = '#dfac42';
-                ctx.beginPath();
-                ctx.arc(0, 0, player.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            // Tên Trên Đầu
-            ctx.font = "bold 11px 'Cinzel', sans-serif";
-            ctx.fillStyle = "#fbe29d";
-            ctx.textAlign = "center";
-            ctx.fillText(equippedCharacter.name, 0, -player.radius - 18);
-
-            ctx.restore();
-        }
-
-        function drawMonster(m) {
-            ctx.save();
-            ctx.translate(m.x, m.y);
-
-            ctx.fillStyle = m.color;
-            ctx.globalAlpha = 0.85;
-            ctx.beginPath();
-            ctx.arc(0, 0, m.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = "#12051f";
-            ctx.beginPath();
-            ctx.arc(0, 0, m.radius * 0.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Thanh Máu Quái
-            ctx.fillStyle = 'rgba(0,0,0,0.6)';
-            ctx.fillRect(-18, -m.radius - 10, 36, 4);
-            ctx.fillStyle = '#e63946';
-            ctx.fillRect(-18, -m.radius - 10, (m.hp / m.maxHp) * 36, 4);
-
-            ctx.restore();
-        }
-
-        function drawBoss(b) {
-            ctx.save();
-            ctx.translate(b.x, b.y);
-
-            const grad = ctx.createRadialGradient(0, 0, 15, 0, 0, b.radius + 30);
-            grad.addColorStop(0, 'rgba(230, 57, 70, 0.7)');
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(0, 0, b.radius + 30, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#7209b7';
-            ctx.beginPath();
-            ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.strokeStyle = '#e63946';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-
-            ctx.font = "bold 13px 'Cinzel', sans-serif";
-            ctx.fillStyle = "#ff4d4d";
-            ctx.textAlign = "center";
-            ctx.fillText(b.name, 0, -b.radius - 12);
-
-            ctx.restore();
-        }
-
-        function drawSkillEffects() {
-            skillEffects.forEach(ef => {
-                ctx.save();
-
-                if (ef.type === 'slash_wave') {
-                    ctx.fillStyle = ef.color;
-                    ctx.beginPath();
-                    ctx.arc(ef.x, ef.y, ef.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                else if (ef.type === 'flying_sword') {
-                    if (ef.delay <= 0) {
-                        ctx.translate(ef.x, ef.y);
-                        ctx.rotate(ef.angle + Math.PI / 2);
-                        ctx.fillStyle = '#fbe29d';
-                        ctx.beginPath();
-                        ctx.moveTo(0, -20);
-                        ctx.lineTo(4, 8);
-                        ctx.lineTo(-4, 8);
-                        ctx.closePath();
-                        ctx.fill();
-                    }
-                }
-                else if (ef.type === 'dog_staff_wave') {
-                    ctx.strokeStyle = ef.color;
-                    ctx.lineWidth = 5;
-                    ctx.beginPath();
-                    ctx.arc(ef.x, ef.y, ef.currentRadius, 0, Math.PI * 2);
-                    ctx.stroke();
-                }
-                else if (ef.type === 'wolf_spike' || ef.type === 'dragon_palm') {
-                    ctx.fillStyle = ef.color;
-                    ctx.beginPath();
-                    ctx.arc(ef.x, ef.y, ef.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                ctx.restore();
-            });
-        }
-
-        /* ==========================================================================
-           8. MENU & AUDIO SYNTHESIZER
-           ========================================================================== */
-
-        function toggleMenuDrawer() {
-            const drawer = document.getElementById('menu-drawer');
-            drawer.classList.toggle('translate-x-full');
-        }
-
-        function triggerAnnouncer(msg) {
-            const el = document.getElementById('combat-announcer');
-            const txt = document.getElementById('announcer-text');
-            txt.textContent = msg;
-            el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 2200);
-        }
-
-        function setMainCategory(cat) {
-            currentCategory = cat;
-            ['character', 'title', 'frame'].forEach(c => {
-                const btn = document.getElementById(`tab-btn-${c}`);
-                if (btn) {
-                    if (c === cat) {
-                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/50 bg-amber-500 text-slate-950 font-title font-bold text-xs flex items-center justify-center gap-1 transition";
-                    } else {
-                        btn.className = "py-2 px-1 rounded-xl border border-amber-500/20 bg-slate-900/60 text-amber-200 font-title font-bold text-xs flex items-center justify-center gap-1 hover:border-amber-400 transition";
-                    }
-                }
-            });
-            renderElementFilterBar();
-            renderGallery();
-        }
-
-        function renderHeaderEquipped() {
-            const charImg = document.getElementById('hud-equipped-character');
-            const charName = document.getElementById('hud-character-name');
-            if (equippedCharacter) {
-                charImg.src = equippedCharacter.image;
-                charImg.onerror = () => { charImg.src = createSvgFallback('#3a86ff', equippedCharacter.name); };
-                charName.textContent = equippedCharacter.name;
-            }
-
-            const frameImg = document.getElementById('hud-equipped-frame');
-            if (equippedFrame) {
-                frameImg.src = equippedFrame.image;
-                frameImg.onerror = () => { frameImg.src = createSvgFallback('#dfac42', 'Khung'); };
-            }
-
-            const titlesContainer = document.getElementById('hud-titles-container');
-            if (equippedTitles.length === 0) {
-                titlesContainer.innerHTML = `<span class="text-[9px] text-slate-400 italic">Chưa đeo danh hiệu</span>`;
-            } else {
-                titlesContainer.innerHTML = equippedTitles.map(t => `
-                    <img src="${t.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#e63946', t.name)}'" class="h-4.5 object-contain drop-shadow" title="${t.name}">
-                `).join('');
-            }
-        }
-
-        function equipItem(id) {
-            const item = database.find(i => i.id === id);
-            if (!item) return;
-
-            if (item.type === 'character') {
-                equippedCharacter = item;
-                showToast(`Đã đổi Linh Tướng: ${item.name}`);
-            } else if (item.type === 'frame') {
-                equippedFrame = item;
-                showToast(`Đã đổi Khung Avatar: ${item.name}`);
-            } else if (item.type === 'title') {
-                if (!equippedTitles.some(t => t.id === item.id)) {
-                    equippedTitles.push(item);
-                    showToast(`Đã đeo Danh Hiệu: ${item.name}`);
-                }
-            }
-
-            renderHeaderEquipped();
-            renderGallery();
-        }
-
-        const elementsList = ["Toàn Bộ", "Kim", "Mộc", "Thủy", "Hỏa", "Thổ", "Thần", "Ma"];
-        function renderElementFilterBar() {
-            const bar = document.getElementById('element-filter-bar');
-            if (currentCategory !== 'character') {
-                bar.innerHTML = '';
-                return;
-            }
-
-            bar.innerHTML = elementsList.map(elem => `
-                <button onclick="setElementFilter('${elem}')" class="px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap transition ${
-                    currentElementFilter === elem 
-                    ? 'bg-amber-500/30 border border-amber-400 text-amber-300' 
-                    : 'bg-slate-900/60 border border-amber-500/20 text-slate-400 hover:text-slate-200'
-                }">
-                    ${elem}
-                </button>
-            `).join('');
-        }
-
-        function setElementFilter(elem) {
-            currentElementFilter = elem;
-            renderElementFilterBar();
-            renderGallery();
         }
 
         function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            let filtered = database.filter(item => {
-                const matchCategory = item.type === currentCategory;
-                const matchElement = currentCategory !== 'character' || currentElementFilter === "Toàn Bộ" || item.element === currentElementFilter;
-                return matchCategory && matchElement;
+            const grid = document.getElementById('character-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countLabel = document.getElementById('character-count');
+
+            let filtered = characters.filter(c => {
+                const matchElement = currentFilter === "Toàn Bộ" || c.element === currentFilter;
+                const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    c.skill.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    c.grade.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchFav = !showFavoritesOnly || c.isFavorite;
+                return matchElement && matchSearch && matchFav;
             });
 
-            grid.innerHTML = filtered.map(item => {
-                let isEquipped = false;
-                if (item.type === 'character') isEquipped = equippedCharacter && equippedCharacter.id === item.id;
-                if (item.type === 'frame') isEquipped = equippedFrame && equippedFrame.id === item.id;
-                if (item.type === 'title') isEquipped = equippedTitles.some(t => t.id === item.id);
+            countLabel.textContent = filtered.length;
 
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+            }
+
+            grid.innerHTML = filtered.map(char => {
+                const badgeStyle = getElementBadgeStyle(char.element);
                 return `
-                    <div class="xianxia-card rounded-xl p-2.5 relative flex flex-col justify-between">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">
-                                ${item.grade || 'Tiên Giới'}
+                    <div onclick="openInspectModal(${char.id})" class="xianxia-card rounded-2xl p-4 relative group cursor-pointer overflow-hidden flex flex-col justify-between">
+                        <div class="flex justify-between items-center mb-2 z-10">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeStyle} font-bold">
+                                Hệ ${char.element}
                             </span>
-                            ${isEquipped ? `<span class="text-[9px] text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Đang Đeo</span>` : ''}
-                        </div>
-
-                        <div class="relative my-1 h-24 w-full flex items-center justify-center overflow-hidden rounded bg-slate-900/40 cursor-pointer" onclick="openInspectModal(${item.id})">
-                            <img src="${item.image}" onerror="this.onerror=null; this.src='${createSvgFallback('#dfac42', item.name)}'" class="max-h-20 max-w-[80%] object-contain">
-                        </div>
-
-                        <div class="mt-1">
-                            <h4 class="font-title font-bold text-xs text-amber-200 truncate">${item.name}</h4>
-                        </div>
-
-                        <div class="mt-2 flex items-center gap-1">
-                            ${item.type === 'character' ? `
-                                <button onclick="openInspectModal(${item.id})" class="px-2 py-1 rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 text-[10px] font-bold">Soi</button>
-                            ` : ''}
-                            <button onclick="equipItem(${item.id})" class="flex-1 py-1 rounded bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-[10px]">
-                                ${isEquipped ? 'Đã Trang Bị' : '+ Đeo'}
+                            <button onclick="event.stopPropagation(); toggleFavorite(${char.id})" class="text-slate-500 hover:text-amber-400 transition p-1">
+                                <i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-sm"></i>
                             </button>
+                        </div>
+
+                        <div class="relative my-2 h-52 w-full flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-slate-900/60 to-black/80 border border-slate-800 group-hover:border-amber-500/30 transition">
+                            <div class="absolute w-28 h-28 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition"></div>
+                            <div class="absolute w-40 h-40 opacity-20 group-hover:opacity-40 transition animate-spin-slow">
+                                <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none">
+                                    <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2"/>
+                                    <polygon points="50,10 85,75 15,75" stroke="currentColor" stroke-width="0.8"/>
+                                </svg>
+                            </div>
+
+                            <!-- Đã sửa hàm onerror để nạp chuẩn SVG fallback khi ảnh không tồn tại -->
+                            <img src="${char.image}" 
+                                 onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
+                                 alt="${char.name}" 
+                                 class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
+                        </div>
+
+                        <div class="z-10 mt-2">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
+                            </div>
+                            <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
+                            <div class="mt-2.5">
+                                <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                                    <span>Linh Lực:</span>
+                                    <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
+                                </div>
+                                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
+                            <span>Chi tiết linh tướng</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        /* SOI TƯỚNG */
+        /* ==========================================================================
+           5. EVENT HANDLERS & MODAL CONTROLS
+           ========================================================================== */
+        function setFilter(elementName) {
+            currentFilter = elementName;
+            renderFilters();
+            renderGallery();
+        }
+
+        function toggleFavorite(id) {
+            const char = characters.find(c => c.id === id);
+            if (char) {
+                char.isFavorite = !char.isFavorite;
+                renderGallery();
+                showToast(char.isFavorite ? `Đã thêm ${char.name} vào Yêu Thích` : `Đã xóa ${char.name} khỏi Yêu Thích`);
+            }
+        }
+
         function openInspectModal(id) {
-            const item = database.find(i => i.id === id);
-            if (!item) return;
+            const char = characters.find(c => c.id === id);
+            if (!char) return;
 
-            inspectingItem = item;
-            document.getElementById('inspect-modal').classList.remove('hidden');
-            document.getElementById('inspect-img').src = item.image;
-            document.getElementById('inspect-title-name').textContent = item.name;
-            document.getElementById('inspect-grade').textContent = item.grade || 'Tiên Giới';
+            selectedCharacter = char;
 
-            const cfg = auraConfigs[item.id] || { hue: 0, brightness: 100, saturate: 100 };
-            document.getElementById('slider-hue').value = cfg.hue;
-            document.getElementById('slider-brightness').value = cfg.brightness;
-            document.getElementById('slider-saturate').value = cfg.saturate;
+            document.getElementById('modal-id').textContent = `ID: #${String(char.id).padStart(4, '0')}`;
+            document.getElementById('modal-title').textContent = char.name;
+            document.getElementById('modal-subtitle').textContent = `${char.grade} • Linh Giới Trấn Điện`;
+            
+            const imgEl = document.getElementById('modal-image');
+            imgEl.src = char.image;
+            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
 
-            updateAuraPreview();
-        }
+            document.getElementById('modal-element-badge').textContent = `Hệ ${char.element}`;
+            document.getElementById('modal-grade-badge').textContent = char.grade;
+            document.getElementById('modal-power-val').textContent = char.power.toLocaleString();
+            document.getElementById('modal-skill').textContent = char.skill;
+            document.getElementById('modal-lore').textContent = char.lore;
 
-        function closeInspectModal() {
-            document.getElementById('inspect-modal').classList.add('hidden');
-            inspectingItem = null;
-        }
-
-        function updateAuraPreview() {
-            if (!inspectingItem) return;
-            const hue = document.getElementById('slider-hue').value;
-            const brightness = document.getElementById('slider-brightness').value;
-            const saturate = document.getElementById('slider-saturate').value;
-
-            document.getElementById('val-hue').textContent = `${hue}°`;
-            document.getElementById('val-brightness').textContent = `${brightness}%`;
-            document.getElementById('val-saturate').textContent = `${saturate}%`;
-
-            const img = document.getElementById('inspect-img');
-            img.style.filter = `hue-rotate(${hue}deg) brightness(${brightness}%) saturate(${saturate}%)`;
-        }
-
-        ['slider-hue', 'slider-brightness', 'slider-saturate'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateAuraPreview);
-        });
-
-        function resetAuraSettings() {
-            document.getElementById('slider-hue').value = 0;
-            document.getElementById('slider-brightness').value = 100;
-            document.getElementById('slider-saturate').value = 100;
-            updateAuraPreview();
-        }
-
-        function saveAuraForCurrentCharacter() {
-            if (!inspectingItem) return;
-            auraConfigs[inspectingItem.id] = {
-                hue: parseInt(document.getElementById('slider-hue').value),
-                brightness: parseInt(document.getElementById('slider-brightness').value),
-                saturate: parseInt(document.getElementById('slider-saturate').value)
+            const favBtn = document.getElementById('modal-fav-btn');
+            favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
+            favBtn.onclick = () => {
+                toggleFavorite(char.id);
+                favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
             };
-            showToast(`Lưu Aura cho [${inspectingItem.name}] thành công!`);
-            closeInspectModal();
+
+            resetFxControls();
+            document.getElementById('inspect-modal').classList.remove('hidden');
         }
 
-        /* WEB AUDIO SYNTHESIZER */
-        let audioCtx = null;
-        let isAudioMuted = false;
-
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function resetFxControls() {
+            document.getElementById('slider-scale').value = 1;
+            document.getElementById('slider-glow').value = 20;
+            document.getElementById('slider-spin').value = 25;
+            document.getElementById('slider-hue').value = 0;
+            updateFxStyles();
         }
 
-        function playSynthSound(type) {
-            if (isAudioMuted) return;
-            initAudio();
-            if (!audioCtx) return;
+        function updateFxStyles() {
+            const scale = document.getElementById('slider-scale').value;
+            const glow = document.getElementById('slider-glow').value;
+            const spin = document.getElementById('slider-spin').value;
+            const hue = document.getElementById('slider-hue').value;
 
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            document.getElementById('val-scale').textContent = `${scale}x`;
+            document.getElementById('val-glow').textContent = `${glow}px`;
+            document.getElementById('val-spin').textContent = `${spin}s`;
+            document.getElementById('val-hue').textContent = `${hue}°`;
 
-            const now = audioCtx.currentTime;
+            const imgEl = document.getElementById('modal-image');
+            imgEl.style.transform = `scale(${scale})`;
+            imgEl.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8)) hue-rotate(${hue}deg)`;
 
-            if (type === 'strike') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(280, now);
-                osc.frequency.exponentialRampToValueAtTime(80, now + 0.12);
-                gain.gain.setValueAtTime(0.2, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
-                osc.start(now);
-                osc.stop(now + 0.12);
-            } else if (type === 'sword_rain') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(750, now);
-                osc.frequency.exponentialRampToValueAtTime(1100, now + 0.25);
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
-                osc.start(now);
-                osc.stop(now + 0.25);
-            } else if (type === 'staff_hit') {
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(140, now);
-                osc.frequency.exponentialRampToValueAtTime(40, now + 0.2);
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
-                osc.start(now);
-                osc.stop(now + 0.2);
-            } else if (type === 'dragon_roar') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(90, now);
-                osc.frequency.linearRampToValueAtTime(220, now + 0.35);
-                gain.gain.setValueAtTime(0.35, now);
-                gain.gain.linearRampToValueAtTime(0.01, now + 0.5);
-                osc.start(now);
-                osc.stop(now + 0.5);
-            }
+            const circleEl = document.getElementById('modal-magic-circle');
+            circleEl.style.setProperty('--spin-duration', `${spin}s`);
+            circleEl.style.filter = `hue-rotate(${hue}deg)`;
         }
 
-        document.getElementById('btn-audio-toggle').addEventListener('click', () => {
-            isAudioMuted = !isAudioMuted;
-            const icon = document.getElementById('audio-icon');
-            if (isAudioMuted) {
-                icon.className = "fa-solid fa-volume-xmark text-slate-400";
-                showToast("Đã tắt âm thanh");
-            } else {
-                icon.className = "fa-solid fa-music text-cyan-400";
-                showToast("Đã bật âm thanh chiến đấu");
-            }
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderGallery();
         });
 
-        /* UPLOAD WEBP HANDLER */
+        document.getElementById('btn-favorites-toggle').addEventListener('click', () => {
+            showFavoritesOnly = !showFavoritesOnly;
+            const btn = document.getElementById('btn-favorites-toggle');
+            if (showFavoritesOnly) {
+                btn.classList.add('bg-amber-500', 'text-black');
+                btn.classList.remove('bg-slate-900', 'text-amber-300');
+            } else {
+                btn.classList.remove('bg-amber-500', 'text-black');
+                btn.classList.add('bg-slate-900', 'text-amber-300');
+            }
+            renderGallery();
+        });
+
+        document.getElementById('btn-audio-toggle').addEventListener('click', toggleAudioAmbiance);
+        document.getElementById('btn-play-sound-fx').addEventListener('click', playChimeSound);
+
+        document.getElementById('btn-close-modal').addEventListener('click', () => {
+            document.getElementById('inspect-modal').classList.add('hidden');
+        });
+
+        ['slider-scale', 'slider-glow', 'slider-spin', 'slider-hue'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateFxStyles);
+        });
+        document.getElementById('btn-reset-fx').addEventListener('click', resetFxControls);
+
+        /* ==========================================================================
+           6. CUSTOM WEBP FILE UPLOAD HANDLER
+           ========================================================================== */
         const uploadModal = document.getElementById('upload-modal');
         const fileInput = document.getElementById('file-input');
         const dropZone = document.getElementById('drop-zone');
-        let uploadedDataUrl = null;
+        let uploadedImageDataUrl = null;
 
-        document.getElementById('btn-open-upload').addEventListener('click', () => uploadModal.classList.remove('hidden'));
+        document.getElementById('btn-open-upload').addEventListener('click', () => {
+            uploadModal.classList.remove('hidden');
+        });
+
         document.getElementById('btn-close-upload').addEventListener('click', () => uploadModal.classList.add('hidden'));
         document.getElementById('btn-cancel-upload').addEventListener('click', () => uploadModal.classList.add('hidden'));
 
         dropZone.addEventListener('click', () => fileInput.click());
+
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    uploadedDataUrl = evt.target.result;
-                    document.getElementById('upload-preview-img').src = uploadedDataUrl;
-                    document.getElementById('upload-preview-container').classList.remove('hidden');
-                    document.getElementById('upload-icon').classList.add('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
+            if (file) handleFile(file);
         });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-amber-400', 'bg-amber-500/10');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-amber-400', 'bg-amber-500/10');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-amber-400', 'bg-amber-500/10');
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+
+        function handleFile(file) {
+            if (!file.type.includes('webp') && !file.type.includes('gif') && !file.type.includes('image')) {
+                showToast('Chỉ hỗ trợ file WebP, GIF hoặc hình ảnh!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageDataUrl = e.target.result;
+                const previewImg = document.getElementById('upload-preview-img');
+                previewImg.src = uploadedImageDataUrl;
+                document.getElementById('upload-preview-container').classList.remove('hidden');
+                document.getElementById('upload-icon').classList.add('hidden');
+                showToast('Tải ảnh thành công!');
+            };
+            reader.readAsDataURL(file);
+        }
 
         document.getElementById('upload-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            
             const name = document.getElementById('input-name').value;
-            const type = document.getElementById('input-type').value;
+            const element = document.getElementById('input-element').value;
+            const grade = document.getElementById('input-grade').value;
+            const power = parseInt(document.getElementById('input-power').value) || 50000000;
+            const skill = document.getElementById('input-skill').value || "Bá Chủ Thần Thông";
 
-            const newItem = {
+            const newChar = {
                 id: Date.now(),
                 name: name,
-                type: type,
-                element: "Thần",
-                grade: "Mới Nạp",
-                image: uploadedDataUrl || createSvgFallback('#dfac42', name)
+                element: element,
+                grade: grade,
+                power: power,
+                image: uploadedImageDataUrl || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                skill: skill,
+                lore: "Linh tướng mới nạp vào Linh Giới Bảo Lục bởi Tiên Hữu.",
+                isFavorite: false
             };
 
-            database.unshift(newItem);
+            characters.unshift(newChar);
+            renderGallery();
+
             uploadModal.classList.add('hidden');
-            setMainCategory(type);
-            showToast(`Thêm thành công: ${name}`);
+            showToast(`Đã thêm ${name} vào bảo lục!`);
+
+            document.getElementById('upload-form').reset();
+            document.getElementById('upload-preview-container').classList.add('hidden');
+            document.getElementById('upload-icon').classList.remove('hidden');
+            uploadedImageDataUrl = null;
+        });
+
+        /* ==========================================================================
+           7. CINEMATIC FULLSCREEN & UTILITIES
+           ========================================================================== */
+        const cinematicModal = document.getElementById('cinematic-modal');
+
+        document.getElementById('btn-modal-fullscreen').addEventListener('click', () => {
+            if (!selectedCharacter) return;
+            
+            document.getElementById('cinematic-title').textContent = selectedCharacter.name;
+            document.getElementById('cinematic-subtitle').textContent = `${selectedCharacter.grade} • Hệ ${selectedCharacter.element}`;
+            
+            const imgEl = document.getElementById('cinematic-image');
+            imgEl.src = selectedCharacter.image;
+            imgEl.onerror = () => { imgEl.src = selectedCharacter.fallbackImage; };
+
+            cinematicModal.classList.remove('hidden');
+        });
+
+        document.getElementById('btn-exit-cinematic').addEventListener('click', () => {
+            cinematicModal.classList.add('hidden');
+        });
+
+        document.getElementById('btn-copy-link').addEventListener('click', () => {
+            if (selectedCharacter) {
+                const text = `${selectedCharacter.name} - ${selectedCharacter.grade}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(`Đã sao chép: ${text}`);
+                }).catch(() => {
+                    showToast(`Tên linh tướng: ${text}`);
+                });
+            }
         });
 
         function showToast(msg) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = "bg-slate-950/90 border border-amber-500/50 text-amber-300 text-xs px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-2 pointer-events-auto transition duration-300";
+            toast.className = "bg-slate-900/95 border border-amber-500/50 text-amber-300 text-xs px-4 py-2.5 rounded-xl shadow-[0_0_20px_rgba(223,172,66,0.3)] backdrop-blur-md flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto";
             toast.innerHTML = `<i class="fa-solid fa-bell text-amber-400"></i> <span>${msg}</span>`;
+            
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 2800);
+
+            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
-        /* INITIALIZATION */
         window.addEventListener('DOMContentLoaded', () => {
-            renderHeaderEquipped();
-            setMainCategory('character');
-            requestAnimationFrame(gameLoop);
+            renderFilters();
+            renderGallery();
         });
     </script>
 </body>
-</html>
+                                    </html>
