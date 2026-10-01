@@ -48,16 +48,14 @@
             user-select: none;
         }
 
-        /* TÊN LINH TƯỚNG PHONG CÁCH LED 3D GLOW */
         .text-led-3d {
             color: #ffffff;
             font-weight: 900;
             text-shadow: 
                 0 0 5px #00f6ff,
                 0 0 12px #00f6ff,
-                0 0 25px #00a2ff,
-                1px 1px 2px #000000,
-                2px 2px 0px #06070a;
+                0 0 20px #00a2ff,
+                1px 1px 2px #000000;
         }
 
         .text-led-gold-3d {
@@ -66,15 +64,10 @@
             text-shadow: 
                 0 0 5px #ffd700,
                 0 0 12px #ff9900,
-                0 0 25px #ff4500,
-                1px 1px 2px #000000,
-                2px 2px 0px #1a0500;
+                0 0 20px #ff4500,
+                1px 1px 2px #000000;
         }
 
-        @keyframes spinSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
         @keyframes floatMagic {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
@@ -82,6 +75,10 @@
 
         .animate-spin-slow {
             animation: spinSlow var(--spin-duration, 25s) linear infinite;
+        }
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .animate-float {
             animation: floatMagic 5s ease-in-out infinite;
@@ -100,10 +97,9 @@
             transform: translateY(-2px);
         }
 
-        /* Glassmorphism scrollbar */
         ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(6, 7, 10, 0.5);
@@ -120,7 +116,7 @@
 </head>
 <body class="w-screen h-screen relative overflow-hidden bg-black selection:bg-amber-500 selection:text-black">
 
-    <!-- CANVAS TOÀN MÀN HÌNH - MAP MỞ RỘNG (3200x3200) -->
+    <!-- CANVAS TOÀN MÀN HÌNH -->
     <canvas id="game-canvas" class="absolute inset-0 w-full h-full block cursor-crosshair z-0"></canvas>
 
     <!-- FLOATING TOP HUD -->
@@ -129,9 +125,9 @@
             
             <!-- AVATAR TƯỚNG DANG XUẤT CHIẾN -->
             <div class="flex items-center gap-2.5">
-                <div class="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center cursor-pointer" onclick="toggleMainMenu('tab-hero')">
-                    <img id="equipped-avatar-img" src="chuc-nu.webp" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-amber-400">
-                    <img id="equipped-frame-img" src="khung-vip-1.webp" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110">
+                <div class="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 flex items-center justify-center cursor-pointer" onclick="toggleMainMenu('tab-hero')">
+                    <img id="equipped-avatar-img" src="chuc-nu.webp" onerror="this.onerror=null; this.src=createXianxiaSvgPlaceholder('#3a86ff', 'Chúc Nữ', '❄')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border border-amber-400">
+                    <img id="equipped-frame-img" src="khung-vip-1.webp" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110" onerror="this.src=createXianxiaSvgPlaceholder('#dfac42', 'Khung', '👑')">
                 </div>
                 <div class="hidden sm:block">
                     <div class="flex items-center gap-2">
@@ -163,33 +159,43 @@
         </div>
     </header>
 
-    <!-- FLOATING QUICK SKILL & ACTION BUTTONS (ĐƯA LÊN CAO CHÚT XÍU) -->
+    <!-- BẢNG HIỂN THỊ COMBO VÀ SÁT THƯƠNG NGAY DƯỚI -->
+    <div id="combo-hud" class="fixed top-20 right-6 z-30 pointer-events-none hidden flex-col items-end transition-all duration-150 transform scale-90">
+        <div class="text-2xl sm:text-4xl font-black text-led-gold-3d italic tracking-wider">
+            COMBO x<span id="combo-count-val">0</span>
+        </div>
+        <div class="text-xs sm:text-sm font-extrabold text-cyan-300 mt-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] bg-slate-950/70 px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+            Sát thương: <span id="combo-damage-val" class="text-yellow-300">0</span>
+        </div>
+    </div>
+
+    <!-- FLOATING QUICK SKILL (ĐÃ ĐƯA LÊN CAO) -->
     <div class="absolute bottom-20 right-4 sm:bottom-24 sm:right-6 z-30 flex flex-row items-center gap-3 pointer-events-auto">
-        <button onclick="toggleMainMenu('tab-hero')" class="px-3.5 py-2 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs font-bold shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-2">
+        <button onclick="toggleMainMenu('tab-hero')" class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs font-bold shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-2">
             <i class="fa-solid fa-users text-amber-400"></i>
             <span>Bảo Lục 1000 Tướng</span>
         </button>
-        <button onclick="triggerUltimateSkill()" class="w-13 h-13 sm:w-15 sm:h-15 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông LED 3D">
+        <button onclick="triggerUltimateSkill()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-[0_0_35px_rgba(255,215,0,0.9)] hover:scale-110 active:scale-90 transition border-2 border-amber-200" title="⚡ Vạn Kiếm Quy Tông LED 3D">
             ⚡
         </button>
     </div>
 
     <!-- MAIN TRANSLUCENT MENU PANEL -->
-    <div id="main-game-menu" class="absolute inset-0 z-40 hidden bg-black/40 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-6 pointer-events-auto">
+    <div id="main-game-menu" class="absolute inset-0 z-40 hidden bg-black/40 backdrop-blur-md flex items-center justify-center p-2 sm:p-5 pointer-events-auto">
         <div class="relative w-full max-w-6xl h-[90vh] bg-slate-950/80 backdrop-blur-2xl border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_60px_rgba(0,0,0,0.9)]">
             
             <!-- HEADER TABS DANH MỤC -->
-            <div class="p-2.5 sm:p-3 border-b border-amber-500/30 bg-slate-900/60 backdrop-blur-lg flex items-center justify-between gap-2 shrink-0">
-                <div class="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto scrollbar-none">
-                    <button onclick="switchTab('tab-hero')" id="nav-tab-hero" class="tab-btn px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 bg-amber-500 text-slate-950 border-amber-400">
+            <div class="p-2 sm:p-3 border-b border-amber-500/30 bg-slate-900/60 backdrop-blur-lg flex items-center justify-between gap-2 shrink-0">
+                <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none">
+                    <button onclick="switchTab('tab-hero')" id="nav-tab-hero" class="tab-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400">
                         <i class="fa-solid fa-book-bookmark"></i>
                         <span>Linh Giới Bảo Lục</span>
                     </button>
-                    <button onclick="switchTab('tab-equip')" id="nav-tab-equip" class="tab-btn px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
+                    <button onclick="switchTab('tab-equip')" id="nav-tab-equip" class="tab-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
                         <i class="fa-solid fa-shield-halved"></i>
                         <span>Trang Bị & FX</span>
                     </button>
-                    <button onclick="switchTab('tab-stage')" id="nav-tab-stage" class="tab-btn px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
+                    <button onclick="switchTab('tab-stage')" id="nav-tab-stage" class="tab-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400">
                         <i class="fa-solid fa-map-location-dot"></i>
                         <span>Ải Map Chiến Đấu</span>
                     </button>
@@ -201,60 +207,59 @@
             </div>
 
             <!-- BODY PANEL TABS CONTAINER -->
-            <div id="menu-scroll-body" class="flex-1 overflow-y-auto p-2.5 sm:p-4 relative">
+            <div id="menu-scroll-body" class="flex-1 overflow-y-auto p-2.5 sm:p-4 relative space-y-2.5">
 
                 <!-- TAB 1: BẢO LỤC 1000 LINH TƯỚNG -->
-                <div id="tab-hero" class="tab-content space-y-2">
+                <div id="tab-hero" class="tab-content space-y-2.5">
                     
-                    <!-- SEARCH & FILTER BAR (ĐÃ ĐƯỢC SỬA NHỎ GỌN LẠI) -->
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-2 bg-slate-900/60 p-2 rounded-xl border border-amber-500/20">
-                        <div class="flex items-center gap-1 overflow-x-auto w-full md:w-auto scrollbar-none" id="filter-container"></div>
+                    <!-- THANH LỌC & TÌM KIẾM THU GỌN (ĐÃ FIX KÍCH THƯỚC VỪA VẶN) -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 bg-slate-900/60 p-1.5 sm:p-2 rounded-xl border border-amber-500/20">
+                        <div class="flex items-center gap-1 overflow-x-auto w-full sm:w-auto scrollbar-none py-0.5" id="filter-container"></div>
                         
-                        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                        <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end shrink-0">
                             <div class="relative w-full sm:w-52">
-                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-[10px] text-amber-500/60"></i>
-                                <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-950/90 border border-amber-500/30 rounded-full pl-7 pr-3 py-1 text-[11px] text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 transition">
+                                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-amber-500/60"></i>
+                                <input id="search-input" type="text" placeholder="Tìm kiếm linh tướng..." class="w-full bg-slate-900/90 border border-amber-500/30 rounded-full pl-7 pr-2.5 py-0.5 text-[11px] text-amber-100 placeholder-amber-500/40 focus:outline-none focus:border-amber-400 transition">
                             </div>
 
-                            <button id="btn-favorites-toggle" class="px-2.5 py-1 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-[11px] flex items-center gap-1 transition shrink-0">
+                            <button id="btn-favorites-toggle" class="px-2.5 py-0.5 rounded-full border border-amber-500/40 bg-slate-900 hover:bg-amber-500/20 text-amber-300 text-[11px] flex items-center gap-1 transition shrink-0">
                                 <i class="fa-solid fa-star text-amber-400 text-[10px]"></i>
                                 <span class="hidden sm:inline">Yêu Thích</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- THANH THÔNG TIN BẢO LỤC (ĐÃ SỬA GỌN) -->
-                    <div class="flex items-center justify-between text-[10px] text-amber-200/80 bg-slate-900/40 border border-amber-500/20 px-2.5 py-1 rounded-lg">
-                        <span class="flex items-center gap-1.5">
+                    <!-- THANH THÔNG TIN BẢO LỤC -->
+                    <div class="flex items-center justify-between text-[10px] text-amber-200/80 bg-slate-900/40 border border-amber-500/15 px-2.5 py-0.5 rounded-lg">
+                        <span class="flex items-center gap-1">
                             <i class="fa-solid fa-book-open text-amber-400 text-[9px]"></i>
                             <span>Sưu Tập: <strong id="character-count" class="text-amber-300 font-bold">0</strong> Linh Tướng</span>
                         </span>
-                        <span class="text-slate-400 text-[9px] truncate max-w-[200px] sm:max-w-none">
-                            <i class="fa-solid fa-circle-info text-amber-400/60 mr-1"></i>Cuộn xem 1000 Tướng • Nhấp để xuất chiến
+                        <span class="text-slate-400 text-[9px] truncate">
+                            <i class="fa-solid fa-circle-info text-amber-400/60 mr-1"></i>Cuộn xuống để xem 1000 Tướng • Nhấp thẻ để xuất chiến
                         </span>
                     </div>
 
                     <!-- GRID DANH SÁCH LINH TƯỚNG -->
-                    <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 pt-1"></div>
+                    <div id="character-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5"></div>
 
                     <div id="empty-state" class="hidden flex-col items-center justify-center py-12 text-center">
                         <i class="fa-solid fa-ghost text-4xl text-amber-500/20 mb-2 animate-bounce"></i>
-                        <h3 class="font-title text-sm text-amber-300/80 mb-1">Không Tìm Thấy Linh Tướng</h3>
-                        <p class="text-[11px] text-slate-500 max-w-sm">Không có dữ liệu phù hợp với lọc của bạn.</p>
+                        <h3 class="font-title text-sm text-amber-300/80">Không Tìm Thấy Linh Tướng</h3>
                     </div>
                 </div>
 
-                <!-- TAB 2: TRANG BỊ KHUNG & CHỈNH FX -->
-                <div id="tab-equip" class="tab-content hidden space-y-5">
+                <!-- TAB 2: TRANG BỊ -->
+                <div id="tab-equip" class="tab-content hidden space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="xianxia-card rounded-2xl p-3.5 border border-amber-500/30">
+                        <div class="xianxia-card rounded-2xl p-3 border border-amber-500/30">
                             <h3 class="font-title font-bold text-amber-300 text-xs mb-3 flex items-center gap-2">
                                 <i class="fa-solid fa-shield text-amber-400"></i> Khung Avatar Nhân Vật
                             </h3>
                             <div id="frames-select-grid" class="grid grid-cols-2 gap-2.5"></div>
                         </div>
 
-                        <div class="xianxia-card rounded-2xl p-3.5 border border-amber-500/30">
+                        <div class="xianxia-card rounded-2xl p-3 border border-amber-500/30">
                             <h3 class="font-title font-bold text-purple-300 text-xs mb-3 flex items-center gap-2">
                                 <i class="fa-solid fa-crown text-purple-400"></i> Danh Hiệu Đỉnh Cấp
                             </h3>
@@ -263,25 +268,23 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: THÔNG TIN MAP & CÀI ĐẶT -->
+                <!-- TAB 3: CÀI ĐẶT MAP -->
                 <div id="tab-stage" class="tab-content hidden space-y-4">
                     <div class="xianxia-card rounded-2xl p-4 border border-amber-500/30 max-w-xl mx-auto space-y-3">
-                        <div class="border-b border-amber-500/20 pb-2.5">
+                        <div class="border-b border-amber-500/20 pb-2">
                             <h3 class="font-title font-bold text-amber-300 text-sm flex items-center gap-2">
                                 <i class="fa-solid fa-map-marked-alt text-amber-400"></i> Quản Lý Map Mở Rộng 3200x3200
                             </h3>
-                            <p id="arena-map-title" class="text-xs text-cyan-400 mt-0.5 font-medium">Thái Cổ Tiên Đài Mở Rộng (3200x3200)</p>
+                            <p id="arena-map-title" class="text-xs text-cyan-400 font-medium">Thái Cổ Tiên Đài Mở Rộng (3200x3200)</p>
                         </div>
 
-                        <div class="space-y-2.5">
-                            <button onclick="triggerUltimateSkill(); closeMainMenu();" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs shadow-[0_0_20px_rgba(255,215,0,0.6)] hover:brightness-125 transition active:scale-95 flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-sun"></i>
-                                <span>⚡ KÍCH HOẠT VẠN KIẾM QUY TÔNG (LED 3D)</span>
+                        <div class="space-y-2">
+                            <button onclick="triggerUltimateSkill(); closeMainMenu();" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs shadow-md hover:brightness-125 transition">
+                                ⚡ KÍCH HOẠT VẠN KIẾM QUY TÔNG (LED 3D)
                             </button>
 
-                            <button onclick="toggleGameMap()" class="w-full py-2.5 rounded-xl border border-purple-500/50 bg-purple-950/60 hover:bg-purple-900 text-purple-200 text-xs font-bold transition flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-map"></i>
-                                <span>Đổi Bản Đồ Cửu U Ma Vực (3200x3200)</span>
+                            <button onclick="toggleGameMap()" class="w-full py-2.5 rounded-xl border border-purple-500/50 bg-purple-950/60 hover:bg-purple-900 text-purple-200 text-xs font-bold transition">
+                                Đổi Bản Đồ Cửu U Ma Vực (3200x3200)
                             </button>
                         </div>
                     </div>
@@ -293,18 +296,18 @@
 
     <!-- INSPECT MODAL -->
     <div id="inspect-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-lg flex items-center justify-center p-3 pointer-events-auto">
-        <div class="relative w-full max-w-3xl bg-slate-950/90 border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col lg:flex-row shadow-2xl my-auto max-h-[90vh]">
-            
+        <div class="relative w-full max-w-4xl bg-slate-950/90 border border-amber-500/40 rounded-3xl overflow-hidden flex flex-col lg:flex-row shadow-2xl my-auto max-h-[92vh]">
             <button id="btn-close-modal" class="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark text-base"></i>
             </button>
 
-            <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-5 flex flex-col items-center justify-center overflow-hidden min-h-[280px]">
+            <div class="relative lg:w-1/2 bg-gradient-to-b from-slate-900 via-black to-slate-950 p-6 flex flex-col items-center justify-center overflow-hidden min-h-[280px]">
                 <div id="modal-magic-circle" class="absolute w-[260px] h-[260px] pointer-events-none opacity-80">
                     <svg class="w-full h-full animate-spin-slow" viewBox="0 0 400 400" fill="none">
                         <circle cx="200" cy="200" r="190" stroke="url(#modal-grad)" stroke-width="2" stroke-dasharray="10 5" />
                         <circle cx="200" cy="200" r="160" stroke="url(#modal-grad)" stroke-width="1.5" />
                         <polygon points="200,40 338,280 62,280" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
+                        <polygon points="200,360 62,120 338,120" stroke="url(#modal-grad)" stroke-width="1" fill="none" />
                         <defs>
                             <linearGradient id="modal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#dfac42" />
@@ -319,7 +322,7 @@
                     <img id="modal-image" src="" alt="Linh Tướng WebP" class="max-h-[240px] w-auto object-contain transition-transform duration-150 animate-float">
                 </div>
 
-                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-20 flex justify-between items-center bg-black/70 px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
+                <div class="absolute bottom-3 left-3 right-3 z-20 flex justify-between items-center bg-black/70 px-3 py-1.5 rounded-xl border border-amber-500/20 text-xs">
                     <div class="flex items-center gap-2">
                         <span class="text-amber-300 font-bold" id="modal-element-badge">Hệ Thủy</span>
                         <span class="text-slate-500">|</span>
@@ -333,36 +336,36 @@
 
             <div class="lg:w-1/2 p-5 flex flex-col justify-between overflow-y-auto bg-slate-950 border-t lg:border-t-0 lg:border-l border-amber-500/20">
                 <div>
-                    <div class="flex items-start justify-between gap-2 mb-2">
+                    <div class="flex items-start justify-between gap-2 mb-3">
                         <div>
                             <span id="modal-id" class="text-[10px] text-amber-500/70 font-mono">ID: #0001</span>
                             <h2 id="modal-title" class="font-title font-black text-xl text-led-gold-3d">Chúc Nữ Tiên Tử</h2>
-                            <p id="modal-subtitle" class="text-[11px] text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Linh Giới Trấn Điện</p>
+                            <p id="modal-subtitle" class="text-xs text-amber-200/60 mt-0.5">Thánh Vương Chi Cảnh - Linh Giới Trấn Điện</p>
                         </div>
                     </div>
 
                     <div class="bg-slate-900/90 border border-amber-500/30 p-3 rounded-xl space-y-2 mb-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-1">
-                            <span class="text-[11px] font-bold text-amber-300 flex items-center gap-1">
-                                <i class="fa-solid fa-sliders"></i> Tinh Chỉnh Aura LED 3D
+                            <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-sliders"></i> Tinh Chỉnh Aura & Hue LED 3D
                             </span>
-                            <button id="btn-reset-fx" class="text-[9px] text-amber-400/80 hover:text-amber-300 underline">Khôi Phục</button>
+                            <button id="btn-reset-fx" class="text-[10px] text-amber-400/80 hover:text-amber-300 underline">Khôi Phục</button>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div class="grid grid-cols-2 gap-2 text-xs">
                             <div>
                                 <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>Zoom:</span>
+                                    <span>Tỉ Lệ Zoom:</span>
                                     <span id="val-scale" class="text-amber-400">1.0x</span>
                                 </div>
-                                <input id="slider-scale" type="range" min="0.5" max="1.8" step="0.05" value="1" class="w-full h-1 bg-slate-800 rounded-lg cursor-pointer">
+                                <input id="slider-scale" type="range" min="0.5" max="1.8" step="0.05" value="1" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                             <div>
                                 <div class="flex justify-between text-slate-400 mb-0.5">
-                                    <span>LED Glow:</span>
+                                    <span>Độ Sáng Glow:</span>
                                     <span id="val-glow" class="text-amber-400">20px</span>
                                 </div>
-                                <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1 bg-slate-800 rounded-lg cursor-pointer">
+                                <input id="slider-glow" type="range" min="0" max="50" step="2" value="20" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer">
                             </div>
                         </div>
                     </div>
@@ -370,7 +373,7 @@
                     <div class="space-y-1.5 mb-2">
                         <div>
                             <h4 class="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-0.5">Kỹ Năng Bá Chủ:</h4>
-                            <p id="modal-skill" class="text-[11px] text-slate-300 bg-slate-900/50 p-2 rounded-lg border border-slate-800 leading-relaxed"></p>
+                            <p id="modal-skill" class="text-xs text-slate-300 bg-slate-900/50 p-2 rounded-lg border border-slate-800"></p>
                         </div>
                     </div>
                 </div>
@@ -387,18 +390,26 @@
         </p>
     </div>
 
-    <div id="toast-container" class="fixed bottom-4 left-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- MAIN GAME ENGINE & DATA SCRIPT -->
+    <!-- GAME ENGINE & CODE XỬ LÝ FIX LỖI -->
     <script>
         const imageCache = {};
 
-        // NẠP VÀ LƯU BỘ NHỚ HÌNH ẢNH WEBP ĐỘNG THẬT 100%
-        function getCachedImage(src) {
+        function createXianxiaSvgPlaceholder(colorHex, nameText, iconName) {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="480" viewBox="0 0 400 480"><defs><radialGradient id="bgGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${colorHex}" stop-opacity="0.6"/><stop offset="100%" stop-color="#06070a" stop-opacity="0.9"/></radialGradient></defs><rect width="100%" height="100%" fill="#080a10"/><circle cx="200" cy="220" r="140" fill="url(#bgGlow)" /><circle cx="200" cy="220" r="120" stroke="${colorHex}" stroke-width="2" stroke-dasharray="8 4" fill="none" opacity="0.6"/><g transform="translate(200, 220)"><text x="0" y="20" font-family="sans-serif" font-size="60" fill="${colorHex}" text-anchor="middle" font-weight="bold">${iconName || '✨'}</text></g><text x="200" y="390" font-family="sans-serif" font-size="18" fill="#fbe29d" text-anchor="middle" font-weight="bold">${nameText}</text></svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        function getCachedImage(src, fallbackSvg) {
             if (!src) return null;
             if (!imageCache[src]) {
                 const img = new Image();
                 img.crossOrigin = "anonymous";
+                img.onerror = function() {
+                    this.onerror = null;
+                    if (fallbackSvg) this.src = fallbackSvg;
+                };
                 img.src = src;
                 imageCache[src] = img;
             }
@@ -462,6 +473,7 @@
                     grade: item.grade,
                     power: 90000000 + (index * 450000),
                     image: item.file,
+                    fallbackImage: createXianxiaSvgPlaceholder("#3a86ff", formattedName, "✨"),
                     skill: `Tuyệt kỹ trấn phái của ${formattedName} - Vạn Kiếm LED 3D Chấn Động Cửu Châu.`,
                     lore: `Huyền thoại về ${formattedName} được ghi chép trong Linh Giới Bảo Lục.`,
                     isFavorite: index % 3 === 0
@@ -470,20 +482,26 @@
 
             const elements = ["Kim", "Mộc", "Thủy", "Hỏa", "Thổ", "Thần", "Ma"];
             const grades = ["Thần Cấp", "Thượng Cổ Thần Cấp", "Thái Cổ Thần Cấp", "Thánh Cấp", "Đế Cấp"];
+            const colors = ["#dfac42", "#2a9d8f", "#3a86ff", "#e63946", "#9d4edd", "#ffd700"];
+            const icons = ["✨", "⚔", "🔥", "❄️", "⚡", "🌙", "🛡️", "🐉"];
 
             for (let i = list.length + 1; i <= 1000; i++) {
                 const elem = elements[(i - 1) % elements.length];
                 const grade = grades[(i - 1) % grades.length];
-                const webpFileName = webpFilesList[(i - 1) % webpFilesList.length].file;
-                const name = `${formatWebpName(webpFileName)} #${i}`;
+                const webpFileName = `linh-tuong-huyen-thoai-${i}.webp`;
+                const name = formatWebpName(webpFileName);
+                const color = colors[(i - 1) % colors.length];
+                const icon = icons[(i - 1) % icons.length];
+                const power = 50000000 + ((i * 123456) % 50000000);
 
                 list.push({
                     id: i,
                     name: name,
                     element: elem,
                     grade: grade,
-                    power: 50000000 + ((i * 123456) % 50000000),
+                    power: power,
                     image: webpFileName,
+                    fallbackImage: createXianxiaSvgPlaceholder(color, name, icon),
                     skill: `Linh Giới Quyết thứ ${i} - Uy lực chấn động cửu châu.`,
                     lore: `Linh tướng thứ ${i} trong Linh Giới Bảo Lục.`,
                     isFavorite: i % 20 === 0
@@ -493,7 +511,7 @@
         }
 
         let characters = generate1000Characters();
-        let selectedHero = characters[17]; // Chúc Nữ Tiên Tử
+        let selectedHero = characters[17]; 
         let currentEquippedTitleImg = "thien-menh-ky-tai.webp";
         let filteredCharacters = [...characters];
         let currentFilter = "Toàn Bộ";
@@ -544,13 +562,13 @@
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400";
+                btn.className = "tab-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-slate-900/80 text-amber-300 border-amber-500/30 hover:border-amber-400";
             });
 
             document.getElementById(tabId).classList.remove('hidden');
             const activeNav = document.getElementById('nav-' + tabId);
             if (activeNav) {
-                activeNav.className = "tab-btn px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 bg-amber-500 text-slate-950 border-amber-400";
+                activeNav.className = "tab-btn px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-bold border transition flex items-center gap-2 bg-amber-500 text-slate-950 border-amber-400";
             }
         }
 
@@ -595,7 +613,7 @@
                 card.innerHTML = `
                     <div class="relative my-0.5 h-36 w-full flex items-center justify-center overflow-hidden rounded-lg bg-slate-900/80 border border-slate-800 group-hover:border-amber-500/30 transition">
                         <div class="absolute top-1.5 left-1.5 right-1.5 flex justify-between items-center z-20">
-                            <span class="text-[8px] px-1.5 py-0.5 rounded-full border ${badgeStyle} font-bold">
+                            <span class="text-[9px] px-1.5 py-0.5 rounded-full border ${badgeStyle} font-bold">
                                 Hệ ${char.element}
                             </span>
                             <button onclick="event.stopPropagation(); toggleFavorite(${char.id})" class="text-slate-500 hover:text-amber-400 transition p-1 bg-black/40 rounded-full">
@@ -604,23 +622,19 @@
                         </div>
 
                         <img src="${char.image}" 
+                             onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
                              alt="${char.name}" 
                              loading="lazy"
                              class="relative z-10 max-h-28 w-auto object-contain group-hover:scale-105 transition-transform duration-200">
                     </div>
 
                     <div class="z-10 mt-1">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-title font-bold text-[11px] text-led-gold-3d group-hover:scale-105 transition truncate">${char.name}</h3>
-                        </div>
-                        <p class="text-[8px] text-amber-400/80 font-medium">${char.grade}</p>
+                        <h3 class="font-title font-bold text-xs text-led-gold-3d group-hover:scale-105 transition truncate">${char.name}</h3>
+                        <p class="text-[9px] text-amber-400/80 font-medium">${char.grade}</p>
                         <div class="mt-1">
-                            <div class="flex justify-between text-[8px] text-slate-400 mb-0.5">
+                            <div class="flex justify-between text-[9px] text-slate-400 mb-0.5">
                                 <span>Linh Lực:</span>
                                 <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
-                            </div>
-                            <div class="w-full bg-slate-800 rounded-full h-1 overflow-hidden">
-                                <div class="bg-amber-500 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
                             </div>
                         </div>
                     </div>
@@ -638,12 +652,12 @@
                 const isActive = currentFilter === item.name;
                 return `
                     <button onclick="setFilter('${item.name}')" 
-                        class="px-2 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap flex items-center gap-1 transition ${
+                        class="px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap flex items-center gap-1 transition ${
                             isActive 
                             ? 'bg-amber-500 text-slate-950 font-bold' 
                             : 'bg-slate-900 border border-amber-500/20 text-slate-300 hover:border-amber-400/50'
                         }">
-                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color} text-[10px]"></i>
+                        <i class="fa-solid ${item.icon} ${isActive ? 'text-slate-950' : item.color}"></i>
                         <span>${item.name}</span>
                     </button>
                 `;
@@ -670,11 +684,11 @@
             framesContainer.innerHTML = framesList.map(item => `
                 <div class="xianxia-card rounded-xl p-2.5 flex flex-col items-center justify-between border border-amber-500/20 text-center">
                     <div class="relative w-16 h-16 my-1 flex items-center justify-center">
-                        <img src="${selectedHero.image}" class="w-11 h-11 rounded-full object-cover">
+                        <img src="${selectedHero.image}" onerror="this.src='${selectedHero.fallbackImage}'" class="w-12 h-12 rounded-full object-cover">
                         <img src="${item.img}" class="absolute inset-0 w-full h-full object-contain pointer-events-none scale-110">
                     </div>
                     <h4 class="font-bold text-[10px] text-amber-200 mt-1 mb-1.5">${item.name}</h4>
-                    <button onclick="equipFrame('${item.img}')" class="w-full py-0.5 rounded bg-amber-500 text-slate-950 font-bold text-[9px] hover:brightness-110 transition">
+                    <button onclick="equipFrame('${item.img}')" class="w-full py-0.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-[10px] hover:brightness-110 transition">
                         Trang Bị
                     </button>
                 </div>
@@ -683,11 +697,11 @@
             const titlesContainer = document.getElementById('titles-select-grid');
             titlesContainer.innerHTML = titlesList.map(item => `
                 <div class="xianxia-card rounded-xl p-2.5 flex items-center justify-between border border-amber-500/20">
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2">
                         <img src="${item.img}" class="h-7 object-contain">
-                        <span class="font-bold text-[11px] text-amber-200">${item.name}</span>
+                        <span class="font-bold text-xs text-amber-200">${item.name}</span>
                     </div>
-                    <button onclick="equipTitle('${item.img}')" class="px-3 py-1 rounded bg-purple-600 text-white font-bold text-[9px] hover:brightness-110 transition">
+                    <button onclick="equipTitle('${item.img}')" class="px-3 py-1 rounded-lg bg-purple-600 text-white font-bold text-[10px] hover:brightness-110 transition">
                         Trang Bị
                     </button>
                 </div>
@@ -705,26 +719,6 @@
             showToast("Đã trang bị Danh Hiệu thành công!");
         }
 
-        function updateVisualFX() {
-            const scale = document.getElementById('slider-scale').value;
-            const glow = document.getElementById('slider-glow').value;
-
-            document.getElementById('val-scale').textContent = `${scale}x`;
-            document.getElementById('val-glow').textContent = `${glow}px`;
-
-            const modalImg = document.getElementById('modal-image');
-            if (modalImg) {
-                modalImg.style.transform = `scale(${scale})`;
-                modalImg.style.filter = `drop-shadow(0 0 ${glow}px rgba(0, 246, 255, 0.9))`;
-            }
-        }
-
-        function resetVisualFX() {
-            document.getElementById('slider-scale').value = 1;
-            document.getElementById('slider-glow').value = 20;
-            updateVisualFX();
-        }
-
         function openInspectModal(id) {
             const char = characters.find(c => c.id === id);
             if (!char) return;
@@ -735,12 +729,11 @@
             
             const imgEl = document.getElementById('modal-image');
             imgEl.src = char.image;
+            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
 
             document.getElementById('modal-element-badge').textContent = `Hệ ${char.element}`;
             document.getElementById('modal-grade-badge').textContent = char.grade;
             document.getElementById('modal-skill').textContent = char.skill;
-
-            resetVisualFX();
 
             document.getElementById('btn-select-for-battle').onclick = () => {
                 selectHeroToBattle(char);
@@ -756,20 +749,20 @@
             document.getElementById('equipped-avatar-img').src = char.image;
             document.getElementById('equipped-char-name').textContent = char.name;
             document.getElementById('equipped-power').textContent = char.power.toLocaleString();
-            gameState.hero.img = getCachedImage(char.image);
+            gameState.hero.img = getCachedImage(char.image, char.fallbackImage);
             renderEquipGrids();
             showToast(`Đã xuất chiến Linh Tướng: ${char.name}`);
         }
 
         // ==========================================
-        // GAME ENGINE - DI CHUYỂN KÉO THẢ, SKILL MƯỢT, COMBO & SÁT THƯƠNG NGAY DƯỚI
+        // GAME ENGINE - FIX WEBP ĐỘNG, DI CHUYỂN KÉO THẢ & COMBO
         // ==========================================
         let gameCanvas, gameCtx;
         const WORLD_SIZE = 3200;
         const VIEW_SCALE = 0.75;
+        let isPointerDown = false; // Trạng thái giữ chuột/cảm ứng để kéo thả
 
         let titleImageObj;
-        let isDraggingMove = false; // TRẠNG THÁI DRAG & DROP DI CHUYỂN
 
         let gameState = {
             active: true,
@@ -780,13 +773,10 @@
             mapIndex: 0,
             camX: 0,
             camY: 0,
-            combo: 0,           // BỘ ĐẾM COMBO TRẢM
-            comboTimer: 0,      // THỜI GIAN DUY TRÌ COMBO
             hero: { 
                 x: WORLD_SIZE / 2, 
                 y: WORLD_SIZE / 2, 
-                speed: 6.5, 
-                angle: 0, 
+                speed: 6.0, 
                 img: null, 
                 radius: 42
             },
@@ -796,13 +786,17 @@
             fallingSwords: [], 
             texts: [],
             lastAttackTime: 0,
-            lastSpawnTime: 0
+            lastSpawnTime: 0,
+            // HỆ THỐNG COMBO
+            combo: 0,
+            comboDamage: 0,
+            comboTimer: null
         };
 
         const mapNames = ["Thái Cổ Tiên Đài Mở Rộng (3200x3200)", "Cửu U Ma Vực Mở Rộng (3200x3200)"];
 
         const monsterSpriteList = webpFilesList.map(item => ({
-            img: getCachedImage(item.file),
+            img: getCachedImage(item.file, createXianxiaSvgPlaceholder('#e63946', formatWebpName(item.file), '👿')),
             name: formatWebpName(item.file)
         }));
 
@@ -814,61 +808,82 @@
             gameCanvas.height = window.innerHeight;
 
             titleImageObj = getCachedImage(currentEquippedTitleImg);
-            gameState.hero.img = getCachedImage(selectedHero.image);
+            gameState.hero.img = getCachedImage(selectedHero.image, selectedHero.fallbackImage);
 
             for(let i=0; i<15; i++) spawnMonster();
 
             updateArenaHUD();
-            
-            // LẮP ĐẶT SỰ KIỆN KÉO THẢ (DRAG & DROP) DI CHUYỂN
-            setupDragAndDropControls();
-
+            setupInputListeners();
             requestAnimationFrame(gameLoop);
         }
 
-        function setupDragAndDropControls() {
-            const startDrag = (clientX, clientY, target) => {
-                if (!document.getElementById('main-game-menu').classList.contains('hidden')) return;
-                if (!document.getElementById('inspect-modal').classList.contains('hidden')) return;
-                if (target && target.closest && target.closest('.pointer-events-auto') && target !== gameCanvas) return;
-                
-                isDraggingMove = true;
-                updateTargetByPointer(clientX, clientY);
-            };
-
-            const moveDrag = (clientX, clientY) => {
-                if (isDraggingMove) {
-                    updateTargetByPointer(clientX, clientY);
-                }
-            };
-
-            const endDrag = () => {
-                isDraggingMove = false;
-            };
-
-            // Chuột (Mouse)
-            window.addEventListener('mousedown', (e) => startDrag(e.clientX, e.clientY, e.target));
-            window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
-            window.addEventListener('mouseup', endDrag);
-
-            // Cảm ứng (Touch - Mobile)
-            window.addEventListener('touchstart', (e) => {
-                if (e.touches.length > 0) startDrag(e.touches[0].clientX, e.touches[0].clientY, e.target);
-            }, { passive: false });
-            window.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 0) moveDrag(e.touches[0].clientX, e.touches[0].clientY);
-            }, { passive: false });
-            window.addEventListener('touchend', endDrag);
-        }
-
-        function updateTargetByPointer(clientX, clientY) {
+        // DI CHUYỂN KÉO THẢ (DRAG TO MOVE) MƯỢT MÀ
+        function updateTargetFromInput(clientX, clientY, targetEl) {
             if (!gameCanvas) return;
+            if (!document.getElementById('main-game-menu').classList.contains('hidden')) return;
+            if (!document.getElementById('inspect-modal').classList.contains('hidden')) return;
+            if (targetEl && targetEl.closest && targetEl.closest('.pointer-events-auto') && targetEl !== gameCanvas) return;
+
             const rect = gameCanvas.getBoundingClientRect();
             const canvasX = (clientX - rect.left) / VIEW_SCALE;
             const canvasY = (clientY - rect.top) / VIEW_SCALE;
 
             gameState.targetPos.x = canvasX + gameState.camX;
             gameState.targetPos.y = canvasY + gameState.camY;
+        }
+
+        function setupInputListeners() {
+            window.addEventListener('mousedown', (e) => {
+                if (e.button === 0) {
+                    isPointerDown = true;
+                    updateTargetFromInput(e.clientX, e.clientY, e.target);
+                }
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (isPointerDown) {
+                    updateTargetFromInput(e.clientX, e.clientY, e.target);
+                }
+            });
+
+            window.addEventListener('mouseup', () => { isPointerDown = false; });
+
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    isPointerDown = true;
+                    updateTargetFromInput(e.touches[0].clientX, e.touches[0].clientY, e.target);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (isPointerDown && e.touches.length > 0) {
+                    updateTargetFromInput(e.touches[0].clientX, e.touches[0].clientY, e.target);
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => { isPointerDown = false; });
+        }
+
+        function registerHitDamage(dmg) {
+            gameState.combo++;
+            gameState.comboDamage += dmg;
+
+            const hud = document.getElementById('combo-hud');
+            hud.classList.remove('hidden');
+            hud.classList.add('flex');
+            hud.style.transform = 'scale(1.1)';
+            setTimeout(() => { hud.style.transform = 'scale(1.0)'; }, 80);
+
+            document.getElementById('combo-count-val').textContent = gameState.combo;
+            document.getElementById('combo-damage-val').textContent = gameState.comboDamage.toLocaleString();
+
+            if (gameState.comboTimer) clearTimeout(gameState.comboTimer);
+            gameState.comboTimer = setTimeout(() => {
+                gameState.combo = 0;
+                gameState.comboDamage = 0;
+                hud.classList.add('hidden');
+                hud.classList.remove('flex');
+            }, 2500);
         }
 
         function toggleGameMap() {
@@ -896,37 +911,34 @@
             }
         });
 
-        // HÀM VẼ CHỮ LED 3D TRÊN CANVAS
+        // TỐI ƯU VẼ LED 3D KHÔNG GÂY LAG
         function drawLED3DTextOnCanvas(ctx, text, x, y, fontSize, isBoss = false, isHero = false) {
             ctx.save();
             ctx.font = `900 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            // Khối bóng chìm 3D
             ctx.fillStyle = '#000000';
             ctx.fillText(text, x + 1.5, y + 1.5);
 
-            // Hào quang Glow
             if (isBoss) {
-                ctx.fillStyle = '#ff99bb';
+                ctx.fillStyle = '#ff3366';
             } else if (isHero) {
-                ctx.fillStyle = '#fff6cc';
+                ctx.fillStyle = '#ffd700';
             } else {
-                ctx.fillStyle = '#d4f8ff';
+                ctx.fillStyle = '#00f6ff';
             }
             ctx.fillText(text, x, y);
-
             ctx.restore();
         }
 
-        // VẠN KIẾM QUY TÔNG MƯỢT MÀ TỐI ƯU PERFORMANCE
+        // VẠN KIẾM QUY TÔNG
         function triggerUltimateSkill() {
-            const swordCount = 35; // Giảm nhẹ số lượng để tăng FPS
+            const swordCount = 40;
             const viewWidth = (gameCanvas.width || 1200) / VIEW_SCALE;
 
             for (let i = 0; i < swordCount; i++) {
-                const offsetX = (Math.random() - 0.5) * (viewWidth * 1.2);
+                const offsetX = (Math.random() - 0.5) * (viewWidth * 1.3);
                 const startX = gameState.hero.x + offsetX;
                 const startY = gameState.camY - 100 - (Math.random() * 600);
                 
@@ -934,31 +946,27 @@
                     x: startX,
                     y: startY,
                     vx: (Math.random() - 0.5) * 2,
-                    vy: 26 + Math.random() * 10,
+                    vy: 22 + Math.random() * 10,
                     length: 70 + Math.random() * 30,
-                    width: 3 + Math.random() * 2,
-                    life: 70
+                    width: 3,
+                    life: 80
                 });
             }
 
-            triggerSurroundingSlash(300);
+            triggerSurroundingSlash(280);
 
             gameState.monsters.forEach(m => {
                 const dmg = Math.floor(380000 + Math.random() * 250000);
                 m.hp -= dmg;
-                // Hiển thị sát thương NGAY DƯỚI chân quái
-                addDamageText(m.x, m.y + m.radius + 18, `VẠN KIẾM LED 3D! -${dmg.toLocaleString()}`, "#00f6ff");
-                
-                // Tăng Combo
-                gameState.combo++;
-                gameState.comboTimer = 120;
+                registerHitDamage(dmg);
+                addDamageText(m.x, m.y, `VẠN KIẾM LED 3D! -${dmg.toLocaleString()}`, "#00f6ff");
             });
 
             showToast("Bá Chủ Tung Chiêu: VẠN KIẾM QUY TÔNG LED 3D!");
         }
 
-        // ĐÒN CHÉM XUNG QUANH LED 3D (360 ĐỘ)
         function triggerSurroundingSlash(customMaxRadius) {
+            if (gameState.slashes.length > 5) return; // Giới hạn số đòn chém cùng lúc để không lag
             gameState.slashes.push({
                 x: gameState.hero.x,
                 y: gameState.hero.y,
@@ -979,7 +987,7 @@
             if (!isBossToSpawn && gameState.monsters.length >= 25) return;
 
             const angle = Math.random() * Math.PI * 2;
-            const spawnRadius = 550 + Math.random() * 350;
+            const spawnRadius = 550 + Math.random() * 300;
             let x = gameState.hero.x + Math.cos(angle) * spawnRadius;
             let y = gameState.hero.y + Math.sin(angle) * spawnRadius;
 
@@ -1002,7 +1010,6 @@
             });
         }
 
-        // THÊM SÁT THƯƠNG HIỂN THỊ NGAY DƯỚI
         function addDamageText(x, y, text, color) {
             gameState.texts.push({
                 x: x,
@@ -1010,9 +1017,9 @@
                 text: text,
                 color: color || '#ffee55',
                 opacity: 1,
-                vy: 0.8 // Trôi nhẹ xuống dưới chân
+                vy: -2
             });
-            if (gameState.texts.length > 20) gameState.texts.shift();
+            if (gameState.texts.length > 15) gameState.texts.shift();
         }
 
         function gameLoop(time) {
@@ -1020,12 +1027,6 @@
 
             const width = gameCanvas.width;
             const height = gameCanvas.height;
-
-            // XỬ LÝ COMBO TIMER
-            if (gameState.comboTimer > 0) {
-                gameState.comboTimer--;
-                if (gameState.comboTimer === 0) gameState.combo = 0;
-            }
 
             // 1. UPDATE HERO & CAMERA
             const dx = gameState.targetPos.x - gameState.hero.x;
@@ -1048,50 +1049,37 @@
 
             // 2. RENDER MAP
             gameCtx.clearRect(0, 0, width, height);
+            gameCtx.imageSmoothingEnabled = true; // Bật làm mịn ảnh WebP động
             gameCtx.save();
             gameCtx.scale(VIEW_SCALE, VIEW_SCALE);
             gameCtx.translate(-gameState.camX, -gameState.camY);
 
-            if (gameState.mapIndex === 0) {
-                gameCtx.fillStyle = '#060812';
-                gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
+            // Nền Map
+            gameCtx.fillStyle = gameState.mapIndex === 0 ? '#060812' : '#0e030a';
+            gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
-                gameCtx.strokeStyle = 'rgba(223, 172, 66, 0.12)';
-                gameCtx.lineWidth = 2;
-                const gridSize = 160;
-                for (let gx = 0; gx <= WORLD_SIZE; gx += gridSize) {
-                    gameCtx.beginPath(); gameCtx.moveTo(gx, 0); gameCtx.lineTo(gx, WORLD_SIZE); gameCtx.stroke();
-                }
-                for (let gy = 0; gy <= WORLD_SIZE; gy += gridSize) {
-                    gameCtx.beginPath(); gameCtx.moveTo(0, gy); gameCtx.lineTo(WORLD_SIZE, gy); gameCtx.stroke();
-                }
-            } else {
-                gameCtx.fillStyle = '#0e030a';
-                gameCtx.fillRect(0, 0, WORLD_SIZE, WORLD_SIZE);
-
-                gameCtx.strokeStyle = 'rgba(230, 57, 70, 0.14)';
-                gameCtx.lineWidth = 2;
-                const gridSize = 160;
-                for (let gx = 0; gx <= WORLD_SIZE; gx += gridSize) {
-                    gameCtx.beginPath(); gameCtx.moveTo(gx, 0); gameCtx.lineTo(gx, WORLD_SIZE); gameCtx.stroke();
-                }
-                for (let gy = 0; gy <= WORLD_SIZE; gy += gridSize) {
-                    gameCtx.beginPath(); gameCtx.moveTo(0, gy); gameCtx.lineTo(WORLD_SIZE, gy); gameCtx.stroke();
-                }
+            gameCtx.strokeStyle = gameState.mapIndex === 0 ? 'rgba(223, 172, 66, 0.12)' : 'rgba(230, 57, 70, 0.14)';
+            gameCtx.lineWidth = 2;
+            const gridSize = 160;
+            for (let gx = 0; gx <= WORLD_SIZE; gx += gridSize) {
+                gameCtx.beginPath(); gameCtx.moveTo(gx, 0); gameCtx.lineTo(gx, WORLD_SIZE); gameCtx.stroke();
+            }
+            for (let gy = 0; gy <= WORLD_SIZE; gy += gridSize) {
+                gameCtx.beginPath(); gameCtx.moveTo(0, gy); gameCtx.lineTo(WORLD_SIZE, gy); gameCtx.stroke();
             }
 
             gameCtx.strokeStyle = '#dfac42';
-            gameCtx.lineWidth = 8;
+            gameCtx.lineWidth = 6;
             gameCtx.strokeRect(0, 0, WORLD_SIZE, WORLD_SIZE);
 
             // 3. SPAWN MONSTERS
-            if (time - gameState.lastSpawnTime > (gameState.isBossWave ? 1200 : 600)) {
+            if (time - gameState.lastSpawnTime > (gameState.isBossWave ? 1200 : 500)) {
                 spawnMonster();
                 gameState.lastSpawnTime = time;
             }
 
-            // 4. AUTO SURROUNDING ATTACK
-            if (time - gameState.lastAttackTime > 240 && gameState.monsters.length > 0) {
+            // 4. AUTO ATTACK
+            if (time - gameState.lastAttackTime > 280 && gameState.monsters.length > 0) {
                 let hasMonsterNearby = false;
                 gameState.monsters.forEach(m => {
                     const d = Math.hypot(m.x - gameState.hero.x, m.y - gameState.hero.y);
@@ -1104,7 +1092,7 @@
                 gameState.lastAttackTime = time;
             }
 
-            // 5. DRAW SURROUNDING SLASH
+            // 5. DRAW SLASH EFFECT (TỐI ƯU MƯỢT KHÔNG LAG)
             gameCtx.save();
             gameCtx.globalCompositeOperation = 'lighter';
             for (let i = gameState.slashes.length - 1; i >= 0; i--) {
@@ -1116,13 +1104,14 @@
                 const progress = s.life / s.maxLife;
                 const alpha = Math.max(0, progress);
 
+                // Vòng LED 3D Cực Quang Xanh Neon
                 gameCtx.strokeStyle = `rgba(0, 246, 255, ${alpha})`;
                 gameCtx.lineWidth = 5 * progress;
                 gameCtx.beginPath();
                 gameCtx.arc(s.x, s.y, s.currentRadius, 0, Math.PI * 2);
                 gameCtx.stroke();
 
-                // Quét va chạm quái
+                // Va chạm quét quái vật
                 for (let j = gameState.monsters.length - 1; j >= 0; j--) {
                     const m = gameState.monsters[j];
                     const dist = Math.hypot(s.x - m.x, s.y - m.y);
@@ -1130,13 +1119,8 @@
                         s.hitMonsters.add(m);
                         const dmg = Math.floor(75000 + Math.random() * 35000);
                         m.hp -= dmg;
-                        
-                        // SÁT THƯƠNG HIỂN THỊ NGAY DƯỚI
-                        addDamageText(m.x, m.y + m.radius + 16, `-${dmg.toLocaleString()}`, '#00f6ff');
-                        
-                        // Tăng Combo
-                        gameState.combo++;
-                        gameState.comboTimer = 120;
+                        registerHitDamage(dmg);
+                        addDamageText(m.x, m.y, `TRẢM LED 3D -${dmg.toLocaleString()}`, '#00f6ff');
                     }
                 }
 
@@ -1163,7 +1147,7 @@
             }
             gameCtx.restore();
 
-            // 7. DRAW MONSTERS & BOSS WEBP ĐỘNG
+            // 7. DRAW MONSTERS & WEBP ĐỘNG CHUẨN RÕ RÀNG
             for (let i = gameState.monsters.length - 1; i >= 0; i--) {
                 const m = gameState.monsters[i];
                 const angle = Math.atan2(gameState.hero.y - m.y, gameState.hero.x - m.x);
@@ -1172,6 +1156,7 @@
 
                 gameCtx.save();
                 if (m.img && m.img.complete && m.img.naturalWidth !== 0) {
+                    // Vẽ ảnh/WebP thật rõ ràng
                     gameCtx.drawImage(m.img, m.x - m.radius, m.y - m.radius, m.radius * 2, m.radius * 2);
                 } else {
                     gameCtx.fillStyle = m.isBoss ? '#e63946' : '#9d4edd';
@@ -1179,16 +1164,15 @@
                 }
                 gameCtx.restore();
 
-                // TÊN LINH TƯỚNG QUÁI/BOSS
-                drawLED3DTextOnCanvas(gameCtx, m.name, m.x, m.y - m.radius - 12, m.isBoss ? 12 : 10, m.isBoss);
+                drawLED3DTextOnCanvas(gameCtx, m.name, m.x, m.y + m.radius + 14, m.isBoss ? 12 : 10, m.isBoss);
 
-                // Thanh HP
+                // Thanh máu
                 const barWidth = m.radius * 2;
                 const hpPercent = Math.max(0, m.hp / m.maxHp);
                 gameCtx.fillStyle = 'rgba(0,0,0,0.7)';
-                gameCtx.fillRect(m.x - barWidth/2, m.y - m.radius - 5, barWidth, 4);
+                gameCtx.fillRect(m.x - barWidth/2, m.y - m.radius - 8, barWidth, 4);
                 gameCtx.fillStyle = m.isBoss ? '#e63946' : '#dfac42';
-                gameCtx.fillRect(m.x - barWidth/2, m.y - m.radius - 5, barWidth * hpPercent, 4);
+                gameCtx.fillRect(m.x - barWidth/2, m.y - m.radius - 8, barWidth * hpPercent, 4);
 
                 if (m.hp <= 0) {
                     gameState.monsters.splice(i, 1);
@@ -1203,57 +1187,44 @@
                 }
             }
 
-            // 8. DRAW HERO WEBP ĐỘNG
+            // 8. DRAW HERO & WEBP ĐỘNG
             gameCtx.save();
             gameCtx.translate(gameState.hero.x, gameState.hero.y);
 
-            // Aura LED
-            const auraGrad = gameCtx.createRadialGradient(0, 0, 10, 0, 0, gameState.hero.radius + 24);
-            auraGrad.addColorStop(0, 'rgba(0, 246, 255, 0.6)');
-            auraGrad.addColorStop(0.5, 'rgba(255, 215, 0, 0.3)');
+            // Aura dưới chân
+            const auraGrad = gameCtx.createRadialGradient(0, 0, 5, 0, 0, gameState.hero.radius + 20);
+            auraGrad.addColorStop(0, 'rgba(0, 246, 255, 0.5)');
             auraGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
             gameCtx.fillStyle = auraGrad;
-            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 24, 0, Math.PI * 2); gameCtx.fill();
+            gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius + 20, 0, Math.PI * 2); gameCtx.fill();
 
-            // WebP Image
+            // WebP Nhân Vật
             if (gameState.hero.img && gameState.hero.img.complete && gameState.hero.img.naturalWidth !== 0) {
                 gameCtx.drawImage(gameState.hero.img, -gameState.hero.radius, -gameState.hero.radius, gameState.hero.radius * 2, gameState.hero.radius * 2);
+            } else {
+                gameCtx.fillStyle = '#3a86ff';
+                gameCtx.beginPath(); gameCtx.arc(0, 0, gameState.hero.radius, 0, Math.PI * 2); gameCtx.fill();
             }
 
-            // TITLE ON HEAD
             if (titleImageObj && titleImageObj.complete && titleImageObj.naturalWidth !== 0) {
-                gameCtx.drawImage(titleImageObj, -55, -gameState.hero.radius - 36, 110, 32);
+                gameCtx.drawImage(titleImageObj, -55, -gameState.hero.radius - 35, 110, 32);
             }
 
             gameCtx.restore();
 
-            // TÊN NHÂN VẬT CHÍNH
             drawLED3DTextOnCanvas(gameCtx, selectedHero.name, gameState.hero.x, gameState.hero.y + gameState.hero.radius + 16, 12, false, true);
 
-            // 9. HIỂN THỊ SÁT THƯƠNG NGAY DƯỚI
+            // 9. DAMAGE TEXTS
             for (let i = gameState.texts.length - 1; i >= 0; i--) {
                 const t = gameState.texts[i];
-                t.y += t.vy; 
-                t.opacity -= 0.025;
-
+                t.y += t.vy; t.opacity -= 0.025;
                 gameCtx.save();
-                gameCtx.font = '900 11px "Plus Jakarta Sans"';
+                gameCtx.font = '900 12px "Plus Jakarta Sans"';
                 gameCtx.fillStyle = t.color;
                 gameCtx.globalAlpha = Math.max(0, t.opacity);
-                gameCtx.fillText(t.text, t.x - 18, t.y);
+                gameCtx.fillText(t.text, t.x - 20, t.y);
                 gameCtx.restore();
-
                 if (t.opacity <= 0) gameState.texts.splice(i, 1);
-            }
-
-            // 10. HIỂN THỊ COMBO
-            if (gameState.combo > 1) {
-                gameCtx.save();
-                gameCtx.font = '900 22px "Plus Jakarta Sans"';
-                gameCtx.fillStyle = '#ffd700';
-                gameCtx.textAlign = 'center';
-                gameCtx.fillText(`🔥 COMBO ${gameState.combo} TRẢM!`, gameState.hero.x, gameState.hero.y - gameState.hero.radius - 45);
-                gameCtx.restore();
             }
 
             gameCtx.restore();
@@ -1274,7 +1245,7 @@
             setTimeout(() => {
                 banner.classList.add('hidden');
                 banner.classList.remove('flex');
-            }, 2200);
+            }, 2000);
         }
 
         function showToast(msg) {
@@ -1283,10 +1254,10 @@
             toast.className = "bg-slate-900/90 backdrop-blur-md border border-amber-500/50 text-amber-300 text-xs px-3.5 py-2 rounded-xl shadow-lg flex items-center gap-2 transition";
             toast.innerHTML = `<i class="fa-solid fa-bell text-amber-400"></i> <span>${msg}</span>`;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 2500);
+            setTimeout(() => toast.remove(), 2200);
         }
 
-        // BINDING EVENT LISTENERS
+        // BINDING EVENT
         document.getElementById('search-input').addEventListener('input', (e) => {
             searchQuery = e.target.value;
             filterData();
@@ -1301,13 +1272,6 @@
             document.getElementById('inspect-modal').classList.add('hidden');
         });
 
-        document.getElementById('btn-reset-fx').addEventListener('click', resetVisualFX);
-
-        ['slider-scale', 'slider-glow'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateVisualFX);
-        });
-
-        // INFINITE SCROLLING
         document.getElementById('menu-scroll-body').addEventListener('scroll', (e) => {
             const el = e.target;
             if (el.scrollTop + el.clientHeight >= el.scrollHeight - 250) {
