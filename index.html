@@ -105,6 +105,12 @@
             box-shadow: 0 12px 40px -10px rgba(223, 172, 66, 0.35);
         }
 
+        /* Khung Avatar Hào Quang */
+        .avatar-frame-gold {
+            background: radial-gradient(circle, rgba(223,172,66,0.3) 0%, rgba(0,0,0,0.8) 100%);
+            box-shadow: 0 0 15px rgba(223,172,66,0.5), inset 0 0 8px rgba(251,226,157,0.4);
+        }
+
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 6px;
@@ -282,12 +288,12 @@
                 <div>
                     <!-- Header Info với Ô Avatar & Ô Danh Hiệu -->
                     <div class="flex items-center gap-4 mb-4 pb-3 border-b border-amber-500/20">
-                        <!-- Ô AVATAR LINH TƯỚNG -->
+                        <!-- Ô AVATAR LINH TƯỚNG (Khung Hào Quang) -->
                         <div class="relative flex-shrink-0">
-                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-amber-400 p-0.5 bg-gradient-to-b from-amber-500/30 to-black overflow-hidden shadow-[0_0_15px_rgba(223,172,66,0.4)]">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-amber-400 p-0.5 avatar-frame-gold overflow-hidden shadow-[0_0_15px_rgba(223,172,66,0.4)]">
                                 <img id="modal-avatar" src="" alt="Avatar" class="w-full h-full object-cover rounded-full">
                             </div>
-                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full whitespace-nowrap shadow-md">Avatar</span>
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full whitespace-nowrap shadow-md">Avatar</span>
                         </div>
 
                         <!-- Tên & Ô Danh Hiệu -->
@@ -388,7 +394,7 @@
         </div>
     </div>
 
-    <!-- UPLOAD CUSTOM WEBP MODAL -->
+    <!-- UPLOAD CUSTOM WEBP MODAL (Ô AVATAR & Ô DANH HIỆU) -->
     <div id="upload-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="relative w-full max-w-lg bg-slate-950 border border-amber-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(223,172,66,0.3)]">
             <button id="btn-close-upload" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -494,7 +500,7 @@
 
     <script>
         /* ==========================================================================
-           1. DATASET & STATE VỚI CẬP NHẬT ĐẦY ĐỦ TÊN FILE WEBP, Ô DANH HIỆU & Ô AVATAR
+           1. DATASET & STATE VỚI ĐẦY ĐỦ TÊN FILE WEBP, Ô DANH HIỆU & Ô AVATAR
            ========================================================================== */
 
         // Helper tạo ảnh SVG giả lập khi file webp không tồn tại cục bộ
@@ -524,7 +530,7 @@
             return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
         }
 
-        // MẢNG LINH TƯỚNG TỔNG HỢP ĐÃ ĐƯỢC CẬP NHẬT CHUẨN DANH HIỆU VÀ AVATAR THEO FILE
+        // MẢNG LINH TƯỚNG TỔNG HỢP ĐẦY ĐỦ TỪ DANH SÁCH ẢNH WEBP
         const defaultCharacters = [
             {
                 id: 1,
@@ -542,14 +548,14 @@
             },
             {
                 id: 2,
-                name: "Tôn Ngộ Không",
+                name: "Ngộ Không Đấu Chiến",
                 danhHieu: "Tề Thiên Đại Thánh",
                 element: "Kim",
                 grade: "Thái Cổ Thần Cấp",
                 power: 100000000,
                 image: "ngo-khong-dau-chien-thang-phat.webp",
                 avatar: "ngo-khong-dau-chien-thang-phat.webp",
-                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Tôn Ngộ Không", "🐒"),
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", "Ngộ Không", "🐒"),
                 skill: "Như Ý Kim Cung - Nhất bổng định càn khôn, san bằng cửu thiên.",
                 lore: "Đấu Chiến Thắng Phật trấn áp tam giới, thân thể kim cang bất hoại.",
                 isFavorite: true
@@ -557,7 +563,7 @@
             {
                 id: 3,
                 name: "Tử Hà Tiên Tử",
-                danhHieu: "Bàn Tơ Tiên Tử",
+                danhHieu: "Bàn Tơ Đại Thánh",
                 element: "Thủy",
                 grade: "Thần Cấp",
                 power: 96500000,
@@ -599,7 +605,7 @@
             {
                 id: 6,
                 name: "Thái Tử Na Tra",
-                danhHieu: "Tam Đầu Lục Tí",
+                danhHieu: "Tam Nhạn Hội Hải",
                 element: "Hỏa",
                 grade: "Thượng Cổ Thần Cấp",
                 power: 98200000,
@@ -613,7 +619,7 @@
             {
                 id: 7,
                 name: "Thủy Long Thánh Mẫu",
-                danhHieu: "Bắc Hải Thần Mẫu",
+                danhHieu: "Chủ Cảnh Băng Thủy",
                 element: "Thủy",
                 grade: "Thần Cấp",
                 power: 95400000,
@@ -627,7 +633,7 @@
             {
                 id: 8,
                 name: "Thông Thiên Giáo Chủ",
-                danhHieu: "Bích Du Kiếm Tổ",
+                danhHieu: "Trụ Quốc Kiếm Tổ",
                 element: "Kim",
                 grade: "Chí Tôn Thần Cấp",
                 power: 99990000,
@@ -683,7 +689,7 @@
             {
                 id: 12,
                 name: "Xích Thố Ma Thần",
-                danhHieu: "Vô Song Ma Ký",
+                danhHieu: "Thần Ký Ma Thú",
                 element: "Hỏa",
                 grade: "Thượng Cổ Linh Thú",
                 power: 91200000,
@@ -932,12 +938,12 @@
                                  class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
                         </div>
 
-                        <!-- Card Info with AVATAR & DANH HIỆU -->
+                        <!-- Card Info với Ô AVATAR & Ô DANH HIỆU -->
                         <div class="z-10 mt-2">
                             <div class="flex items-center gap-2.5">
                                 <!-- Ô AVATAR TRÊN THẺ BÀI -->
-                                <div class="w-9 h-9 rounded-full border border-amber-400/80 overflow-hidden flex-shrink-0 bg-slate-900">
-                                    <img src="${avatarUrl}" onerror="this.onerror=null; this.src='${char.fallbackImage}'" class="w-full h-full object-cover">
+                                <div class="w-10 h-10 rounded-full border border-amber-400/80 p-0.5 avatar-frame-gold overflow-hidden flex-shrink-0 bg-slate-900">
+                                    <img src="${avatarUrl}" onerror="this.onerror=null; this.src='${char.fallbackImage}'" class="w-full h-full object-cover rounded-full">
                                 </div>
                                 <div class="overflow-hidden flex-1">
                                     <h3 class="font-title font-bold text-sm text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
