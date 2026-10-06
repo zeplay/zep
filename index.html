@@ -217,7 +217,7 @@
                 <div onclick="setCategory('title')" id="cat-box-title" class="cursor-pointer border border-amber-500/30 bg-slate-900/80 hover:bg-amber-500/10 p-3 rounded-xl transition flex items-center justify-between group shadow-lg">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-9 h-9 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-base shrink-0 group-hover:scale-110 transition">
-                            🎖️️
+                            🎖
                         </div>
                         <div class="min-w-0">
                             <h3 class="font-bold text-amber-300 text-xs truncate group-hover:text-amber-200">2. Danh Hiệu</h3>
@@ -241,7 +241,7 @@
                     <span id="count-hero" class="text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded-full border border-cyan-500/30 ml-1 shrink-0">58</span>
                 </div>
 
-                <!-- Ô 4: Vũ Khí (Mới) -->
+                <!-- Ô 4: Vũ Khí -->
                 <div onclick="setCategory('weapon')" id="cat-box-weapon" class="cursor-pointer border border-amber-500/30 bg-slate-900/80 hover:bg-amber-500/10 p-3 rounded-xl transition flex items-center justify-between group shadow-lg">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-9 h-9 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300 text-base shrink-0 group-hover:scale-110 transition">
@@ -255,7 +255,7 @@
                     <span id="count-weapon" class="text-[10px] font-mono font-bold bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full border border-red-500/30 ml-1 shrink-0">11</span>
                 </div>
 
-                <!-- Ô 5: Cánh (Mới) -->
+                <!-- Ô 5: Cánh -->
                 <div onclick="setCategory('wing')" id="cat-box-wing" class="cursor-pointer border border-amber-500/30 bg-slate-900/80 hover:bg-amber-500/10 p-3 rounded-xl transition flex items-center justify-between group shadow-lg">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-9 h-9 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300 text-base shrink-0 group-hover:scale-110 transition">
@@ -269,7 +269,7 @@
                     <span id="count-wing" class="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 ml-1 shrink-0">7</span>
                 </div>
 
-                <!-- Ô 6: Thú Cưỡi (Mới) -->
+                <!-- Ô 6: Thú Cưỡi -->
                 <div onclick="setCategory('mount')" id="cat-box-mount" class="cursor-pointer border border-amber-500/30 bg-slate-900/80 hover:bg-amber-500/10 p-3 rounded-xl transition flex items-center justify-between group shadow-lg">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="w-9 h-9 rounded-lg bg-yellow-500/20 border border-yellow-500/40 flex items-center justify-center text-yellow-300 text-base shrink-0 group-hover:scale-110 transition">
@@ -454,7 +454,6 @@
                     <button id="btn-copy-link" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 flex items-center gap-1.5 transition">
                         <i class="fa-solid fa-share-nodes"></i> Sao Chép Tên
                     </button>
-                    <!-- ĐÃ SỬA: Thay nút Phát Thần Âm bằng Lưu Linh Tướng -->
                     <button id="btn-save-character" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs font-bold flex items-center gap-1.5 transition shadow-[0_0_15px_rgba(223,172,66,0.4)] transform active:scale-95">
                         <i class="fa-solid fa-floppy-disk"></i> Lưu Linh Tướng
                     </button>
@@ -543,7 +542,7 @@
         </div>
 
         <button id="btn-exit-cinematic" class="absolute top-5 right-5 z-30 px-4 py-2 rounded-full border border-amber-500/40 bg-black/60 hover:bg-amber-500/20 text-amber-300 text-xs flex items-center gap-2 backdrop-blur-md transition">
-            <i class="fa-solid fa-compress"></i> Thoát Điển Điện
+            <i class="fa-solid fa-compress"></i> Thoát Trấn Điện
         </button>
 
         <div class="relative z-10 flex flex-col items-center justify-center p-4">
@@ -811,7 +810,7 @@
 
         function setCategory(catKey) {
             if (currentCategory === catKey) {
-                currentCategory = 'all'; // Toggle back if clicked again
+                currentCategory = 'all';
             } else {
                 currentCategory = catKey;
             }
@@ -867,6 +866,12 @@
                     </button>
                 `;
             }).join('');
+        }
+
+        function setFilter(elemName) {
+            currentFilter = elemName;
+            renderFilters();
+            renderGallery();
         }
 
         function getElementBadgeStyle(elem) {
@@ -945,35 +950,22 @@
                             <div class="absolute w-40 h-40 opacity-20 group-hover:opacity-40 transition animate-spin-slow">
                                 <svg viewBox="0 0 100 100" class="w-full h-full text-amber-400" fill="none">
                                     <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="1" stroke-dasharray="4 2"/>
-                                    <polygon points="50,10 85,75 15,75" stroke="currentColor" stroke-width="0.8"/>
+                                    <polygon points="50,10 85,80 15,80" stroke="currentColor" stroke-width="1"/>
                                 </svg>
                             </div>
-
-                            <img src="${char.image}" 
-                                 onerror="this.onerror=null; this.src='${char.fallbackImage}'" 
-                                 alt="${char.name}" 
-                                 class="relative z-10 max-h-44 w-auto object-contain group-hover:scale-105 transition-transform duration-300 filter drop-shadow-[0_0_12px_rgba(223,172,66,0.3)]">
+                            <img src="${char.image}" onerror="this.onerror=null; this.src='${char.fallbackImage}'" alt="${char.name}" class="max-h-44 w-auto object-contain relative z-10 transition duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(223,172,66,0.4)]">
                         </div>
 
-                        <div class="z-10 mt-2">
+                        <div>
                             <div class="flex items-center justify-between">
-                                <h3 class="font-title font-bold text-base text-amber-200 group-hover:text-amber-400 transition truncate">${char.name}</h3>
+                                <h3 class="font-title font-bold text-amber-300 text-sm truncate group-hover:text-amber-200">${char.name}</h3>
+                                <span class="text-[10px] text-amber-400/80 font-mono font-semibold">${char.grade}</span>
                             </div>
-                            <p class="text-[11px] text-amber-400/80 font-medium">${char.grade}</p>
-                            <div class="mt-2.5">
-                                <div class="flex justify-between text-[10px] text-slate-400 mb-1">
-                                    <span>Linh Lực:</span>
-                                    <span class="text-amber-300 font-bold">${char.power.toLocaleString()}</span>
-                                </div>
-                                <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full rounded-full" style="width: ${Math.min(100, (char.power / 1000000))}%;"></div>
-                                </div>
+                            <p class="text-[11px] text-slate-400 truncate mt-0.5">${char.skill}</p>
+                            <div class="mt-2 pt-2 border-t border-slate-800/80 flex justify-between items-center text-[10px] text-slate-400">
+                                <span>Linh Lực: <strong class="text-amber-400 font-mono">${(char.power / 1000000).toFixed(1)}M</strong></span>
+                                <span class="text-amber-400/80 group-hover:translate-x-1 transition flex items-center gap-1">Chi Tiết <i class="fa-solid fa-chevron-right text-[8px]"></i></span>
                             </div>
-                        </div>
-
-                        <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-amber-300/70 group-hover:text-amber-300">
-                            <span>Chi tiết ${getCategoryLabel(char.category)}</span>
-                            <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
                 `;
@@ -981,18 +973,15 @@
         }
 
         /* ==========================================================================
-           5. EVENT HANDLERS & MODAL CONTROLS
+           5. INTERACTIVE MODAL & EVENT HANDLERS
            ========================================================================== */
-        function setFilter(elementName) {
-            currentFilter = elementName;
-            renderFilters();
-            renderGallery();
-        }
-
         function toggleFavorite(id) {
             const char = characters.find(c => c.id === id);
             if (char) {
                 char.isFavorite = !char.isFavorite;
+                if (selectedCharacter && selectedCharacter.id === id) {
+                    updateModalFavIcon();
+                }
                 renderGallery();
                 showToast(char.isFavorite ? `Đã thêm ${char.name} vào Yêu Thích` : `Đã xóa ${char.name} khỏi Yêu Thích`);
             }
@@ -1001,204 +990,264 @@
         function openInspectModal(id) {
             const char = characters.find(c => c.id === id);
             if (!char) return;
-
             selectedCharacter = char;
 
             document.getElementById('modal-id').textContent = `ID: #${String(char.id).padStart(4, '0')}`;
             document.getElementById('modal-title').textContent = char.name;
-            document.getElementById('modal-subtitle').textContent = `${getCategoryLabel(char.category)} - ${char.grade}`;
+            document.getElementById('modal-subtitle').textContent = `${char.grade} - Hệ ${char.element} - ${getCategoryLabel(char.category)}`;
             document.getElementById('modal-element-badge').textContent = `Hệ ${char.element}`;
             document.getElementById('modal-grade-badge').textContent = char.grade;
-            document.getElementById('modal-power-val').textContent = char.power.toLocaleString();
-            document.getElementById('modal-power-bar').style.width = `${Math.min(100, (char.power / 1000000))}%`;
-            document.getElementById('modal-skill').textContent = char.skill;
-            document.getElementById('modal-lore').textContent = char.lore;
+            document.getElementById('modal-power-val').textContent = char.power.toLocaleString('vi-VN');
+            
+            const maxPower = 100000000;
+            const pct = Math.min(100, Math.max(10, (char.power / maxPower) * 100));
+            document.getElementById('modal-power-bar').style.width = `${pct}%`;
 
-            const imgEl = document.getElementById('modal-image');
-            imgEl.src = char.image;
-            imgEl.onerror = () => { imgEl.src = char.fallbackImage; };
+            document.getElementById('modal-skill').textContent = char.skill || "Chưa có mô tả kỹ năng.";
+            document.getElementById('modal-lore').textContent = char.lore || "Chưa có truyền thuyết.";
 
-            // Update Favorite Icon
-            const favBtn = document.getElementById('modal-fav-btn');
-            favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
-            favBtn.onclick = () => {
-                toggleFavorite(char.id);
-                favBtn.innerHTML = `<i class="${char.isFavorite ? 'fa-solid text-amber-400' : 'fa-regular'} fa-star text-lg"></i>`;
+            const modalImg = document.getElementById('modal-image');
+            modalImg.src = char.image;
+            modalImg.onerror = function() {
+                this.onerror = null;
+                this.src = char.fallbackImage;
             };
 
-            // Reset Live Visual FX Sliders
             resetFxControls();
+            updateModalFavIcon();
 
             document.getElementById('inspect-modal').classList.remove('hidden');
         }
 
         function closeInspectModal() {
             document.getElementById('inspect-modal').classList.add('hidden');
+            selectedCharacter = null;
         }
 
+        function updateModalFavIcon() {
+            const favBtn = document.getElementById('modal-fav-btn');
+            if (!favBtn || !selectedCharacter) return;
+            const icon = favBtn.querySelector('i');
+            if (selectedCharacter.isFavorite) {
+                icon.className = 'fa-solid fa-star text-amber-400 text-lg';
+            } else {
+                icon.className = 'fa-regular fa-star text-lg';
+            }
+        }
+
+        /* LIVE FX SLIDERS CONTROLS */
         function resetFxControls() {
-            document.getElementById('slider-scale').value = 1;
+            document.getElementById('slider-scale').value = 1.0;
             document.getElementById('slider-glow').value = 20;
             document.getElementById('slider-spin').value = 25;
             document.getElementById('slider-hue').value = 0;
-            applyFxChanges();
+            applyFx();
         }
 
-        function applyFxChanges() {
-            const scale = document.getElementById('slider-scale').value;
-            const glow = document.getElementById('slider-glow').value;
-            const spin = document.getElementById('slider-spin').value;
-            const hue = document.getElementById('slider-hue').value;
+        function applyFx() {
+            const scale = parseFloat(document.getElementById('slider-scale').value);
+            const glow = parseInt(document.getElementById('slider-glow').value);
+            const spin = parseInt(document.getElementById('slider-spin').value);
+            const hue = parseInt(document.getElementById('slider-hue').value);
 
-            document.getElementById('val-scale').textContent = `${scale}x`;
+            document.getElementById('val-scale').textContent = `${scale.toFixed(2)}x`;
             document.getElementById('val-glow').textContent = `${glow}px`;
             document.getElementById('val-spin').textContent = `${spin}s`;
             document.getElementById('val-hue').textContent = `${hue}°`;
 
-            const imgEl = document.getElementById('modal-image');
-            imgEl.style.transform = `scale(${scale})`;
-            imgEl.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8)) hue-rotate(${hue}deg)`;
+            const img = document.getElementById('modal-image');
+            if (img) {
+                img.style.transform = `scale(${scale})`;
+                img.style.filter = `drop-shadow(0 0 ${glow}px rgba(223, 172, 66, 0.8)) hue-rotate(${hue}deg)`;
+            }
 
-            const circleEl = document.getElementById('modal-magic-circle');
-            circleEl.style.setProperty('--spin-duration', `${spin}s`);
-            circleEl.style.filter = `hue-rotate(${hue}deg)`;
+            const circle = document.getElementById('modal-magic-circle');
+            if (circle) {
+                circle.style.setProperty('--spin-duration', `${spin}s`);
+                circle.style.filter = `hue-rotate(${hue}deg)`;
+            }
         }
 
-        // INIT DOM EVENTS
-        document.addEventListener('DOMContentLoaded', () => {
-            renderFilters();
+        /* CINEMATIC MODAL */
+        function openCinematicModal() {
+            if (!selectedCharacter) return;
+            const cinImg = document.getElementById('cinematic-image');
+            cinImg.src = selectedCharacter.image;
+            cinImg.onerror = function() {
+                this.onerror = null;
+                this.src = selectedCharacter.fallbackImage;
+            };
+            document.getElementById('cinematic-title').textContent = selectedCharacter.name;
+            document.getElementById('cinematic-subtitle').textContent = `${selectedCharacter.grade} - ${selectedCharacter.element} - ${getCategoryLabel(selectedCharacter.category)}`;
+            document.getElementById('cinematic-modal').classList.remove('hidden');
+        }
+
+        function closeCinematicModal() {
+            document.getElementById('cinematic-modal').classList.add('hidden');
+        }
+
+        /* UPLOAD MODAL LOGIC */
+        let uploadedImageDataUrl = null;
+
+        function openUploadModal() {
+            document.getElementById('upload-modal').classList.remove('hidden');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('upload-modal').classList.add('hidden');
+            document.getElementById('upload-form').reset();
+            document.getElementById('upload-preview-container').classList.add('hidden');
+            document.getElementById('upload-icon').classList.remove('hidden');
+            uploadedImageDataUrl = null;
+        }
+
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-amber-400');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-amber-400');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-amber-400');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.match('image.*')) {
+                showToast("Vui lòng chọn tệp hình ảnh (.webp, .gif, .png)");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedImageDataUrl = e.target.result;
+                const previewImg = document.getElementById('upload-preview-img');
+                previewImg.src = uploadedImageDataUrl;
+                document.getElementById('upload-preview-container').classList.remove('hidden');
+                document.getElementById('upload-icon').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('upload-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('input-name').value.trim();
+            const category = document.getElementById('input-category').value;
+            const element = document.getElementById('input-element').value;
+            const grade = document.getElementById('input-grade').value.trim() || "Thần Cấp";
+
+            if (!name) {
+                showToast("Vui lòng nhập tên vật phẩm/linh tướng");
+                return;
+            }
+
+            const newChar = {
+                id: Date.now(),
+                category: category,
+                name: name,
+                element: element,
+                grade: grade,
+                power: Math.floor(Math.random() * 30000000) + 70000000,
+                image: uploadedImageDataUrl || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                fallbackImage: createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
+                skill: "Linh lực huyền diệu vừa được nạp vào Linh Giới Bảo Lục.",
+                lore: "Tác phẩm / Linh tướng mới tải lên từ tu sĩ.",
+                isFavorite: false
+            };
+
+            characters.unshift(newChar);
             updateCategoryBoxStyles();
             renderGallery();
-
-            // Search Filter
-            document.getElementById('search-input').addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                renderGallery();
-            });
-
-            // Audio Toggle Button
-            document.getElementById('btn-audio-toggle').addEventListener('click', toggleAudioAmbiance);
-
-            // Favorites Filter Toggle
-            document.getElementById('btn-favorites-toggle').addEventListener('click', () => {
-                showFavoritesOnly = !showFavoritesOnly;
-                const btn = document.getElementById('btn-favorites-toggle');
-                const label = document.getElementById('fav-btn-label');
-                if (showFavoritesOnly) {
-                    btn.classList.add('bg-amber-500/20', 'border-amber-400');
-                    label.textContent = "Tất Cả";
-                } else {
-                    btn.classList.remove('bg-amber-500/20', 'border-amber-400');
-                    label.textContent = "Yêu Thích";
-                }
-                renderGallery();
-            });
-
-            // Close Modal Button
-            document.getElementById('btn-close-modal').addEventListener('click', closeInspectModal);
-
-            // FX Slider Listeners
-            ['slider-scale', 'slider-glow', 'slider-spin', 'slider-hue'].forEach(id => {
-                document.getElementById(id).addEventListener('input', applyFxChanges);
-            });
-
-            document.getElementById('btn-reset-fx').addEventListener('click', resetFxControls);
-
-            // ĐÃ SỬA: Xử lý sự kiện bấm Lưu Linh Tướng
-            document.getElementById('btn-save-character').addEventListener('click', () => {
-                if (selectedCharacter) {
-                    showToast(`Đã lưu tùy chỉnh thành công cho: ${selectedCharacter.name}!`);
-                } else {
-                    showToast("Đã lưu tùy chỉnh linh tướng thành công!");
-                }
-            });
-
-            // Copy Name Button
-            document.getElementById('btn-copy-link').addEventListener('click', () => {
-                if (selectedCharacter) {
-                    navigator.clipboard.writeText(selectedCharacter.name);
-                    showToast(`Đã sao chép tên: ${selectedCharacter.name}`);
-                }
-            });
-
-            // Fullscreen Cinematic Toggle
-            document.getElementById('btn-modal-fullscreen').addEventListener('click', () => {
-                if (!selectedCharacter) return;
-                document.getElementById('cinematic-title').textContent = selectedCharacter.name;
-                document.getElementById('cinematic-subtitle').textContent = `${getCategoryLabel(selectedCharacter.category)} • ${selectedCharacter.grade}`;
-                const cinImg = document.getElementById('cinematic-image');
-                cinImg.src = selectedCharacter.image;
-                cinImg.onerror = () => { cinImg.src = selectedCharacter.fallbackImage; };
-                document.getElementById('cinematic-modal').classList.remove('hidden');
-            });
-
-            document.getElementById('btn-exit-cinematic').addEventListener('click', () => {
-                document.getElementById('cinematic-modal').classList.add('hidden');
-            });
-
-            // Upload Modal Event Handling
-            const uploadModal = document.getElementById('upload-modal');
-            document.getElementById('btn-open-upload').addEventListener('click', () => {
-                uploadModal.classList.remove('hidden');
-            });
-            document.getElementById('btn-close-upload').addEventListener('click', () => {
-                uploadModal.classList.add('hidden');
-            });
-            document.getElementById('btn-cancel-upload').addEventListener('click', () => {
-                uploadModal.classList.add('hidden');
-            });
-
-            // File Upload Preview
-            const fileInput = document.getElementById('file-input');
-            const dropZone = document.getElementById('drop-zone');
-            dropZone.addEventListener('click', () => fileInput.click());
-
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        document.getElementById('upload-preview-img').src = event.target.result;
-                        document.getElementById('upload-preview-container').classList.remove('hidden');
-                        document.getElementById('upload-icon').classList.add('hidden');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Submit Custom WebP Form
-            document.getElementById('upload-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('input-name').value;
-                const category = document.getElementById('input-category').value;
-                const element = document.getElementById('input-element').value;
-                const grade = document.getElementById('input-grade').value;
-                const previewImgSrc = document.getElementById('upload-preview-img').src;
-
-                const newChar = {
-                    id: Date.now(),
-                    category: category,
-                    name: name,
-                    element: element,
-                    grade: grade,
-                    power: Math.floor(Math.random() * 20000000) + 80000000,
-                    image: previewImgSrc || createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
-                    fallbackImage: createXianxiaSvgPlaceholder("#dfac42", name, "✨"),
-                    skill: "Bảo vật mới nạp vào Bảo Lục - Chưa khai phá kỹ năng.",
-                    lore: "Được gia trì và lưu giữ trực tiếp vào Linh Giới Bảo Lục.",
-                    isFavorite: true
-                };
-
-                characters.unshift(newChar);
-                updateCategoryBoxStyles();
-                renderGallery();
-                uploadModal.classList.add('hidden');
-                showToast(`Đã thêm thành công [${name}] vào Bảo Lục!`);
-                e.target.reset();
-                document.getElementById('upload-preview-container').classList.add('hidden');
-                document.getElementById('upload-icon').classList.remove('hidden');
-            });
+            closeUploadModal();
+            showToast(`Đã thêm thành công: ${name}`);
         });
+
+        /* GLOBAL EVENT LISTENERS BINDING */
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderGallery();
+        });
+
+        document.getElementById('btn-audio-toggle').addEventListener('click', toggleAudioAmbiance);
+
+        document.getElementById('btn-favorites-toggle').addEventListener('click', () => {
+            showFavoritesOnly = !showFavoritesOnly;
+            const btn = document.getElementById('btn-favorites-toggle');
+            const label = document.getElementById('fav-btn-label');
+            if (showFavoritesOnly) {
+                btn.classList.add('bg-amber-500', 'text-slate-950');
+                btn.classList.remove('bg-slate-900', 'text-amber-300');
+                label.textContent = "Tất Cả";
+                showToast("Đang lọc danh sách Yêu Thích");
+            } else {
+                btn.classList.remove('bg-amber-500', 'text-slate-950');
+                btn.classList.add('bg-slate-900', 'text-amber-300');
+                label.textContent = "Yêu Thích";
+                showToast("Đã hiện tất cả danh sách");
+            }
+            renderGallery();
+        });
+
+        document.getElementById('btn-open-upload').addEventListener('click', openUploadModal);
+        document.getElementById('btn-close-upload').addEventListener('click', closeUploadModal);
+        document.getElementById('btn-cancel-upload').addEventListener('click', closeUploadModal);
+
+        document.getElementById('btn-close-modal').addEventListener('click', closeInspectModal);
+        document.getElementById('inspect-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'inspect-modal') closeInspectModal();
+        });
+
+        document.getElementById('modal-fav-btn').addEventListener('click', () => {
+            if (selectedCharacter) toggleFavorite(selectedCharacter.id);
+        });
+
+        document.getElementById('btn-modal-fullscreen').addEventListener('click', openCinematicModal);
+        document.getElementById('btn-exit-cinematic').addEventListener('click', closeCinematicModal);
+        document.getElementById('cinematic-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'cinematic-modal') closeCinematicModal();
+        });
+
+        ['slider-scale', 'slider-glow', 'slider-spin', 'slider-hue'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', applyFx);
+        });
+        document.getElementById('btn-reset-fx').addEventListener('click', resetFxControls);
+
+        document.getElementById('btn-copy-link').addEventListener('click', () => {
+            if (selectedCharacter) {
+                navigator.clipboard.writeText(selectedCharacter.name).then(() => {
+                    showToast(`Đã sao chép tên: ${selectedCharacter.name}`);
+                }).catch(() => {
+                    showToast(`Tên Linh Tướng: ${selectedCharacter.name}`);
+                });
+            }
+        });
+
+        document.getElementById('btn-save-character').addEventListener('click', () => {
+            if (selectedCharacter) {
+                showToast(`Đã lưu thông tin ${selectedCharacter.name} vào hệ thống!`);
+            }
+        });
+
+        /* APP INITIALIZATION */
+        updateCategoryBoxStyles();
+        renderFilters();
+        renderGallery();
     </script>
 </body>
 </html>
