@@ -538,26 +538,30 @@
                     <span id="game_preset_badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">Pirate Legends</span>
                 </div>
 
-                <!-- MENU TAB CHỌN GAME BÊN NGOÀI (GIỮ NGUYÊN 3 GAME & THÊM TAB GAME CUSTOM) -->
+                <!-- MENU TAB CHỌN GAME BÊN NGOÀI -->
                 <div class="flex items-center gap-1.5 p-1 bg-[#050811] rounded-xl border border-gray-800 mb-3 text-xs font-mono overflow-x-auto">
-                    <button id="game_tab_pirate" onclick="selectGame('pirate')" class="flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center bg-emerald-600 text-black shadow-md">
+                    <button id="game_tab_pirate" onclick="selectGame('pirate')" class="flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center bg-emerald-600 text-black shadow-md">
                         🏴‍☠️ Pirate
                     </button>
-                    <button id="game_tab_3q" onclick="selectGame('3q')" class="flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white">
+                    <button id="game_tab_3q" onclick="selectGame('3q')" class="flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white">
                         ⚔️ 3Q Đào
                     </button>
-                    <button id="game_tab_hero" onclick="selectGame('hero')" class="flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white">
+                    <button id="game_tab_hero" onclick="selectGame('hero')" class="flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white">
                         🛡️ Anh Hùng
                     </button>
-                    <!-- TAB GAME CUSTOM MỚI -->
-                    <button id="game_tab_custom" onclick="selectGame('custom')" class="hidden flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-cyan-400 hover:text-cyan-200">
+                    <!-- TAB GAME HIỆP KHÁCH HÀNH MỚI -->
+                    <button id="game_tab_hiephackhach" onclick="selectGame('hiephackhach')" class="flex-1 min-w-[110px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white">
+                        🗡️ Hiệp Khách
+                    </button>
+                    <!-- TAB GAME CUSTOM -->
+                    <button id="game_tab_custom" onclick="selectGame('custom')" class="hidden flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-cyan-400 hover:text-cyan-200">
                         🎮 <span id="tab_custom_title">Game Mới</span>
                     </button>
                 </div>
 
                 <!-- DANH SÁCH KHUNG GAME -->
                 <div class="space-y-2.5">
-                    <!-- GAME 1 (CẬP NHẬT TÊN ẢNH GỐC) -->
+                    <!-- GAME 1 -->
                     <label onclick="selectGame('pirate')" id="game_card_pirate" class="flex items-center justify-between p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/20 cursor-pointer transition">
                         <div class="flex items-center gap-3">
                             <img src="IMG_20261008_073640.jpg" alt="Pirate Legend" class="w-10 h-10 rounded-xl object-cover border border-emerald-500/40 shadow-md">
@@ -569,7 +573,7 @@
                         <input type="radio" name="game_target_radio" value="pirate" checked class="text-emerald-500">
                     </label>
 
-                    <!-- GAME 2 (CẬP NHẬT TÊN ẢNH GỐC) -->
+                    <!-- GAME 2 -->
                     <label onclick="selectGame('3q')" id="game_card_3q" class="flex items-center justify-between p-3 rounded-xl border border-gray-800 bg-[#050811] cursor-pointer transition">
                         <div class="flex items-center gap-3">
                             <img src="Messenger_creation_2B9772E4-BA9F-4CEA-8767-2A49B753AB57.jpeg" alt="3Q Đào Đào Đào" class="w-10 h-10 rounded-xl object-cover border border-gray-700 shadow-md">
@@ -581,7 +585,7 @@
                         <input type="radio" name="game_target_radio" value="3q" class="text-emerald-500">
                     </label>
 
-                    <!-- GAME 3 (CẬP NHẬT TÊN ẢNH GỐC) -->
+                    <!-- GAME 3 -->
                     <label onclick="selectGame('hero')" id="game_card_hero" class="flex items-center justify-between p-3 rounded-xl border border-gray-800 bg-[#050811] cursor-pointer transition">
                         <div class="flex items-center gap-3">
                             <img src="Messenger_creation_1D5F6488-7CE6-476E-A66F-EB49D9376169.jpeg" alt="Anh Hùng Tiến Lên" class="w-10 h-10 rounded-xl object-cover border border-gray-700 shadow-md">
@@ -593,12 +597,24 @@
                         <input type="radio" name="game_target_radio" value="hero" class="text-emerald-500">
                     </label>
 
-                    <!-- KHUNG THÀNH GAME MỚI (CẬP NHẬT WEBP) -->
+                    <!-- GAME 4: HIỆP KHÁCH HÀNH (MỚI THÊM) -->
+                    <label onclick="selectGame('hiephackhach')" id="game_card_hiephackhach" class="flex items-center justify-between p-3 rounded-xl border border-gray-800 bg-[#050811] cursor-pointer transition">
+                        <div class="flex items-center gap-3">
+                            <img src="87217.jpg" alt="Hiệp Khách Hành" class="w-10 h-10 rounded-xl object-cover border border-gray-700 shadow-md">
+                            <div>
+                                <div class="text-xs font-bold text-white">4. Hiệp Khách Hành</div>
+                                <div class="text-[10px] text-gray-400 font-mono">Võ Lâm Võ Hiệp • Đã xác nhận Game Mod</div>
+                            </div>
+                        </div>
+                        <input type="radio" name="game_target_radio" value="hiephackhach" class="text-emerald-500">
+                    </label>
+
+                    <!-- KHUNG THÀNH GAME MỚI -->
                     <label onclick="selectGame('custom')" id="game_card_custom" class="hidden flex items-center justify-between p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/20 cursor-pointer transition">
                         <div class="flex items-center gap-3">
                             <img id="custom_card_img" src="37924.webp" alt="Custom Game Logo" class="w-10 h-10 rounded-xl object-cover border border-cyan-500/40 shadow-md">
                             <div class="overflow-hidden">
-                                <div id="custom_card_name_display" class="text-xs font-bold text-cyan-300 truncate">4. Game Mới Bổ Sung</div>
+                                <div id="custom_card_name_display" class="text-xs font-bold text-cyan-300 truncate">5. Game Mới Bổ Sung</div>
                                 <div id="custom_card_url_display" class="text-[10px] text-gray-400 font-mono truncate">Liên kết: https://...</div>
                             </div>
                         </div>
@@ -730,7 +746,7 @@
                     <!-- REALTIME SCANNER CONTAINER WITH LASER SCANNER -->
                     <div id="account_preview_box" class="bg-[#050811] border border-gray-800 rounded-xl p-4 relative overflow-hidden transition-all duration-300">
                         
-                        <!-- CONTINUOUS LASER LINE (Hidden when idle) -->
+                        <!-- CONTINUOUS LASER LINE -->
                         <div id="laser_scanner_element" class="laser-scanner-line hidden"></div>
                         
                         <!-- RADAR OVERLAY EFFECT -->
@@ -1056,18 +1072,20 @@
             mission3: false
         };
 
-        /* CẬP NHẬT TÊN HÌNH ẢNH GỐC VÀ WEBP LOGO BÊN NGOÀI */
+        /* BỔ SUNG MÁY ÁNH VÀ TÊN DỮ LIỆU GAME HIỆP KHÁCH HÀNH */
         const gameLogosMap = {
             'pirate': 'IMG_20261008_073640.jpg',
             '3q': 'Messenger_creation_2B9772E4-BA9F-4CEA-8767-2A49B753AB57.jpeg',
             'hero': 'Messenger_creation_1D5F6488-7CE6-476E-A66F-EB49D9376169.jpeg',
+            'hiephackhach': '87217.jpg',
             'custom': '37924.webp'
         };
 
         const gameNamesMap = {
             'pirate': 'Pirate Legends',
             '3q': '3Q Đào Đào Đào',
-            'hero': 'Anh Hùng Tiến Lên'
+            'hero': 'Anh Hùng Tiến Lên',
+            'hiephackhach': 'Hiệp Khách Hành'
         };
 
         const specialIDsAndNames = ['ID Khánh', 'Khánh (VIP)', 'Khánh - 883920', 'Khánh Pro', 'ID Khánh VIP', 'Khánh Modder'];
@@ -1556,7 +1574,7 @@
 
         function selectGame(gameKey, save = true) {
             currentGame = gameKey;
-            ['pirate', '3q', 'hero', 'custom'].forEach(g => {
+            ['pirate', '3q', 'hero', 'hiephackhach', 'custom'].forEach(g => {
                 const card = document.getElementById(`game_card_${g}`);
                 const tab = document.getElementById(`game_tab_${g}`);
 
@@ -1568,7 +1586,7 @@
                         if (radio) radio.checked = true;
                     }
                     if (tab) {
-                        tab.className = "flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center bg-emerald-600 text-black shadow-md";
+                        tab.className = "flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center bg-emerald-600 text-black shadow-md";
                     }
                 } else {
                     if (card) {
@@ -1578,7 +1596,7 @@
                         if (radio) radio.checked = false;
                     }
                     if (tab) {
-                        tab.className = "flex-1 min-w-[100px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white bg-transparent";
+                        tab.className = "flex-1 min-w-[90px] py-2 px-2 rounded-lg font-bold transition cursor-pointer text-center text-gray-400 hover:text-white bg-transparent";
                     }
                 }
             });
@@ -1622,7 +1640,7 @@
             document.getElementById('tab_custom_title').innerText = customGameName;
             document.getElementById('game_tab_custom').classList.remove('hidden');
 
-            document.getElementById('custom_card_name_display').innerText = `4. ${customGameName}`;
+            document.getElementById('custom_card_name_display').innerText = `5. ${customGameName}`;
             document.getElementById('custom_card_url_display').innerText = `Link: ${customGameUrl}`;
             document.getElementById('game_card_custom').classList.remove('hidden');
 
@@ -2243,7 +2261,7 @@
                         document.getElementById('tab_custom_title').innerText = customGameName;
                         document.getElementById('game_tab_custom').classList.remove('hidden');
 
-                        document.getElementById('custom_card_name_display').innerText = `4. ${customGameName}`;
+                        document.getElementById('custom_card_name_display').innerText = `5. ${customGameName}`;
                         document.getElementById('custom_card_url_display').innerText = `Link: ${customGameUrl}`;
                         document.getElementById('game_card_custom').classList.remove('hidden');
                     }
